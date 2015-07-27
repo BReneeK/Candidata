@@ -18,7 +18,13 @@ import webapp2
 
 class MainHandler(webapp2.RequestHandler):
     def get(self):
-        self.response.write('Hello world!')
+        self.response.write('''<iframe id=vid1 width="300" height="200" src=https://www.youtube.com/embed/6744Ym_5Ddg frameborder="0"></iframe>
+            <iframe id=vid1 width="300" height="200" src=https://www.youtube.com/embed/ulsA8aFOkRs frameborder="0"></iframe>''')
+# jeb bush education jTWl3YoOXAc
+# ben carson UN HHvFh6lSJqk
+# chris cristie green energy uPxDnb2-aVI
+#
+#
 
 app = webapp2.WSGIApplication([
     ('/', MainHandler)
