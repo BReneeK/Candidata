@@ -29,8 +29,7 @@ class MainHandler(webapp2.RequestHandler):
     def get(self):
 
         # embeds a video in the webpage
-        self.response.write('''<iframe id=hilClint width="300" height="200" src=https://www.youtube.com/embed/6744Ym_5Ddg></iframe>
-            <iframe id=benCarso width="300" height="200" src=https://www.youtube.com/embed/ulsA8aFOkRs></iframe>''')
+        self.response.write('''<iframe id=hilClint width="300" height="200" src=https://www.youtube.com/embed/6744Ym_5Ddg></iframe>''')
 # <iframe id=nameOfCand width="300" height="200" src=https://www.youtube.com/embed/IDofVid></iframe>
 
 # IDs of videos of speeches where candidates are talking about issues they support
@@ -40,7 +39,7 @@ class MainHandler(webapp2.RequestHandler):
 # bobby jindal education nDCU-VlSgX0
 # marco rubio military d9FVjcuz-pA
 # rick santorum imigration 7Ruj9W9rufs
-# 
+#
 
 class ScrapingFromClintionHandler(webapp2.RequestHandler):
     def get(self):
