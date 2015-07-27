@@ -23,8 +23,8 @@ class MainHandler(webapp2.RequestHandler):
 # jeb bush education jTWl3YoOXAc
 # ben carson UN HHvFh6lSJqk
 # chris cristie green energy uPxDnb2-aVI
-#
-#
+# bobby jindal education nDCU-VlSgX0
+# marco rubio d9FVjcuz-pA
 
 app = webapp2.WSGIApplication([
     ('/', MainHandler)
