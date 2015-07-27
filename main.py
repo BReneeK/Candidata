@@ -31,6 +31,9 @@ class Candidate(ndb.Model):
 
 class MainHandler(webapp2.RequestHandler):
     def get(self):
+        self.response.write('Hello world!')
+        issues = []
+
         candidate_id = self.request.get('id')
         if not candidate_id:
             template = jinja_environment.get_template('templates/index.html')
@@ -107,6 +110,7 @@ class LinkHandler(webapp2.RequestHandler):
         'result': result,
         'search': search
         }))
+>>>>>>> 51e59e965260d0cf6a74878dd1c23b90ad11a0a3
 
 app = webapp2.WSGIApplication([
     ('/', MainHandler),
