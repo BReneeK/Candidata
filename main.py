@@ -14,62 +14,102 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 #
-import webapp2
-#!/usr/bin/env python
 import os
 import jinja2
+import webapp2
+from google.appengine.ext import ndb
+from google.appengine.api import users
+import json
 
-from lxml import html
-import requests
+jinja_environment = jinja2.Environment(
+    loader= jinja2.FileSystemLoader(os.path.dirname(__file__)))
 
-The next line adds functions from a library
-from HTMLParser import HTMLParser
+class Candidate(ndb.Model):
+    name = ndb.StringProperty(required=True)
+    party = ndb.StringProperty(required=True)
+
 
 class MainHandler(webapp2.RequestHandler):
     def get(self):
+        candidate_id = self.request.get('id')
+        if not candidate_id:
+            template = jinja_environment.get_template('templates/index.html')
+            self.response.write(template.render())
+            #candidate_id = self.request.get('id')
+            for candidate in Candidate.query().fetch():
+                self.response.write(candidate.name + ", " + candidate.party + '<br>')
 
-        # embeds a video in the webpage
-        self.response.write('''<iframe id=hilClint width="300" height="200" src=https://www.youtube.com/embed/6744Ym_5Ddg></iframe>''')
-# <iframe id=nameOfCand width="300" height="200" src=https://www.youtube.com/embed/IDofVid></iframe>
+        else:
+            candidate_key = ndb.Key(Candidate, int(candidate_id))
+            candidate = candidate_key.get()
 
-# IDs of videos of speeches where candidates are talking about issues they support
-# jeb bush education jTWl3YoOXAc
-# ben carson UN HHvFh6lSJqk
-# chris cristie green energy uPxDnb2-aVI
-# bobby jindal education nDCU-VlSgX0
-# marco rubio military d9FVjcuz-pA
-# rick santorum imigration 7Ruj9W9rufs
-#
 
-class ScrapingFromClintionHandler(webapp2.RequestHandler):
+            template = jinja_environment.get_template('templates/index.html')
+            self.response.write(template.render({
+            'name': candidate.name,
+            'party': candidate.party,
+            }))
+
+class AddHandler(webapp2.RequestHandler):
     def get(self):
-        issues = []
-        # page is the website in html
-        page = requests.get('http://www.ontheissues.org/default.htm')
-        # tree is the html in string formats
-        tree = html.fromstring(page.text)
+        template = jinja_environment.get_template('templates/add.html')
+        self.response.write(template.render())
 
-        #This will create a list of buyers:
-        # issues = tree.xpath('//div[@title="buyer-name"]/text()')
+        h_clinton = Candidate(name = "Hillary Clinton", party = "Democrat")
+        l_chafee = Candidate(name = "Lincoln Chafee", party = "Democrat")
+        m_omalley = Candidate(name = "Martin O'Malley", party = "Democrat")
+        b_sanders = Candidate(name = "Bernie Sanders", party = "Democrat")
+        j_webb = Candidate(name = "Jim Webb", party = "Democrat")
+        j_bush = Candidate(name = "Jeb Bush", party = "Republican")
+        b_carson = Candidate(name = "Ben Carson", party = "Republican")
+        c_christie = Candidate(name = "Chris Christie", party = "Republican")
+        t_cruz = Candidate(name = "Ted Cruz", party = "Republican")
+        c_fiorina = Candidate(name = "Carly Fiorina", party = "Republican")
+        l_graham = Candidate(name = "Lindsey Graham", party = "Republican")
+        m_huckabee = Candidate(name = "Mike Huckabee", party = "Republican")
+        b_jindal = Candidate(name = "Bobby Jindal", party = "Republican")
+        j_kasich = Candidate(name = "John Kasich", party = "Republican")
+        g_pataki = Candidate(name = "George Pataki", party = "Republican")
+        r_paul = Candidate(name = "Rand Paul", party = "Republican")
+        r_perry = Candidate(name = "Rick Perry", party = "Republican")
+        m_rubio = Candidate(name = "Marco Rubio", party = "Repiblican")
+        r_santorum = Candidate(name = "Rick Santorum", party = "Republican")
+        d_trump = Candidate(name = "Donald Trump", party = "Republican")
+        s_walker = Candidate(name = "Scott Walker", party = "Republican")
 
-        #This will create a list of prices
+        candidates = [h_clinton, l_chafee, m_omalley, b_sanders, j_webb, j_bush, b_carson, c_christie,
+        t_cruz, c_fiorina, l_graham, m_huckabee, b_jindal, j_kasich, g_pataki, r_paul, r_perry,
+        m_rubio, r_santorum, d_trump, s_walker]
 
-        issue_about_abortion = tree.xpath('//id[@class="abortion"]/text()')
-        issue_about_abortion = tree.xpath('//id[@class="abortion"]/text()')
-        issue_about_abortion = tree.xpath('//id[@class="abortion"]/text()')
-        issue_about_abortion = tree.xpath('//id[@class="abortion"]/text()')
-        issue_about_abortion = tree.xpath('//id[@class="abortion"]/text()')
-        issue_about_abortion = tree.xpath('//id[@class="abortion"]/text()')
-        issue_about_abortion = tree.xpath('//id[@class="abortion"]/text()')
+        for person in candidates:
+            person.put()
 
+class SearchHandler(webapp2.RequestHandler):
+    def get(self):
+        template = jinja_environment.get_template('templates/search.html')
 
+        search = self.request.get("search")
+        result = Candidate.query(Candidate.name == search).get()
 
-        self.response.write(issues)
+        self.response.write(template.render({
+        'result': result,
+        'search': search
+        }))
 
+class LinkHandler(webapp2.RequestHandler):
+    def get(self):
+        template = jinja_environment.get_template('templates/links.html')
 
+        search = self.request.get("search")
+        result = Candidate.query(Candidate.name == search).get()
 
+        self.response.write(template.render({
+        'result': result,
+        'search': search
+        }))
 
 app = webapp2.WSGIApplication([
     ('/', MainHandler),
-    ('/clinton', ScrapingFromClintionHandler),
-], debug=True)
+    ('/add', AddHandler),
+    ('/search', SearchHandler),
+    ('/links', LinkHandler)
