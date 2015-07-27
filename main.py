@@ -16,14 +16,14 @@
 #
 import webapp2
 #!/usr/bin/env python
-import os
-import jinja2
+# import os
+# import jinja2
 
-from lxml import html
-import requests
+# from lxml import html
+# import requests
 
 # The next line adds functions from a library
-from HTMLParser import HTMLParser
+# from HTMLParser import HTMLParser
 
 class MainHandler(webapp2.RequestHandler):
     def get(self):
@@ -71,5 +71,5 @@ class ScrapingFromClintionHandler(webapp2.RequestHandler):
 
 app = webapp2.WSGIApplication([
     ('/', MainHandler),
-    ('/clinton', ScrapingFromClintionHandler)
+    #('/clinton', ScrapingFromClintionHandler),
 ], debug=True)
