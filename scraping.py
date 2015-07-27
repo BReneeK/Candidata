@@ -53,6 +53,7 @@ class ScrapingFromClintionHandler(webapp2.RequestHandler):
 
 
 
+        issues.extend(issue_about_abortion, )
         self.response.write(issues)
 
 
