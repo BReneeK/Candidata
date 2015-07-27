@@ -28,35 +28,8 @@ from HTMLParser import HTMLParser
 class MainHandler(webapp2.RequestHandler):
     def get(self):
         self.response.write('Hello world!')
-
-
-class ScrapingFromClintionHandler(webapp2.RequestHandler):
-    def get(self):
         issues = []
-        # page is the website in html
-        page = requests.get('http://www.ontheissues.org/default.htm')
-        # tree is the html in string formats
-        tree = html.fromstring(page.text)
-
-        #This will create a list of buyers:
-        # issues = tree.xpath('//div[@title="buyer-name"]/text()')
-
-        #This will create a list of prices
-
-        issue_about_abortion = tree.xpath('//id[@class="abortion"]/text()')
-        issue_about_abortion = tree.xpath('//id[@class="abortion"]/text()')
-        issue_about_abortion = tree.xpath('//id[@class="abortion"]/text()')
-        issue_about_abortion = tree.xpath('//id[@class="abortion"]/text()')
-        issue_about_abortion = tree.xpath('//id[@class="abortion"]/text()')
-        issue_about_abortion = tree.xpath('//id[@class="abortion"]/text()')
-        issue_about_abortion = tree.xpath('//id[@class="abortion"]/text()')
-
-
-
-        self.response.write(issues)
-
-
-
+        #
 
 app = webapp2.WSGIApplication([
     ('/', MainHandler),
