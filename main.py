@@ -112,4 +112,5 @@ app = webapp2.WSGIApplication([
     ('/', MainHandler),
     ('/add', AddHandler),
     ('/search', SearchHandler),
-    ('/links', LinkHandler)
+    ('/links', LinkHandler),
+], debug=True)
