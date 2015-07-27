@@ -27,15 +27,7 @@ from HTMLParser import HTMLParser
 
 class MainHandler(webapp2.RequestHandler):
     def get(self):
-
-        # embeds a video in the webpage
-        self.response.write('''<iframe id=vid1 width="300" height="200" src=https://www.youtube.com/embed/6744Ym_5Ddg frameborder="0"></iframe>
-            <iframe id=vid1 width="300" height="200" src=https://www.youtube.com/embed/ulsA8aFOkRs frameborder="0"></iframe>''')
-# jeb bush education jTWl3YoOXAc
-# ben carson UN HHvFh6lSJqk
-# chris cristie green energy uPxDnb2-aVI
-# bobby jindal education nDCU-VlSgX0
-# marco rubio d9FVjcuz-pA
+        self.response.write('Hello world!')
 
 
 class ScrapingFromClintionHandler(webapp2.RequestHandler):
@@ -61,6 +53,7 @@ class ScrapingFromClintionHandler(webapp2.RequestHandler):
 
 
 
+        issues.extend(issue_about_abortion, )
         self.response.write(issues)
 
 
