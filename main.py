@@ -113,4 +113,5 @@ app = webapp2.WSGIApplication([
     ('/add', AddHandler),
     ('/search', SearchHandler),
     ('/links', LinkHandler),
+    ('/s_walker', )
 ], debug=True)
