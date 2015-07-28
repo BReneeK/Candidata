@@ -19,48 +19,17 @@ import jinja2
 import webapp2
 from google.appengine.ext import ndb
 from google.appengine.api import users
+from google.appengine.api import urlfetch
 import json
 # from html.entities import name2codepoint
 from HTMLParser import HTMLParser
+
 jinja_environment = jinja2.Environment(
     loader= jinja2.FileSystemLoader(os.path.dirname(__file__)))
 
 class Candidate(ndb.Model):
     name = ndb.StringProperty(required=True)
     party = ndb.StringProperty(required=True)
-
-class MyHTMLParser(HTMLParser):
-    def handle_starttag(self, tag, attrs):
-        print("Start tag:", tag)
-        for attr in attrs:
-            print("     attr:", attr)
-    def handle_endtag(self, tag):
-        print("End tag  :", tag)
-    def handle_data(self, data):
-        print("Data     :", data)
-    def handle_comment(self, data):
-        print("Comment  :", data)
-    # def handle_entityref(self, name):
-    #     c = chr(name2codepoint[name])
-    #     print("Named ent:", c)
-    # def handle_charref(self, name):
-    #     if name.startswith('x'):
-    #         c = chr(int(name[1:], 16))
-    #     else:
-    #         c = chr(int(name))
-    #     print("Num ent  :", c)
-    # def handle_decl(self, data):
-    #     print("Decl     :", data)
-
-
-# instantiate the parser and fed it some HTML
-issues = []
-
-f = open('inputclinton.html')
-contentclinton = f.read()
-
-parser = MyHTMLParser()
-parser.feed(contentclinton)
 
 
 
@@ -94,27 +63,27 @@ class AddHandler(webapp2.RequestHandler):
         template = jinja_environment.get_template('templates/add.html')
         self.response.write(template.render())
 
-        h_clinton = Candidate(name = "Hillary Clinton", party = "Democrat")
-        l_chafee = Candidate(name = "Lincoln Chafee", party = "Democrat")
-        m_omalley = Candidate(name = "Martin O'Malley", party = "Democrat")
-        b_sanders = Candidate(name = "Bernie Sanders", party = "Democrat")
-        j_webb = Candidate(name = "Jim Webb", party = "Democrat")
-        j_bush = Candidate(name = "Jeb Bush", party = "Republican")
-        b_carson = Candidate(name = "Ben Carson", party = "Republican")
-        c_christie = Candidate(name = "Chris Christie", party = "Republican")
-        t_cruz = Candidate(name = "Ted Cruz", party = "Republican")
-        c_fiorina = Candidate(name = "Carly Fiorina", party = "Republican")
-        l_graham = Candidate(name = "Lindsey Graham", party = "Republican")
-        m_huckabee = Candidate(name = "Mike Huckabee", party = "Republican")
-        b_jindal = Candidate(name = "Bobby Jindal", party = "Republican")
-        j_kasich = Candidate(name = "John Kasich", party = "Republican")
-        g_pataki = Candidate(name = "George Pataki", party = "Republican")
-        r_paul = Candidate(name = "Rand Paul", party = "Republican")
-        r_perry = Candidate(name = "Rick Perry", party = "Republican")
-        m_rubio = Candidate(name = "Marco Rubio", party = "Repiblican")
-        r_santorum = Candidate(name = "Rick Santorum", party = "Republican")
-        d_trump = Candidate(name = "Donald Trump", party = "Republican")
-        s_walker = Candidate(name = "Scott Walker", party = "Republican")
+        h_clinton = Candidate(name = "Hillary Clinton", party = "Democrat", website = "http://www.ontheissues.org/Hillary_Clinton.htm")
+        l_chafee = Candidate(name = "Lincoln Chafee", party = "Democrat", website = "http://www.ontheissues.org/Lincoln_Chafee.htm")
+        m_omalley = Candidate(name = "Martin O'Malley", party = "Democrat", website = "http://www.ontheissues.org/Martin_O%60Malley.htm")
+        b_sanders = Candidate(name = "Bernie Sanders", party = "Democrat", website = "http://www.ontheissues.org/Bernie_Sanders.htm")
+        j_webb = Candidate(name = "Jim Webb", party = "Democrat", website = "http://www.ontheissues.org/Jim_Webb.htm")
+        j_bush = Candidate(name = "Jeb Bush", party = "Republican", website = "http://www.ontheissues.org/Jeb_Bush.htm")
+        b_carson = Candidate(name = "Ben Carson", party = "Republican", website = "http://www.ontheissues.org/Ben_Carson.htm")
+        c_christie = Candidate(name = "Chris Christie", party = "Republican", website = "http://www.ontheissues.org/Chris_Christie.htm")
+        t_cruz = Candidate(name = "Ted Cruz", party = "Republican", website = "http://www.ontheissues.org/Ted_Cruz.htm")
+        c_fiorina = Candidate(name = "Carly Fiorina", party = "Republican", website = "http://www.ontheissues.org/Carly_Fiorina.htm")
+        l_graham = Candidate(name = "Lindsey Graham", party = "Republican", website = "http://www.ontheissues.org/Lindsey_Graham.htm")
+        m_huckabee = Candidate(name = "Mike Huckabee", party = "Republican", website = "http://www.ontheissues.org/Mike_Huckabee.htm")
+        b_jindal = Candidate(name = "Bobby Jindal", party = "Republican", website = "http://www.ontheissues.org/Bobby_Jindal.htm")
+        j_kasich = Candidate(name = "John Kasich", party = "Republican", website = "http://www.ontheissues.org/John_Kasich.htm")
+        g_pataki = Candidate(name = "George Pataki", party = "Republican", website = "http://www.ontheissues.org/George_Pataki.htm")
+        r_paul = Candidate(name = "Rand Paul", party = "Republican", website = "http://www.ontheissues.org/Rand_Paul.htm")
+        r_perry = Candidate(name = "Rick Perry", party = "Republican", website = "http://www.ontheissues.org/Rick_Perry.htm")
+        m_rubio = Candidate(name = "Marco Rubio", party = "Repiblican", website = "http://www.ontheissues.org/Marco_Rubio.htm")
+        r_santorum = Candidate(name = "Rick Santorum", party = "Republican", website = "http://www.ontheissues.org/Rick_Santorum.htm")
+        d_trump = Candidate(name = "Donald Trump", party = "Republican", website = "http://www.ontheissues.org/Donald_Trump.htm")
+        s_walker = Candidate(name = "Scott Walker", party = "Republican", website = "http://www.ontheissues.org/Scott_Walker.htm")
 
         candidates = [h_clinton, l_chafee, m_omalley, b_sanders, j_webb, j_bush, b_carson, c_christie,
         t_cruz, c_fiorina, l_graham, m_huckabee, b_jindal, j_kasich, g_pataki, r_paul, r_perry,
@@ -155,4 +124,5 @@ app = webapp2.WSGIApplication([
     ('/add', AddHandler),
     ('/search', SearchHandler),
     ('/links', LinkHandler),
+    ('/s_walker', )
 ], debug=True)
