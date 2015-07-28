@@ -1,0 +1,75 @@
+<html>
+
+  <head>
+    <title>My Profile</title>
+  </head>
+  <body>
+
+    <h1>{{name}}'s Profile</h1>
+    <h2>Your stances: </h2>
+
+    <h3> Social issues:  </h3>
+    <p>
+    {%if abortion %} You are pro-choice.
+    {%else%} You are pro-life.
+    {%endif%}
+    <br>
+    {%if marriage %} You support the legalization of same-sex marriage.
+    {%else%} You do not support the legalization of same-sex marriage.
+    {%endif%}
+    <br>
+    {%if aff_action %} You support affirmative action policies.
+    {%else%} You do not support affirmative action policies.
+    {%endif%}
+    <br>
+    {%if env_reg %} You support increased environmental regulation.
+    {%else%} You do not support environmental regulation.
+    {%endif%}
+    <br>
+    {%if deny_service %} You believe businesses should be allowed to deny service based on religious beliefs.
+    {%else%} You do not believe businesses should be allowed to deny service based on religious beliefs.
+    {%endif%}
+    <br>
+  </p>
+    <h3> Economic issues:  </h3>
+    <p>
+    {%if net_neutrality %} You support net neutrality.
+    {%else%} You do not support net neutrality.
+    {%endif%}
+    <br>
+    {%if corp_tax %} You believe the US should reduce the corporate tax rate.
+    {%else%} You do not believe the US should reduce the corporate tax rate.
+    {%endif%}
+    <br>
+    {%if prog_tax %} You support the progressive tax.
+    {%else%} You do not support the progressive tax.
+    {%endif%}
+    <br>
+    {%if health_care %} You believe the government should mandate all employers to provide affordable health care to all workers.
+    {%else%} You do not believe government should mandate all employers to provide affordable health care to all workers.
+    {%endif%}
+    <br>
+  </p>
+  <h3> Foreign policy issues:  </h3>
+  <p>
+    {%if border_sec %} You support increasing border security.
+    {%else%} You do not support increasing border security.
+    {%endif%}
+    <br>
+    {%if army_spend %} You support the lowering of military spending.
+    {%else%} You do not support the lowering of military spending.
+    {%endif%}
+    <br>
+    {%if isis %} You support the US entering an armed conflict against ISIS.
+    {%else%} You do not support the US entering an armed conflict against ISIS.
+    {%endif%}
+    <br>
+    </p>
+
+    <br><br>
+
+  <h2>Your suggested candidates: </h2>
+
+    </body>
+
+</html>
