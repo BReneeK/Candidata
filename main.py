@@ -20,6 +20,9 @@ import webapp2
 from google.appengine.ext import ndb
 from google.appengine.api import users
 import json
+import logging
+
+logger = logging.getLogger()
 
 jinja_environment = jinja2.Environment(
     loader= jinja2.FileSystemLoader(os.path.dirname(__file__)))
@@ -27,7 +30,6 @@ jinja_environment = jinja2.Environment(
 class Candidate(ndb.Model):
     name = ndb.StringProperty(required=True)
     party = ndb.StringProperty(required=True)
-
 
 class MainHandler(webapp2.RequestHandler):
     def get(self):
@@ -89,10 +91,8 @@ class SearchHandler(webapp2.RequestHandler):
         template = jinja_environment.get_template('templates/search.html')
 
         search = self.request.get("search")
-        result = Candidate.query(Candidate.name == search).get()
 
         self.response.write(template.render({
-        'result': result,
         'search': search
         }))
 
@@ -108,8 +108,25 @@ class LinkHandler(webapp2.RequestHandler):
         'search': search
         }))
 
+class CandidateHandler(webapp2.RequestHandler):
+    def get(self):
+        template = jinja_environment.get_template('templates/candidates.html')
+
+        candidate = Candidate.get_by_id(int(self.request.get('candidate')))
+
+        #candidate_id = result.Key()
+        #candidate = Candidate.get_by_id(int(candidate_id))
+
+        #self.response.write(result.name)
+
+        self.response.write(template.render({
+        'candidate': candidate,
+        }))
+
 app = webapp2.WSGIApplication([
     ('/', MainHandler),
     ('/add', AddHandler),
     ('/search', SearchHandler),
-    ('/links', LinkHandler)
+    ('/links', LinkHandler),
+    ('/candidates', CandidateHandler)
+], debug=True)

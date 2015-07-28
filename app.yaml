@@ -15,9 +15,6 @@ handlers:
 libraries:
 - name: webapp2
   version: "2.5.2"
-<<<<<<< HEAD
 
-=======
->>>>>>> eb16e41955612a9f45e5554337908ce9dc546436
 - name: jinja2
   version: latest
