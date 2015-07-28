@@ -20,9 +20,12 @@ import webapp2
 from google.appengine.ext import ndb
 from google.appengine.api import users
 from google.appengine.api import urlfetch
+import logging
 import json
 # from html.entities import name2codepoint
-from HTMLParser import HTMLParser
+
+
+import re
 
 jinja_environment = jinja2.Environment(
     loader= jinja2.FileSystemLoader(os.path.dirname(__file__)))
@@ -30,8 +33,7 @@ jinja_environment = jinja2.Environment(
 class Candidate(ndb.Model):
     name = ndb.StringProperty(required=True)
     party = ndb.StringProperty(required=True)
-
-
+    website = ndb.StringProperty(required=True)
 
 
 
@@ -117,6 +119,46 @@ class LinkHandler(webapp2.RequestHandler):
         }))
 
 
+class Re(webapp2.RequestHandler):
+    def get(self):
+
+        search = self.request.get("search")
+        result = Candidate.query(Candidate.name == search).get()
+
+        issues = []
+
+        h_clinton = Candidate(name = "Hillary Clinton", party = "Democrat", website = "http://www.ontheissues.org/Hillary_Clinton.htm")
+
+        url = h_clinton.website
+        url_file = urlfetch.fetch(url)
+
+        url_html = url_file.content
+        # result = re.search(url_html.decode('utf-8'), re.I | re.U)
+
+        abortion_response = re.search(r'pro-life',
+
+                                    url_html, re.MULTILINE)
+        # , re.multiline)
+
+        # logging.info(abortion_response)
+        if abortion_response:
+            result.abortion = FALSE
+            logging.info("This candidate does not support abortion")
+            #  abortion = true
+        else:
+            result.abortion = TRUE
+            logging.info("This candidate does support abortion")
+
+
+        # abortion_response = re.search(r'<a href="http://www\.ontheissues\.org/VoteMatch/q1_2014\.asp">Abortion is a woman\'s unrestricted right</a>',
+        #                             url_html, re.multiline)
+        # if abortion_response:
+        #      abortion_response = abortion_response.group(0)
+
+        # result = re.search(url_html.decode('utf-8'), re.I | re.U)
+
+        self.response.write(abortion_response)
+
 
 
 app = webapp2.WSGIApplication([
@@ -124,5 +166,6 @@ app = webapp2.WSGIApplication([
     ('/add', AddHandler),
     ('/search', SearchHandler),
     ('/links', LinkHandler),
-    ('/s_walker', )
+    ('/s_walker', ),
+    ('/show', Re)
 ], debug=True)
