@@ -189,8 +189,8 @@ class AddHandler(webapp2.RequestHandler):
             abortion = False, marriage = False, aff_action = False, env_reg = False, deny_service = False, net_neutrality = False,
             corp_tax = False, prog_tax = False, health_care = False, border_sec = False, army_spend = False, isis = False)
         d_trump = Candidate(name = "Donald Trump", party = "Republican", website = "http://www.ontheissues.org/Donald_Trump.htm", bio = bios["DT"], intID1 = "", intID2 = "", speID1 = "", speID2 = "",
-            abortion = False, marriage = False, aff_action = False, env_reg = False, deny_service = False, net_neutrality = False, corp_tax = False, prog_tax = False, health_care = False,
-            border_sec = False, army_spend = False, isis = False)
+            abortion = False, marriage = False, aff_action = False, env_reg = False, deny_service = False, net_neutrality = False,
+            corp_tax = False, prog_tax = False, health_care = False, border_sec = False, army_spend = False, isis = False)
         s_walker = Candidate(name = "Scott Walker", party = "Republican", website = "http://www.ontheissues.org/Scott_Walker.htm", bio = bios["SW"], intID1 = "", intID2 = "", speID1 = "", speID2 = "",
             abortion = False, marriage = False, aff_action = False, env_reg = False, deny_service = False, net_neutrality = False,
             corp_tax = False, prog_tax = False, health_care = False, border_sec = False, army_spend = False, isis = False)
