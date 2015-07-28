@@ -37,6 +37,7 @@ class Candidate(ndb.Model):
     website = ndb.StringProperty(required = True)
 
     party = ndb.StringProperty(required = True)
+    bio = ndb.StringProperty(required = True)
 
     abortion = ndb.BooleanProperty(required = True)
     marriage = ndb.BooleanProperty(required = True)
@@ -129,11 +130,10 @@ class AddHandler(webapp2.RequestHandler):
             "DT": "Donald John Trump (born June 14, 1946) is an American business magnate, investor, television personality, and author. He is the chairman and president of The Trump Organization and the founder of Trump Entertainment Resorts. Trump's lifestyle and outspoken manner, as well as his books and his media appearances, have made him an American celebrity. He hosted The Apprentice, a US TV show. On June 16, 2015 at Trump Tower in Manhattan, Trump formally announced his candidacy for President of the United States in the 2016 election, seeking the nomination of the Republican Party.",
             "SW": "Scott Kevin Walker (born November 2, 1967) is an American politician and the 45th Governor of Wisconsin, serving since 2011. Walker is also a candidate for the Republican Party's nomination to the 2016 presidential election. Walker served in the Wisconsin State Assembly and as the Milwaukee County Executive before his election as governor in 2010. He survived a 2012 recall election and was reelected governor in 2014, defeating Democrat Mary Burke."
         }
-        
+
         h_clinton = Candidate(name = "Hillary Clinton", party = "Democrat", website = "http://www.ontheissues.org/Hillary_Clinton.htm", bio = bios["HC"], intID1 = "7XOoOgsj_z8", intID2 = "cYKwU2MwI-8", speID1 = "6744Ym_5Ddg", speID2 = "Q4O8xo9EWb8",
             abortion = False, marriage = False, aff_action = False, env_reg = False, deny_service = False, net_neutrality = False,
             corp_tax = False, prog_tax = False, health_care = False, border_sec = False, army_spend = False, isis = False)
-
         l_chafee = Candidate(name = "Lincoln Chafee", party = "Democrat", website = "http://www.ontheissues.org/Lincoln_Chafee.htm", bio = bios["LC"], intID1 = "IVpF6_qpfq4", intID2 = "9XobXVbqhZg", speID1 = "XEMwtaMSox4", speID2 = "",
             abortion = False, marriage = False, aff_action = False, env_reg = False, deny_service = False, net_neutrality = False,
             corp_tax = False, prog_tax = False, health_care = False, border_sec = False, army_spend = False, isis = False)
