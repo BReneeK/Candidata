@@ -14,7 +14,12 @@
   <h3>Social Issues</h3>
 
   <h4>Abortion</h4>
-    <p>This candidate is {{candidate.abortion}} on abortion</p>
+    {% if abortion %}
+    <p> This candidate is pro-choice</p>
+
+    {% else %}
+    <p> This candidate is pro-life</p>
+    {% endif %}
 
     <!-- <ul>
       <li></li>
@@ -23,57 +28,127 @@
     </ul> -->
 
   <h4>Same-sex marriage</h4>
-    <ul>
-      <li></li>
-      <li></li>
-      <li></li>
-    </ul>
-
+  {% if marriage %}
+  <p> This candidate does support same sex marriage</p>
+  {% else %}
+  <p> This candidate does not support same sex marriage</p>
+  {% endif %}
+  <!-- <ul>
+    <li></li>
+    <li></li>
+    <li></li>
+  </ul> -->
   <h4>Affirmative action</h4>
-    <ul>
-      <li></li>
-      <li></li>
-      <li></li>
-    </ul>
+  {% if aff_action %}
+  <p> This candidate does support affirmative action</p>
+
+  {% else %}
+  <p> This candidate does not support affirmative action</p>
+  {% endif %}
+  <!-- <ul>
+    <li></li>
+    <li></li>
+    <li></li>
+  </ul> -->
 
   <h3>Economic Issues</h3>
 
+  <!-- <ul>
+    <li></li>
+    <li></li>
+    <li></li>
+  </ul> -->
   <h4>Net neutrality</h4>
-    <ul>
-      <li></li>
-      <li></li>
-      <li></li>
-    </ul>
+  {% if net_neutrality %}
+  <p> This candidate does support net neutrality</p>
 
-  <h4>Taxes</h4>
-    <ul>
-      <li></li>
-      <li></li>
-      <li></li>
-    </ul>
+
+  {% else %}
+  <p> This candidate does not support net neutrality</p>
+  {% endif %}
+  <!-- <ul>
+    <li></li>
+    <li></li>
+    <li></li>
+  </ul> -->
+  <h4>Corporation Taxes</h4>
+  {% if corp_tax %}
+  <p> This candidate does support increases on the corporate tax</p>
+
+
+  {% else %}
+  <p> This candidate does not support increases on the corporate tax</p>
+  {% endif %}
+  <!-- <ul>
+    <li></li>
+    <li></li>
+    <li></li>
+  </ul> -->
+  <h4>Progressive Taxes</h4>
+
+  {% if prog_tax %}
+  <p> This candidate does support increases on the progressive tax</p>
+
+  {% else %}
+  <p> This candidate does not support increases on the progressive tax</p>
+  {% endif %}
 
   <h4>Health Care</h4>
-    <ul>
-      <li></li>
-      <li></li>
-      <li></li>
-    </ul>
+  {% if health_care %}
+  <p> This candidate does support universal health care laws</p>
+
+
+  {% else %}
+  <p> This candidate does not support universal health care laws</p>
+  {% endif %}
+  <!-- <ul>
+    <li></li>
+    <li></li>
+    <li></li>
+  </ul> -->
 
   <h3>Foreign Policy Issues</h3>
 
+  <!-- <ul>
+    <li></li>
+    <li></li>
+    <li></li>
+  </ul> -->
   <h4>Immigration</h4>
-    <ul>
-      <li></li>
-      <li></li>
-      <li></li>
-    </ul>
+  {% if border_sec %}
+  <p> This candidate does support sticter measures for border security </p>
+
+  {% else %}
+  <p> This candidate does not support sticter measures for border security</p>
+  {% endif %}
+  <!-- <ul>
+    <li></li>
+    <li></li>
+    <li></li>
+  </ul> -->
 
   <h4>The Military and War</h4>
-    <ul>
-      <li></li>
-      <li></li>
-      <li></li>
-    </ul>
+
+  {% if border_sec %}
+  <p> This candidate does support decreasing military spending</p>
+
+
+  {% else %}
+  <p> This candidate does not support decreasing military spending</p>
+  {% endif %}
+  <!-- <ul>
+    <li></li>
+    <li></li>
+    <li></li>
+  </ul> -->
+  <h4>On ISIS</h4>
+  {% if isis %}
+  <p> This candidate does believe that ISIS is a threat to U.S. interests</p>
+
+
+  {% else %}
+  <p> This candidate does not believe that ISIS is a threat to U.S. interests/p>
+  {% endif %}
 
 <h3>Interviews</h3>
 

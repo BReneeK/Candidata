@@ -6,6 +6,14 @@
 
     <a href = "http://localhost:18080/candidates?candidate={{result.key.id()}}">{{result.name}}</a>
 
+    <h4>Abortion</h4>
+      {% if abortion %}
+      <p> This candidate is pro-choice</p>
+
+      {% else %}
+      <p> This candidate is pro-life</p>
+      {% endif %}
+
     </body>
 
 </html>
