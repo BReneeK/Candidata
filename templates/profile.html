@@ -71,13 +71,13 @@
   <h2>Your suggested candidates: </h2>
 
   <p>
-    {%for candidate in your_candidates%}
-      {%if similarities > 0%}You and {{candidate.name}} have {{similarities}} views in common. {%endif%}
+    {%for num in the_range%}
+      {%if similarities > 0%}You and {{your_candidates[num].name}} have {{similarities[num]}} views in common. <br>{%endif%}
     {%endfor%}
   </p>
 
   <br>
-  
+
 
     </body>
 
