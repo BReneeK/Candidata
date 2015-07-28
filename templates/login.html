@@ -1,0 +1,12 @@
+<!DOCTYPE html>
+
+<html>
+  <body>
+    <h1>hello</h1>
+    {% if user %}
+    Welcome, {{user.nickname()}}! (<a href = "{{users.create_logout_url('/')}}">sign out</a>)
+    {% else %}
+    Welcome! <a href = "{{users.create_logout_url('/')}}">Sign in or register</a>
+    {% endif %}
+  </body>
+</html>

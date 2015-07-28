@@ -23,7 +23,7 @@ from google.appengine.api import urlfetch
 import json
 import logging
 
-intID2# from html.entities import name2codepoint
+
 from HTMLParser import HTMLParser
 
 jinja_environment = jinja2.Environment(
@@ -33,6 +33,24 @@ class Candidate(ndb.Model):
     name = ndb.StringProperty(required=True)
     party = ndb.StringProperty(required=True)
     website = ndb.StringProperty(required = False)
+
+class User(ndb.Model):
+    name = ndb.StringProperty(required = True)
+    abortion = ndb.BooleanProperty(required = True)
+    marriage = ndb.BooleanProperty(required = True)
+    aff_action = ndb.BooleanProperty(required = True)
+    env_reg = ndb.BooleanProperty(required = True)
+    deny_service = ndb.BooleanProperty(required = True)
+    net_neutrality = ndb.BooleanProperty(required = True)
+    corp_tax = ndb.BooleanProperty(required = True)
+    prog_tax = ndb.BooleanProperty(required = True)
+    health_care = ndb.BooleanProperty(required = True)
+    border_sec = ndb.BooleanProperty(required = True)
+    army_spend = ndb.BooleanProperty(required = True)
+    isis = ndb.BooleanProperty(required = True)
+
+    answers = ndb.JsonProperty(required = False)
+
 
 class MainHandler(webapp2.RequestHandler):
     def get(self):
@@ -132,11 +150,84 @@ class CandidateHandler(webapp2.RequestHandler):
         }))
 
 
+class UserHandler(webapp2.RequestHandler):
+    def get(self):
+        user_var = users.get_current_user()
+        if user_var:
+            greeting = ('Welcome, %s! (<a href = "%s"> sign out </a>)' %
+                       (user_var.nickname(), users.create_logout_url('/')))
+        else:
+            greeting = ('<a href = "%s"> sign in or register </a>.' %
+                        users.create_login_url('/'))
+
+        template = jinja_environment.get_template('templates/login.html')
+        self.response.out.write(template.render({'user': user_var, 'users': users}))
+
+        self.response.write('<html><body>%s</body></html>' %greeting)
+
+class FormHandler(webapp2.RequestHandler):
+    def get(self):
+
+
+        template = jinja_environment.get_template('templates/questions.html')
+        self.response.write(template.render())
+
+class AnswerHandler(webapp2.RequestHandler):
+    def post(self):
+        template = jinja_environment.get_template('templates/answers.html')
+
+        name = self.request.get('name')
+        abortion = self.request.get('abortion')
+        marriage = self.request.get('marriage')
+        aff_action = self.request.get('aff_action')
+        env_reg = self.request.get('env_reg')
+        deny_service = self.request.get('deny_service')
+        net_neutrality = self.request.get('net_neutrality')
+        corp_tax = self.request.get('corp_tax')
+        prog_tax = self.request.get('prog_tax')
+        health_care = self.request.get('health_care')
+        border_sec = self.request.get('border_sec')
+        army_spend = self.request.get('army_spend')
+        isis = self.request.get('isis')
+
+        user = User(name = name, abortion = eval(abortion), marriage = eval(marriage), aff_action = eval(aff_action), env_reg = eval(env_reg), deny_service = eval(deny_service), net_neutrality = eval(net_neutrality),
+        corp_tax = eval(corp_tax), prog_tax = eval(prog_tax), health_care = eval(health_care), border_sec = eval(border_sec), army_spend = eval(army_spend), isis = eval(isis))
+
+        user_key = user.put()
+
+        id = user_key.id()
+
+        self.response.write(template.render(
+        {
+            'abortion' : abortion,
+            'marriage' : marriage,
+            'aff_action' : aff_action,
+            'env_reg' : env_reg,
+            'deny_service' : deny_service,
+            'net_neutrality' : net_neutrality,
+            'corp_tax' : corp_tax,
+            'prog_tax' : prog_tax,
+            'health_care' : health_care,
+            'border_sec' : border_sec,
+            'army_spend' : army_spend,
+            'isis' : isis
+
+        }
+        ))
+
+
+
 app = webapp2.WSGIApplication([
     ('/', MainHandler),
     ('/add', AddHandler),
     ('/search', SearchHandler),
     ('/links', LinkHandler),
     ('/candidates', CandidateHandler),
+
+    ('/login', UserHandler),
+    ('/questions', FormHandler),
+    ('/answers', AnswerHandler)
+
     ('/s_walker', ),
+
 ], debug=True)
