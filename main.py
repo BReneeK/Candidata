@@ -107,6 +107,7 @@ class AddHandler(webapp2.RequestHandler):
         self.response.write(template.render())
 
 
+
         h_clinton = Candidate(name = "Hillary Clinton", party = "Democrat", website = "http://www.ontheissues.org/Hillary_Clinton.htm", intID1 = "7XOoOgsj_z8", intID2 = "cYKwU2MwI-8", speID1 = "6744Ym_5Ddg", speID2 = "Q4O8xo9EWb8",
             abortion = False, marriage = False, aff_action = False, env_reg = False, deny_service = False, net_neutrality = False,
             corp_tax = False, prog_tax = False, health_care = False, border_sec = False, army_spend = False, isis = False)
@@ -315,7 +316,52 @@ class AnswerHandler(webapp2.RequestHandler):
         }
         ))
 
+class ProfileHandler(webapp2.RequestHandler):
+    def get(self):
+        template = jinja_environment.get_template('templates/profile.html')
+        self.response.write(template.render())
 
+    def post(self):
+        template = jinja_environment.get_template('templates/profile.html')
+
+        name = self.request.get('name')
+        abortion = self.request.get('abortion')
+        marriage = self.request.get('marriage')
+        aff_action = self.request.get('aff_action')
+        env_reg = self.request.get('env_reg')
+        deny_service = self.request.get('deny_service')
+        net_neutrality = self.request.get('net_neutrality')
+        corp_tax = self.request.get('corp_tax')
+        prog_tax = self.request.get('prog_tax')
+        health_care = self.request.get('health_care')
+        border_sec = self.request.get('border_sec')
+        army_spend = self.request.get('army_spend')
+        isis = self.request.get('isis')
+
+        user = User(name = name, abortion = eval(abortion), marriage = eval(marriage), aff_action = eval(aff_action), env_reg = eval(env_reg), deny_service = eval(deny_service), net_neutrality = eval(net_neutrality),
+        corp_tax = eval(corp_tax), prog_tax = eval(prog_tax), health_care = eval(health_care), border_sec = eval(border_sec), army_spend = eval(army_spend), isis = eval(isis))
+
+        user_key = user.put()
+
+        id = user_key.id()
+
+        self.response.write(template.render(
+        {
+            'name' : name,
+            'abortion' : abortion,
+            'marriage' : marriage,
+            'aff_action' : aff_action,
+            'env_reg' : env_reg,
+            'deny_service' : deny_service,
+            'net_neutrality' : net_neutrality,
+            'corp_tax' : corp_tax,
+            'prog_tax' : prog_tax,
+            'health_care' : health_care,
+            'border_sec' : border_sec,
+            'army_spend' : army_spend,
+            'isis' : isis
+            }
+            ))
 
 app = webapp2.WSGIApplication([
     ('/', MainHandler),
@@ -324,9 +370,10 @@ app = webapp2.WSGIApplication([
     ('/links', LinkHandler),
     # ('/show', Re),
     ('/candidates', CandidateHandler),
-
     ('/login', UserHandler),
     ('/questions', FormHandler),
     ('/answers', AnswerHandler),
+
+    ('/profile', ProfileHandler)
 
 ], debug=True)
