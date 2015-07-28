@@ -216,11 +216,6 @@ class CandidateHandler(webapp2.RequestHandler):
         # search = self.request.get("search")
         candidate1 = Candidate.get_by_id(int(self.request.get('candidate')))
         logging.info(candidate1)
-
-        # Member.get_by_id(int(self.request.get('id')))
-
-        logging.info(candidate1)
-
         url = candidate1.website
         # logging.info(url)
         url_file = urlfetch.fetch(url)
@@ -260,7 +255,7 @@ class CandidateHandler(webapp2.RequestHandler):
             candidate1.health_care = False
             candidate1.border_sec = True
             candidate1.army_spend = True
-            candidate1.isis = True
+            candidate.isis = True
 
         self.response.write(template.render({
             'candidate1': candidate1,
