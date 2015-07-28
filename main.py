@@ -20,7 +20,8 @@ import webapp2
 from google.appengine.ext import ndb
 from google.appengine.api import users
 import json
-
+# from html.entities import name2codepoint
+from HTMLParser import HTMLParser
 jinja_environment = jinja2.Environment(
     loader= jinja2.FileSystemLoader(os.path.dirname(__file__)))
 
@@ -28,14 +29,47 @@ class Candidate(ndb.Model):
     name = ndb.StringProperty(required=True)
     party = ndb.StringProperty(required=True)
 
+class MyHTMLParser(HTMLParser):
+    def handle_starttag(self, tag, attrs):
+        print("Start tag:", tag)
+        for attr in attrs:
+            print("     attr:", attr)
+    def handle_endtag(self, tag):
+        print("End tag  :", tag)
+    def handle_data(self, data):
+        print("Data     :", data)
+    def handle_comment(self, data):
+        print("Comment  :", data)
+    # def handle_entityref(self, name):
+    #     c = chr(name2codepoint[name])
+    #     print("Named ent:", c)
+    # def handle_charref(self, name):
+    #     if name.startswith('x'):
+    #         c = chr(int(name[1:], 16))
+    #     else:
+    #         c = chr(int(name))
+    #     print("Num ent  :", c)
+    # def handle_decl(self, data):
+    #     print("Decl     :", data)
+
+
+# instantiate the parser and fed it some HTML
+issues = []
+
+f = open('inputclinton.html')
+contentclinton = f.read()
+
+parser = MyHTMLParser()
+parser.feed(contentclinton)
+
+
+
+
 
 class MainHandler(webapp2.RequestHandler):
     def get(self):
-<<<<<<< HEAD
-        self.response.write('Hello world!')
-        issues = []
-        #
-=======
+
+
         candidate_id = self.request.get('id')
         if not candidate_id:
             template = jinja_environment.get_template('templates/index.html')
@@ -112,7 +146,9 @@ class LinkHandler(webapp2.RequestHandler):
         'result': result,
         'search': search
         }))
->>>>>>> 51e59e965260d0cf6a74878dd1c23b90ad11a0a3
+
+
+
 
 app = webapp2.WSGIApplication([
     ('/', MainHandler),
