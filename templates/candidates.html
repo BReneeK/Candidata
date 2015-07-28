@@ -5,16 +5,16 @@
 
   <body>
 
-  <h1>{{candidate.name}}</h1>
+  <h1>{{candidate1.name}}</h1>
 
-  <h2>{{candidate.party}}</h2>
+  <h2>{{candidate1.party}}</h2>
 
   <br><br><br>
 
   <h3>Social Issues</h3>
 
   <h4>Abortion</h4>
-    {% if abortion %}
+    {% if candidate1.abortion %}
     <p> This candidate is pro-choice</p>
 
     {% else %}
@@ -28,7 +28,7 @@
     </ul> -->
 
   <h4>Same-sex marriage</h4>
-  {% if marriage %}
+  {% if candidate1.marriage %}
   <p> This candidate does support same sex marriage</p>
   {% else %}
   <p> This candidate does not support same sex marriage</p>
@@ -39,7 +39,7 @@
     <li></li>
   </ul> -->
   <h4>Affirmative action</h4>
-  {% if aff_action %}
+  {% if candidate1.aff_action %}
   <p> This candidate does support affirmative action</p>
 
   {% else %}
@@ -59,7 +59,7 @@
     <li></li>
   </ul> -->
   <h4>Net neutrality</h4>
-  {% if net_neutrality %}
+  {% if candidate1.net_neutrality %}
   <p> This candidate does support net neutrality</p>
 
 
@@ -72,7 +72,7 @@
     <li></li>
   </ul> -->
   <h4>Corporation Taxes</h4>
-  {% if corp_tax %}
+  {% if candidate1.corp_tax %}
   <p> This candidate does support increases on the corporate tax</p>
 
 
@@ -86,7 +86,7 @@
   </ul> -->
   <h4>Progressive Taxes</h4>
 
-  {% if prog_tax %}
+  {% if candidate1.prog_tax %}
   <p> This candidate does support increases on the progressive tax</p>
 
   {% else %}
@@ -94,7 +94,7 @@
   {% endif %}
 
   <h4>Health Care</h4>
-  {% if health_care %}
+  {% if candidate1.health_care %}
   <p> This candidate does support universal health care laws</p>
 
 
@@ -115,7 +115,7 @@
     <li></li>
   </ul> -->
   <h4>Immigration</h4>
-  {% if border_sec %}
+  {% if candidate1.border_sec %}
   <p> This candidate does support sticter measures for border security </p>
 
   {% else %}
@@ -129,7 +129,7 @@
 
   <h4>The Military and War</h4>
 
-  {% if border_sec %}
+  {% if candidate1.border_sec %}
   <p> This candidate does support decreasing military spending</p>
 
 
@@ -142,7 +142,7 @@
     <li></li>
   </ul> -->
   <h4>On ISIS</h4>
-  {% if isis %}
+  {% if candidate1.isis %}
   <p> This candidate does believe that ISIS is a threat to U.S. interests</p>
 
 
@@ -152,13 +152,13 @@
 
 <h3>Interviews</h3>
 
-<iframe id=candInt1 width="300" height="200" src=https://www.youtube.com/embed/{{candidate.intID1}} frameborder="0"></iframe>
-<iframe id=candInt2 width="300" height="200" src=https://www.youtube.com/embed/{{candidate.intID2}} frameborder="0"></iframe>
+<iframe id=candInt1 width="300" height="200" src=https://www.youtube.com/embed/{{candidate1.intID1}} frameborder="0"></iframe>
+<iframe id=candInt2 width="300" height="200" src=https://www.youtube.com/embed/{{candidate1.intID2}} frameborder="0"></iframe>
 
 <h3>Speeches</h3>
 
-<iframe id=candSpe1 width="300" height="200" src=https://www.youtube.com/embed/{{candidate.speID1}} frameborder="0"></iframe>
-<iframe id=candSpe2 width="300" height="200" src=https://www.youtube.com/embed/{{candidate.speID2}} frameborder="0"></iframe>
+<iframe id=candSpe1 width="300" height="200" src=https://www.youtube.com/embed/{{candidate1.speID1}} frameborder="0"></iframe>
+<iframe id=candSpe2 width="300" height="200" src=https://www.youtube.com/embed/{{candidate1.speID2}} frameborder="0"></iframe>
 
   </body>
 </html>

@@ -106,8 +106,6 @@ class AddHandler(webapp2.RequestHandler):
         template = jinja_environment.get_template('templates/add.html')
         self.response.write(template.render())
 
-
-
         h_clinton = Candidate(name = "Hillary Clinton", party = "Democrat", website = "http://www.ontheissues.org/Hillary_Clinton.htm", intID1 = "7XOoOgsj_z8", intID2 = "cYKwU2MwI-8", speID1 = "6744Ym_5Ddg", speID2 = "Q4O8xo9EWb8",
             abortion = False, marriage = False, aff_action = False, env_reg = False, deny_service = False, net_neutrality = False,
             corp_tax = False, prog_tax = False, health_care = False, border_sec = False, army_spend = False, isis = False)
@@ -203,14 +201,6 @@ class LinkHandler(webapp2.RequestHandler):
         url_file = urlfetch.fetch(url)
         url_html = url_file.content
 
-        abortion_response = re.search(r'pro-life', url_html, re.MULTILINE)
-        if abortion_response:
-            result.abortion = False
-            logging.info("This candidate does not support abortion")
-        else:
-            result.abortion = True
-            logging.info("This candidate does support abortion")
-
 
         self.response.write(template.render({
         'result': result,
@@ -223,27 +213,70 @@ class CandidateHandler(webapp2.RequestHandler):
     def get(self):
         template = jinja_environment.get_template('templates/candidates.html')
 
-        search = self.request.get("search")
-        candidate = Candidate.get_by_id(int(self.request.get('candidate')))
+        # search = self.request.get("search")
+        candidate1 = Candidate.get_by_id(int(self.request.get('candidate')))
+        logging.info(candidate1)
 
-        result = Candidate.query(Candidate.name == search).get()
+        # Member.get_by_id(int(self.request.get('id')))
 
-        url = result.website
+        logging.info(candidate1)
+
+        url = candidate1.website
+        # logging.info(url)
         url_file = urlfetch.fetch(url)
+        # logging.info(url_file)
         url_html = url_file.content
+        # logging.info(url_html)
 
         abortion_response = re.search(r'pro-life', url_html, re.MULTILINE)
         if abortion_response:
-            result.abortion = False
+            candidate1.abortion = False
             logging.info("This candidate does not support abortion")
         else:
-            result.abortion = True
+            candidate1.abortion = True
             logging.info("This candidate does support abortion")
 
+        if candidate1.party == 'Democrat':
+            candidate1.marriage = True
+            candidate1.aff_action = True
+            candidate1.env_reg = True
+            candidate1.deny_service = False
+            candidate1.net_neutrality = False
+            candidate1.corp_tax = True
+            candidate1.prog_tax = True
+            candidate1.health_care = True
+            candidate1.border_sec = False
+            candidate1.army_spend = False
+            candidate1.isis = False
+
+        if candidate1.party == 'Republican':
+            candidate1.marriage = False
+            candidate1.aff_action = False
+            candidate1.env_reg = False
+            candidate1.deny_service = True
+            candidate1.net_neutrality = False
+            candidate1.corp_tax = False
+            candidate1.prog_tax = False
+            candidate1.health_care = False
+            candidate1.border_sec = True
+            candidate1.army_spend = True
+            candidate1.isis = True
 
         self.response.write(template.render({
-
-        'abortion': result.abortion
+            'candidate1': candidate1,
+            # 'search': search,
+            'abortion': candidate1.abortion,
+            'marriage' : candidate1.marriage,
+            'aff_action' : candidate1.aff_action,
+            'env_reg' : candidate1.env_reg,
+            'deny_service' : candidate1.deny_service,
+            'net_neutrality' : candidate1.net_neutrality,
+            'corp_tax' : candidate1.corp_tax,
+            'prog_tax' : candidate1.prog_tax,
+            'health_care' : candidate1.health_care,
+            'border_sec' : candidate1.border_sec,
+            'army_spend' : candidate1.army_spend,
+            'isis' : candidate1.isis
 
         }))
 
@@ -368,12 +401,10 @@ app = webapp2.WSGIApplication([
     ('/add', AddHandler),
     ('/search', SearchHandler),
     ('/links', LinkHandler),
-    # ('/show', Re),
     ('/candidates', CandidateHandler),
     ('/login', UserHandler),
     ('/questions', FormHandler),
     ('/answers', AnswerHandler),
-
     ('/profile', ProfileHandler)
 
 ], debug=True)
