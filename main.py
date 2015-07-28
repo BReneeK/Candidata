@@ -152,16 +152,16 @@ class AddHandler(webapp2.RequestHandler):
         b_carson = Candidate(name = "Ben Carson", party = "Republican", website = "http://www.ontheissues.org/Ben_Carson.htm", bio = bios["BC"], intID1 = "", intID2 = "", speID1 = "HHvFh6lSJqk", speID2 = "",
             abortion = False, marriage = False, aff_action = False, env_reg = False, deny_service = False, net_neutrality = False,
             corp_tax = False, prog_tax = False, health_care = False, border_sec = False, army_spend = False, isis = False)
-        c_christie = Candidate(name = "Chris Christie", party = "Republican", website = "http://www.ontheissues.org/Chris_Christie.htm", bio = bios["CC"], intID1 = "", intID2 = "", speID1 = "uPxDnb2-aVI", speID2 = "",
+        c_christie = Candidate(name = "Chris Christie", party = "Republican", website = "http://www.ontheissues.org/Chris_Christie.htm", bio = bios["CC"], intID1 = "C-yGeUSNttw", intID2 = "da4T9CKfnqQ", speID1 = "uPxDnb2-aVI", speID2 = "P4-gVP78t9s",
             abortion = False, marriage = False, aff_action = False, env_reg = False, deny_service = False, net_neutrality = False,
             corp_tax = False, prog_tax = False, health_care = False, border_sec = False, army_spend = False, isis = False)
         t_cruz = Candidate(name = "Ted Cruz", party = "Republican", website = "http://www.ontheissues.org/Ted_Cruz.htm", bio = bios["TC"], intID1 = "", intID2 = "", speID1 = "kkeC53P9rVI", speID2 = "",
             abortion = False, marriage = False, aff_action = False, env_reg = False, deny_service = False, net_neutrality = False,
             corp_tax = False, prog_tax = False, health_care = False, border_sec = False, army_spend = False, isis = False)
-        c_fiorina = Candidate(name = "Carly Fiorina", party = "Republican", website = "http://www.ontheissues.org/Carly_Fiorina.htm", bio = bios["CF"], intID1 = "", intID2 = "", speID1 = "", speID2 = "",
+        c_fiorina = Candidate(name = "Carly Fiorina", party = "Republican", website = "http://www.ontheissues.org/Carly_Fiorina.htm", bio = bios["CF"], intID1 = "8yhl509cp98", intID2 = "A8b-tOYJhho", speID1 = "tiFegTYmyK0", speID2 = "ygeS92QiqPk",
             abortion = False, marriage = False, aff_action = False, env_reg = False, deny_service = False, net_neutrality = False,
             corp_tax = False, prog_tax = False, health_care = False, border_sec = False, army_spend = False, isis = False)
-        l_graham = Candidate(name = "Lindsey Graham", party = "Republican", website = "http://www.ontheissues.org/Lindsey_Graham.htm", bio = bios["LG"], intID1 = "", intID2 = "", speID1 = "", speID2 = "",
+        l_graham = Candidate(name = "Lindsey Graham", party = "Republican", website = "http://www.ontheissues.org/Lindsey_Graham.htm", bio = bios["LG"], intID1 = "vTbpiDseuoE", intID2 = "7oYspOu5dBs", speID1 = "YQtRPhkUKRw", speID2 = "Ifqu2BXCwgc",
             abortion = False, marriage = False, aff_action = False, env_reg = False, deny_service = False, net_neutrality = False,
             corp_tax = False, prog_tax = False, health_care = False, border_sec = False, army_spend = False, isis = False)
         m_huckabee = Candidate(name = "Mike Huckabee", party = "Republican", website = "http://www.ontheissues.org/Mike_Huckabee.htm", bio = bios["MH"], intID1 = "", intID2 = "", speID1 = "", speID2 = "",
