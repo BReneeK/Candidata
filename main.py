@@ -215,7 +215,52 @@ class AnswerHandler(webapp2.RequestHandler):
         }
         ))
 
+class ProfileHandler(webapp2.RequestHandler):
+    def get(self):
+        template = jinja_environment.get_template('templates/profile.html')
+        self.response.write(template.render())
 
+    def post(self):
+        template = jinja_environment.get_template('templates/profile.html')
+
+        name = self.request.get('name')
+        abortion = self.request.get('abortion')
+        marriage = self.request.get('marriage')
+        aff_action = self.request.get('aff_action')
+        env_reg = self.request.get('env_reg')
+        deny_service = self.request.get('deny_service')
+        net_neutrality = self.request.get('net_neutrality')
+        corp_tax = self.request.get('corp_tax')
+        prog_tax = self.request.get('prog_tax')
+        health_care = self.request.get('health_care')
+        border_sec = self.request.get('border_sec')
+        army_spend = self.request.get('army_spend')
+        isis = self.request.get('isis')
+
+        user = User(name = name, abortion = eval(abortion), marriage = eval(marriage), aff_action = eval(aff_action), env_reg = eval(env_reg), deny_service = eval(deny_service), net_neutrality = eval(net_neutrality),
+        corp_tax = eval(corp_tax), prog_tax = eval(prog_tax), health_care = eval(health_care), border_sec = eval(border_sec), army_spend = eval(army_spend), isis = eval(isis))
+
+        user_key = user.put()
+
+        id = user_key.id()
+
+        self.response.write(template.render(
+        {
+            'name' : name,
+            'abortion' : abortion,
+            'marriage' : marriage,
+            'aff_action' : aff_action,
+            'env_reg' : env_reg,
+            'deny_service' : deny_service,
+            'net_neutrality' : net_neutrality,
+            'corp_tax' : corp_tax,
+            'prog_tax' : prog_tax,
+            'health_care' : health_care,
+            'border_sec' : border_sec,
+            'army_spend' : army_spend,
+            'isis' : isis
+            }
+            ))
 
 app = webapp2.WSGIApplication([
     ('/', MainHandler),
@@ -223,11 +268,9 @@ app = webapp2.WSGIApplication([
     ('/search', SearchHandler),
     ('/links', LinkHandler),
     ('/candidates', CandidateHandler),
-
     ('/login', UserHandler),
     ('/questions', FormHandler),
-    ('/answers', AnswerHandler)
-
-    ('/s_walker', ),
+    ('/answers', AnswerHandler),
+    ('/profile', ProfileHandler)
 
 ], debug=True)
