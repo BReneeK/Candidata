@@ -89,7 +89,7 @@ class MainHandler(webapp2.RequestHandler):
             self.response.write(template.render())
             #candidate_id = self.request.get('id')
             for candidate in Candidate.query().fetch():
-                self.response.write(candidate.name + ", " + candidate.party + '<br>')
+                self.response.write(candidate.name  ", " + candidate.party + '<br>')
 
         else:
             candidate_key = ndb.Key(Candidate, int(candidate_id))
@@ -107,7 +107,8 @@ class AddHandler(webapp2.RequestHandler):
         template = jinja_environment.get_template('templates/add.html')
         self.response.write(template.render())
 
-        bios = {
+
+  bios = {
             "HC": "Hillary Diane Rodham Clinton (born October 26, 1947) is an American politician. She was United States Secretary of State in the administration of President Barack Obama from 2009 to 2013, a United States Senator representing New York from 2001 to 2009, and, as the wife of President Bill Clinton, First Lady of the United States from 1993 to 2001. A leading candidate for the Democratic Party's nomination to the 2008 presidential election, she has announced her candidacy for the Democratic nomination in the 2016 presidential election.",
             "LD": "Lincoln Davenport Chafee (born March 26, 1953) is an American politician from Rhode Island who has served as the Mayor of Warwick (1993–1999), a U.S. Senator (1999–2007) and as the 74th Governor of Rhode Island (2011–2015).",
             "MM": "Martin Joseph O'Malley (born January 18, 1963) is an American politician who served as the 61st Governor of Maryland, from 2007 to 2015. Prior to being elected as Governor, he served as the Mayor of Baltimore from 1999 to 2007, having previously served as a Baltimore City Councilor from 1991 to 1999. A member of the Democratic Party, he served as the Chair of the Democratic Governors Association from 2011 to 2013. Following his departure from public office in early 2015, he was appointed to the Johns Hopkins University's Carey Business School as a visiting professor focusing on government, business, and urban issues.",
@@ -130,10 +131,10 @@ class AddHandler(webapp2.RequestHandler):
             "DT": "Donald John Trump (born June 14, 1946) is an American business magnate, investor, television personality, and author. He is the chairman and president of The Trump Organization and the founder of Trump Entertainment Resorts. Trump's lifestyle and outspoken manner, as well as his books and his media appearances, have made him an American celebrity. He hosted The Apprentice, a US TV show. On June 16, 2015 at Trump Tower in Manhattan, Trump formally announced his candidacy for President of the United States in the 2016 election, seeking the nomination of the Republican Party.",
             "SW": "Scott Kevin Walker (born November 2, 1967) is an American politician and the 45th Governor of Wisconsin, serving since 2011. Walker is also a candidate for the Republican Party's nomination to the 2016 presidential election. Walker served in the Wisconsin State Assembly and as the Milwaukee County Executive before his election as governor in 2010. He survived a 2012 recall election and was reelected governor in 2014, defeating Democrat Mary Burke."
         }
-
         h_clinton = Candidate(name = "Hillary Clinton", party = "Democrat", website = "http://www.ontheissues.org/Hillary_Clinton.htm", bio = bios["HC"], intID1 = "7XOoOgsj_z8", intID2 = "cYKwU2MwI-8", speID1 = "6744Ym_5Ddg", speID2 = "Q4O8xo9EWb8",
             abortion = False, marriage = False, aff_action = False, env_reg = False, deny_service = False, net_neutrality = False,
             corp_tax = False, prog_tax = False, health_care = False, border_sec = False, army_spend = False, isis = False)
+
         l_chafee = Candidate(name = "Lincoln Chafee", party = "Democrat", website = "http://www.ontheissues.org/Lincoln_Chafee.htm", bio = bios["LC"], intID1 = "IVpF6_qpfq4", intID2 = "9XobXVbqhZg", speID1 = "XEMwtaMSox4", speID2 = "",
             abortion = False, marriage = False, aff_action = False, env_reg = False, deny_service = False, net_neutrality = False,
             corp_tax = False, prog_tax = False, health_care = False, border_sec = False, army_spend = False, isis = False)
@@ -152,16 +153,16 @@ class AddHandler(webapp2.RequestHandler):
         b_carson = Candidate(name = "Ben Carson", party = "Republican", website = "http://www.ontheissues.org/Ben_Carson.htm", bio = bios["BC"], intID1 = "", intID2 = "", speID1 = "HHvFh6lSJqk", speID2 = "",
             abortion = False, marriage = False, aff_action = False, env_reg = False, deny_service = False, net_neutrality = False,
             corp_tax = False, prog_tax = False, health_care = False, border_sec = False, army_spend = False, isis = False)
-        c_christie = Candidate(name = "Chris Christie", party = "Republican", website = "http://www.ontheissues.org/Chris_Christie.htm", bio = bios["CC"], intID1 = "C-yGeUSNttw", intID2 = "da4T9CKfnqQ", speID1 = "uPxDnb2-aVI", speID2 = "P4-gVP78t9s",
+        c_christie = Candidate(name = "Chris Christie", party = "Republican", website = "http://www.ontheissues.org/Chris_Christie.htm", bio = bios["CC"], intID1 = "", intID2 = "", speID1 = "uPxDnb2-aVI", speID2 = "",
             abortion = False, marriage = False, aff_action = False, env_reg = False, deny_service = False, net_neutrality = False,
             corp_tax = False, prog_tax = False, health_care = False, border_sec = False, army_spend = False, isis = False)
         t_cruz = Candidate(name = "Ted Cruz", party = "Republican", website = "http://www.ontheissues.org/Ted_Cruz.htm", bio = bios["TC"], intID1 = "", intID2 = "", speID1 = "kkeC53P9rVI", speID2 = "",
             abortion = False, marriage = False, aff_action = False, env_reg = False, deny_service = False, net_neutrality = False,
             corp_tax = False, prog_tax = False, health_care = False, border_sec = False, army_spend = False, isis = False)
-        c_fiorina = Candidate(name = "Carly Fiorina", party = "Republican", website = "http://www.ontheissues.org/Carly_Fiorina.htm", bio = bios["CF"], intID1 = "8yhl509cp98", intID2 = "A8b-tOYJhho", speID1 = "tiFegTYmyK0", speID2 = "ygeS92QiqPk",
+        c_fiorina = Candidate(name = "Carly Fiorina", party = "Republican", website = "http://www.ontheissues.org/Carly_Fiorina.htm", bio = bios["CF"], intID1 = "", intID2 = "", speID1 = "", speID2 = "",
             abortion = False, marriage = False, aff_action = False, env_reg = False, deny_service = False, net_neutrality = False,
             corp_tax = False, prog_tax = False, health_care = False, border_sec = False, army_spend = False, isis = False)
-        l_graham = Candidate(name = "Lindsey Graham", party = "Republican", website = "http://www.ontheissues.org/Lindsey_Graham.htm", bio = bios["LG"], intID1 = "vTbpiDseuoE", intID2 = "7oYspOu5dBs", speID1 = "YQtRPhkUKRw", speID2 = "Ifqu2BXCwgc",
+        l_graham = Candidate(name = "Lindsey Graham", party = "Republican", website = "http://www.ontheissues.org/Lindsey_Graham.htm", bio = bios["LG"], intID1 = "", intID2 = "", speID1 = "", speID2 = "",
             abortion = False, marriage = False, aff_action = False, env_reg = False, deny_service = False, net_neutrality = False,
             corp_tax = False, prog_tax = False, health_care = False, border_sec = False, army_spend = False, isis = False)
         m_huckabee = Candidate(name = "Mike Huckabee", party = "Republican", website = "http://www.ontheissues.org/Mike_Huckabee.htm", bio = bios["MH"], intID1 = "", intID2 = "", speID1 = "", speID2 = "",
@@ -189,8 +190,8 @@ class AddHandler(webapp2.RequestHandler):
             abortion = False, marriage = False, aff_action = False, env_reg = False, deny_service = False, net_neutrality = False,
             corp_tax = False, prog_tax = False, health_care = False, border_sec = False, army_spend = False, isis = False)
         d_trump = Candidate(name = "Donald Trump", party = "Republican", website = "http://www.ontheissues.org/Donald_Trump.htm", bio = bios["DT"], intID1 = "", intID2 = "", speID1 = "", speID2 = "",
-            abortion = False, marriage = False, aff_action = False, env_reg = False, deny_service = False, net_neutrality = False,
-            corp_tax = False, prog_tax = False, health_care = False, border_sec = False, army_spend = False, isis = False)
+            abortion = False, marriage = False, aff_action = False, env_reg = False, deny_service = False, net_neutrality = False, corp_tax = False, prog_tax = False, health_care = False,
+            border_sec = False, army_spend = False, isis = False)
         s_walker = Candidate(name = "Scott Walker", party = "Republican", website = "http://www.ontheissues.org/Scott_Walker.htm", bio = bios["SW"], intID1 = "", intID2 = "", speID1 = "", speID2 = "",
             abortion = False, marriage = False, aff_action = False, env_reg = False, deny_service = False, net_neutrality = False,
             corp_tax = False, prog_tax = False, health_care = False, border_sec = False, army_spend = False, isis = False)
@@ -225,14 +226,6 @@ class LinkHandler(webapp2.RequestHandler):
         url_file = urlfetch.fetch(url)
         url_html = url_file.content
 
-        abortion_response = re.search(r'pro-life', url_html, re.MULTILINE)
-        if abortion_response:
-            result.abortion = False
-            logging.info("This candidate does not support abortion")
-        else:
-            result.abortion = True
-            logging.info("This candidate does support abortion")
-
 
         self.response.write(template.render({
         'result': result,
@@ -245,27 +238,65 @@ class CandidateHandler(webapp2.RequestHandler):
     def get(self):
         template = jinja_environment.get_template('templates/candidates.html')
 
-        search = self.request.get("search")
-        candidate = Candidate.get_by_id(int(self.request.get('candidate')))
-
-        result = Candidate.query(Candidate.name == search).get()
-
-        url = result.website
+        # search = self.request.get("search")
+        candidate1 = Candidate.get_by_id(int(self.request.get('candidate')))
+        logging.info(candidate1)
+        url = candidate1.website
+        # logging.info(url)
         url_file = urlfetch.fetch(url)
+        # logging.info(url_file)
         url_html = url_file.content
+        # logging.info(url_html)
 
         abortion_response = re.search(r'pro-life', url_html, re.MULTILINE)
         if abortion_response:
-            result.abortion = False
+            candidate1.abortion = False
             logging.info("This candidate does not support abortion")
         else:
-            result.abortion = True
+            candidate1.abortion = True
             logging.info("This candidate does support abortion")
 
+        if candidate1.party == 'Democrat':
+            candidate1.marriage = True
+            candidate1.aff_action = True
+            candidate1.env_reg = True
+            candidate1.deny_service = False
+            candidate1.net_neutrality = False
+            candidate1.corp_tax = True
+            candidate1.prog_tax = True
+            candidate1.health_care = True
+            candidate1.border_sec = False
+            candidate1.army_spend = False
+            candidate1.isis = False
+
+        if candidate1.party == 'Republican':
+            candidate1.marriage = False
+            candidate1.aff_action = False
+            candidate1.env_reg = False
+            candidate1.deny_service = True
+            candidate1.net_neutrality = False
+            candidate1.corp_tax = False
+            candidate1.prog_tax = False
+            candidate1.health_care = False
+            candidate1.border_sec = True
+            candidate1.army_spend = True
+            candidate.isis = True
 
         self.response.write(template.render({
-
-        'abortion': result.abortion
+            'candidate1': candidate1,
+            # 'search': search,
+            'abortion': candidate1.abortion,
+            'marriage' : candidate1.marriage,
+            'aff_action' : candidate1.aff_action,
+            'env_reg' : candidate1.env_reg,
+            'deny_service' : candidate1.deny_service,
+            'net_neutrality' : candidate1.net_neutrality,
+            'corp_tax' : candidate1.corp_tax,
+            'prog_tax' : candidate1.prog_tax,
+            'health_care' : candidate1.health_care,
+            'border_sec' : candidate1.border_sec,
+            'army_spend' : candidate1.army_spend,
+            'isis' : candidate1.isis
 
         }))
 
@@ -360,50 +391,12 @@ class ProfileHandler(webapp2.RequestHandler):
         army_spend = self.request.get('army_spend')
         isis = self.request.get('isis')
 
-        issues = [name, abortion, marriage, aff_action, env_reg, deny_service, net_neutrality, corp_tax, prog_tax, health_care, border_sec, army_spend, isis]
-
         user = User(name = name, abortion = eval(abortion), marriage = eval(marriage), aff_action = eval(aff_action), env_reg = eval(env_reg), deny_service = eval(deny_service), net_neutrality = eval(net_neutrality),
         corp_tax = eval(corp_tax), prog_tax = eval(prog_tax), health_care = eval(health_care), border_sec = eval(border_sec), army_spend = eval(army_spend), isis = eval(isis))
 
         user_key = user.put()
 
         id = user_key.id()
-
-        h_clinton = Candidate(name = "Hillary Clinton", party = "Democrat", website = "http://www.ontheissues.org/Hillary_Clinton.htm", intID1 = "7XOoOgsj_z8", intID2 = "cYKwU2MwI-8", speID1 = "6744Ym_5Ddg", speID2 = "Q4O8xo9EWb8")
-        l_chafee = Candidate(name = "Lincoln Chafee", party = "Democrat", website = "http://www.ontheissues.org/Lincoln_Chafee.htm", intID1 = "IVpF6_qpfq4", intID2 = "9XobXVbqhZg", speID1 = "XEMwtaMSox4", speID2 = "")
-        m_omalley = Candidate(name = "Martin O'Malley", party = "Democrat", website = "http://www.ontheissues.org/Martin_O%60Malley.htm", intID1 = "JaOgFMf50Yg", intID2 = "0IWM2-tut9E", speID1 = "", speID2 = "")
-        b_sanders = Candidate(name = "Bernie Sanders", party = "Democrat", website = "http://www.ontheissues.org/Bernie_Sanders.htm", intID1 = "", intID2 = "", speID1 = "0zHSW2k-vF0", speID2 = "")
-        j_webb = Candidate(name = "Jim Webb", party = "Democrat", website = "http://www.ontheissues.org/Jim_Webb.htm", intID1 = "4606giVTfM0", intID2 = "", speID1 = "", speID2 = "")
-        j_bush = Candidate(name = "Jeb Bush", party = "Republican", website = "http://www.ontheissues.org/Jeb_Bush.htm", intID1 = "", intID2 = "", speID1 = "jTWl3YoOXAc", speID2 = "")
-        b_carson = Candidate(name = "Ben Carson", party = "Republican", website = "http://www.ontheissues.org/Ben_Carson.htm", intID1 = "", intID2 = "", speID1 = "HHvFh6lSJqk", speID2 = "")
-        c_christie = Candidate(name = "Chris Christie", party = "Republican", website = "http://www.ontheissues.org/Chris_Christie.htm", intID1 = "", intID2 = "", speID1 = "uPxDnb2-aVI", speID2 = "")
-        t_cruz = Candidate(name = "Ted Cruz", party = "Republican", website = "http://www.ontheissues.org/Ted_Cruz.htm", intID1 = "", intID2 = "", speID1 = "kkeC53P9rVI", speID2 = "")
-        c_fiorina = Candidate(name = "Carly Fiorina", party = "Republican", website = "http://www.ontheissues.org/Carly_Fiorina.htm", intID1 = "", intID2 = "", speID1 = "", speID2 = "")
-        l_graham = Candidate(name = "Lindsey Graham", party = "Republican", website = "http://www.ontheissues.org/Lindsey_Graham.htm", intID1 = "", intID2 = "", speID1 = "", speID2 = "")
-        m_huckabee = Candidate(name = "Mike Huckabee", party = "Republican", website = "http://www.ontheissues.org/Mike_Huckabee.htm", intID1 = "", intID2 = "", speID1 = "", speID2 = "")
-        b_jindal = Candidate(name = "Bobby Jindal", party = "Republican", website = "http://www.ontheissues.org/Bobby_Jindal.htm", intID1 = "", intID2 = "", speID1 = "nDCU-VlSgX0", speID2 = "")
-        j_kasich = Candidate(name = "John Kasich", party = "Republican", website = "http://www.ontheissues.org/John_Kasich.htm", intID1 = "", intID2 = "", speID1 = "", speID2 = "")
-        g_pataki = Candidate(name = "George Pataki", party = "Republican", website = "http://www.ontheissues.org/George_Pataki.htm", intID1 = "", intID2 = "", speID1 = "", speID2 = "")
-        r_paul = Candidate(name = "Rand Paul", party = "Republican", website = "http://www.ontheissues.org/Rand_Paul.htm", intID1 = "", intID2 = "", speID1 = "", speID2 = "")
-        r_perry = Candidate(name = "Rick Perry", party = "Republican", website = "http://www.ontheissues.org/Rick_Perry.htm", intID1 = "", intID2 = "", speID1 = "", speID2 = "")
-        m_rubio = Candidate(name = "Marco Rubio", party = "Repiblican", website = "http://www.ontheissues.org/Marco_Rubio.htm", intID1 = "", intID2 = "", speID1 = "d9FVjcuz-pA", speID2 = "")
-        r_santorum = Candidate(name = "Rick Santorum", party = "Republican", website = "http://www.ontheissues.org/Rick_Santorum.htm", intID1 = "", intID2 = "", speID1 = "", speID2 = "")
-        d_trump = Candidate(name = "Donald Trump", party = "Republican", website = "http://www.ontheissues.org/Donald_Trump.htm", intID1 = "", intID2 = "", speID1 = "", speID2 = "")
-        s_walker = Candidate(name = "Scott Walker", party = "Republican", website = "http://www.ontheissues.org/Scott_Walker.htm", intID1 = "", intID2 = "", speID1 = "", speID2 = "")
-
-        candidates = [h_clinton, l_chafee, m_omalley, b_sanders, j_webb, j_bush, b_carson, c_christie,
-        t_cruz, c_fiorina, l_graham, m_huckabee, b_jindal, j_kasich, g_pataki, r_paul, r_perry,
-        m_rubio, r_santorum, d_trump, s_walker]
-
-        similarities = 0
-        your_candidates = []
-
-        for candidate in candidates:
-            for issue in issues:
-                if candidate.issue == user.issue:
-                    similarities++
-                    your_candidates.append(candidate)
-            similarities = 0
 
         self.response.write(template.render(
         {
@@ -420,8 +413,6 @@ class ProfileHandler(webapp2.RequestHandler):
             'border_sec' : border_sec,
             'army_spend' : army_spend,
             'isis' : isis
-            'similarities' : similarities
-            'your_candidates': your_candidates
             }
             ))
 
@@ -430,12 +421,10 @@ app = webapp2.WSGIApplication([
     ('/add', AddHandler),
     ('/search', SearchHandler),
     ('/links', LinkHandler),
-    # ('/show', Re),
     ('/candidates', CandidateHandler),
     ('/login', UserHandler),
     ('/questions', FormHandler),
     ('/answers', AnswerHandler),
-
     ('/profile', ProfileHandler)
 
 ], debug=True)
