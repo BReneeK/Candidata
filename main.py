@@ -284,7 +284,7 @@ class CandidateHandler(webapp2.RequestHandler):
             candidate1.health_care = "False"
             candidate1.border_sec = "True"
             candidate1.army_spend = "True"
-            candidate.isis = "True"
+            candidate1.isis = "True"
 
         self.response.write(template.render({
             'candidate1': candidate1,
@@ -404,8 +404,8 @@ class ProfileHandler(webapp2.RequestHandler):
 
         candidates = []
 
-        for num in range(0,21):
-            candidates.append(Candidate.query().get())
+        for person in Candidate.query():
+            candidates.append(person)
 
         similarities = []
         total = 0
