@@ -2,11 +2,11 @@
 {% autoescape true %}
 <html>
   <body>
-    <!-- {% if user %} -->
-    <!-- Welcome, {{user.nickname()}}! (<a href = "{{users.create_logout_url('/')}}">sign out</a>) -->
-    <!-- {% else %} -->
-    <!-- Welcome! <a href = "{{users.create_logout_url('/')}}">Sign in or register</a> -->
-    <!-- {% endif %} -->
+    {% if user %}
+    Welcome, {{user.nickname()}}! (<a href = "{{users.create_logout_url('/')}}">sign out</a>)
+    {% else %}
+    Welcome! <a href = "{{users.create_logout_url('/')}}">Sign in or register</a>
+    {% endif %}
     <div class="user">
 
     </div>
