@@ -89,7 +89,7 @@ class MainHandler(webapp2.RequestHandler):
             #candidate_id = self.request.get('id')
             for candidate in Candidate.query().fetch():
 
-                self.response.write(candidate.name  + ", " + candidate.party + '<br>')
+                self.response.write(candidate.name + ", " + candidate.party + '<br>')
 
 
         else:
