@@ -51,6 +51,22 @@
     <li></li>
   </ul> -->
 
+  <h4>Denying services for people based on religious views</h4>
+  {% if candidate1.deny_service %}
+  <p> This candidate believes that businesses shoule be able to deny services to others based on religious beliefs</p>
+
+  {% else %}
+  <p> This candidate does not support the right for people to deny services to others based on religious beliefs</p>
+  {% endif %}
+
+  <h4>Stance on the EPA</h4>
+  {% if candidate1.env_reg %}
+  <p> This candidate supports increases of environmental regulations</p>
+
+  {% else %}
+  <p> This candidate supports decreases of environmental regulations</p>
+  {% endif %}
+
   <h3>Economic Issues</h3>
 
   <!-- <ul>
@@ -116,10 +132,10 @@
   </ul> -->
   <h4>Immigration</h4>
   {% if candidate1.border_sec %}
-  <p> This candidate does support sticter measures for border security </p>
+  <p> This candidate does support stricter measures for border security </p>
 
   {% else %}
-  <p> This candidate does not support sticter measures for border security</p>
+  <p> This candidate does not support stricter measures for border security</p>
   {% endif %}
   <!-- <ul>
     <li></li>

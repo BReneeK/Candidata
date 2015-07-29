@@ -28,9 +28,10 @@ import re
 # intID2# from html.entities import name2codepoint
 
 
-
 jinja_environment = jinja2.Environment(
-    loader= jinja2.FileSystemLoader(os.path.dirname(__file__)))
+    loader=jinja2.FileSystemLoader(os.path.dirname(__file__)),
+    extensions=['jinja2.ext.autoescape'],
+    autoescape=True)
 
 class Candidate(ndb.Model):
     name = ndb.StringProperty(required = True)
@@ -223,16 +224,9 @@ class LinkHandler(webapp2.RequestHandler):
         search = self.request.get("search")
         result = Candidate.query(Candidate.name == search).get()
 
-        # url = result.website
-        # url_file = urlfetch.fetch(url)
-        # url_html = url_file.content
-
-
         self.response.write(template.render({
         'result': result,
         'search': search,
-        'abortion': result.abortion
-
         }))
 
 class CandidateHandler(webapp2.RequestHandler):
@@ -257,35 +251,117 @@ class CandidateHandler(webapp2.RequestHandler):
             candidate1.abortion = True
             logging.info("This candidate does support abortion")
 
-        if candidate1.party == 'Democrat':
+        marriage_response = re.search(r'views opposing same-sex marriage', url_html, re.MULTILINE)
+        if marriage_response:
+            candidate1.marriage = False
+            logging.info("This candidate does not support same-sex marriage")
+            marriage_response1 = re.search(r'No same-sex marriage', url_html, re.MULT)
+        else:
             candidate1.marriage = True
-            candidate1.aff_action = True
-            candidate1.env_reg = True
+            logging.info("This candidate does support same-sex")
+
+        deny_service_response = re.search(r'Ok to deny services', url_html, re.MULTILINE)
+        if deny_service_response:
+            candidate1.deny_service = True
+            logging.info("This candidate does not support denying services based on religious beliefs")
+        else:
             candidate1.deny_service = False
+            logging.info("This candidate does support denying services based on religious beliefs")
+
+        aff_action_response = re.search(r'indicating an anti-affirmative-action stance', url_html, re.MULTILINE)
+        if aff_action_response:
+            candidate1.aff_action = False
+            logging.info("supports AA")
+        else:
+            candidate1.aff_action = True
+            logging.info("not support AAs")
+
+        env_reg_response = re.search(r'<b><a name=\'q8\'></a>(.*)</b>', url_html, re.MULTILINE)
+        if env_reg_response == "Opposes" or env_reg_response == "Strongly Opposes":
+            candidate1.env_reg = False
+            logging.info('supports increase env')
+            logging.info('supports increase' + env_reg_response)
+        else:
+            candidate1.env_reg = True
+            logging.info('supports decrease env')
+
+        net_neutrality_response = re.search(r'Voted NO on establishing \"network neutrality\"', url_html, re.MULTILINE)
+        if net_neutrality_response:
             candidate1.net_neutrality = False
-            candidate1.corp_tax = True
+
+
+        net_neutrality_response = re.search(r'Ensure net neutrality', url_html, re.MULTILINE)
+        if net_neutrality_response:
+            candidate1.net_neutrality = True
+
+        prog_tax_response = re.search(r'<b><a name=\'q11\'></a>(.*)</b>', url_html, re.MULTILINE)
+        if prog_tax_response == "Strongly Favors" or prog_tax_response == "Favors":
             candidate1.prog_tax = True
+        else:
+            candidate1.prog_tax = False
+
+        health_care_response = re.search(r'<b><a name=\'q5\'></a>(.*)</b>', url_html, re.MULTILINE)
+        if health_care_response == "Strongly Favors" or health_care_response == "Favors":
             candidate1.health_care = True
+        else:
+            candidate1.health_care = False
+
+
+        border_sec_response = re.search(r'More border patrolling | Secure border', url_html, re.MULTILINE)
+        if border_sec_response:
+            candidate1.net_neutrality = True
+        else:
             candidate1.border_sec = False
+        border_sec_response2 = re.search(r'NO on building a fence along the Mexican border', url_html, re.MULTILINE)
+        if border_sec_response:
+            candidate1.net_neutrality = False
+
+        army_spend_response = re.search(r'<b><a name=\'q15\'></a>(.*)</b>', url_html, re.MULTILINE)
+        if health_care_response == "Strongly Favors" or health_care_response == "Favors":
+            candidate1.army_spend = True
+        else:
             candidate1.army_spend = False
+
+        isis_response = re.search(r'need strategy against ISIS', url_html, re.MULTILINE)
+        if isis_response:
+            candidate1.isis = True
+        else:
             candidate1.isis = False
 
-        if candidate1.party == 'Republican':
-            candidate1.marriage = False
-            candidate1.aff_action = False
-            candidate1.env_reg = False
-            candidate1.deny_service = True
-            candidate1.net_neutrality = False
+        corp_tax_response = re.search(r'Cutting taxes on job creators | cut taxes on businesses', url_html, re.MULTILINE)
+        if corp_tax_response:
             candidate1.corp_tax = False
-            candidate1.prog_tax = False
-            candidate1.health_care = False
-            candidate1.border_sec = True
-            candidate1.army_spend = True
-            candidate1.isis = True
+        else:
+            candidate1.corp_tax = True
+
+        # if candidate1.party = "Democrat":
+            # candidate1.marriage = True
+            # candidate1.aff_action = True
+            # candidate1.env_reg = True
+            # candidate1.deny_service = False
+            # candidate1.net_neutrality = False
+            # candidate1.corp_tax = True
+            # candidate1.prog_tax = True
+            # candidate1.health_care = True
+            # candidate1.border_sec = False
+            # candidate1.army_spend = False
+            # candidate1.isis = False
+
+        # if candidate1.party == 'Republican':
+            # candidate1.marriage = False
+            # candidate1.aff_action = False
+            # candidate1.env_reg = False
+            # candidate1.deny_service = True
+            # candidate1.net_neutrality = False
+            # candidate1.corp_tax = False
+            # candidate1.prog_tax = False
+            # candidate1.health_care = False
+            # candidate1.border_sec = True
+            # candidate1.army_spend = True
+            # candidate1.isis = True
 
         self.response.write(template.render({
             'candidate1': candidate1,
-            # 'search': search,
             'abortion': candidate1.abortion,
             'marriage' : candidate1.marriage,
             'aff_action' : candidate1.aff_action,
@@ -307,18 +383,21 @@ class CandidateHandler(webapp2.RequestHandler):
 
 class UserHandler(webapp2.RequestHandler):
     def get(self):
-        user_var = users.get_current_user()
-        if user_var:
-            greeting = ('Welcome, %s! (<a href = "%s"> sign out </a>)' %
-                       (user_var.nickname(), users.create_logout_url('/')))
-        else:
-            greeting = ('<a href = "%s"> sign in or register </a>.' %
-                        users.create_login_url('/'))
-
         template = jinja_environment.get_template('templates/login.html')
-        self.response.out.write(template.render({'user': user_var, 'users': users}))
+        user = users.get_current_user()
+        greeting = ""
 
-        self.response.write('<html><body>%s</body></html>' %greeting)
+        if user:
+            greeting = ('Welcome, %s!, Your email is %s, Your federated id is %s . (<a href="%s">sign out</a>)' %
+                        (user.nickname(), user.email(), user.federated_provider(), user.create_logout_url('/')))
+        else:
+            greeting = ('<a href=\"%s\">Sign in or register</a>.' %
+                        user.create_login_url('/'))
+
+        # user.put()
+
+        self.response.out.write(template.render())
+        self.response.write('<html><body><p>%s</p></body></html>' %greeting)
 
 class FormHandler(webapp2.RequestHandler):
     def get(self):
