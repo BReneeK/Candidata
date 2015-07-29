@@ -18,7 +18,7 @@
   <h3>Social Issues</h3>
 
   <h4>Abortion</h4>
-    {% if candidate1.abortion %}
+    {% if candidate1.abortion == "True" %}
     <p> This candidate is pro-choice</p>
 
     {% else %}
@@ -32,7 +32,7 @@
     </ul> -->
 
   <h4>Same-sex marriage</h4>
-  {% if candidate1.marriage %}
+  {% if candidate1.marriage == "True" %}
   <p> This candidate does support same sex marriage</p>
   {% else %}
   <p> This candidate does not support same sex marriage</p>
@@ -43,7 +43,7 @@
     <li></li>
   </ul> -->
   <h4>Affirmative action</h4>
-  {% if candidate1.aff_action %}
+  {% if candidate1.aff_action == "True" %}
   <p> This candidate does support affirmative action</p>
 
   {% else %}
@@ -56,7 +56,7 @@
   </ul> -->
 
   <h4>Denying services for people based on religious views</h4>
-  {% if candidate1.deny_service %}
+  {% if candidate1.deny_service == "True" %}
   <p> This candidate believes that businesses shoule be able to deny services to others based on religious beliefs</p>
 
   {% else %}
@@ -64,7 +64,7 @@
   {% endif %}
 
   <h4>Stance on the EPA</h4>
-  {% if candidate1.env_reg %}
+  {% if candidate1.env_reg == "True" %}
   <p> This candidate supports increases of environmental regulations</p>
 
   {% else %}
@@ -79,7 +79,7 @@
     <li></li>
   </ul> -->
   <h4>Net neutrality</h4>
-  {% if candidate1.net_neutrality %}
+  {% if candidate1.net_neutrality == "True" %}
   <p> This candidate does support net neutrality</p>
 
 
@@ -92,7 +92,7 @@
     <li></li>
   </ul> -->
   <h4>Corporation Taxes</h4>
-  {% if candidate1.corp_tax %}
+  {% if candidate1.corp_tax == "True" %}
   <p> This candidate does support increases on the corporate tax</p>
 
 
@@ -106,7 +106,7 @@
   </ul> -->
   <h4>Progressive Taxes</h4>
 
-  {% if candidate1.prog_tax %}
+  {% if candidate1.prog_tax == "True" %}
   <p> This candidate does support increases on the progressive tax</p>
 
   {% else %}
@@ -114,7 +114,7 @@
   {% endif %}
 
   <h4>Health Care</h4>
-  {% if candidate1.health_care %}
+  {% if candidate1.health_care == "True" %}
   <p> This candidate does support universal health care laws</p>
 
 
@@ -135,7 +135,7 @@
     <li></li>
   </ul> -->
   <h4>Immigration</h4>
-  {% if candidate1.border_sec %}
+  {% if candidate1.border_sec == "True" %}
   <p> This candidate does support stricter measures for border security </p>
 
   {% else %}
@@ -149,7 +149,7 @@
 
   <h4>The Military and War</h4>
 
-  {% if candidate1.border_sec %}
+  {% if candidate1.border_sec == "True" %}
   <p> This candidate does support decreasing military spending</p>
 
 
@@ -162,7 +162,7 @@
     <li></li>
   </ul> -->
   <h4>On ISIS</h4>
-  {% if candidate1.isis %}
+  {% if candidate1.isis == "True" %}
   <p> This candidate does believe that ISIS is a threat to U.S. interests</p>
 
 
