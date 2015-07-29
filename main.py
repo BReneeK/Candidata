@@ -33,49 +33,47 @@ jinja_environment = jinja2.Environment(
     loader= jinja2.FileSystemLoader(os.path.dirname(__file__)))
 
 class Candidate(ndb.Model):
-    name = ndb.StringProperty(required = True)
-    website = ndb.StringProperty(required = True)
+    name = ndb.StringProperty(required = "True")
+    website = ndb.StringProperty(required = "True")
 
-    party = ndb.StringProperty(required = True)
+    party = ndb.StringProperty(required = "True")
+    bio = ndb.StringProperty(required = "False")
 
-    abortion = ndb.BooleanProperty(required = True)
-    marriage = ndb.BooleanProperty(required = True)
-    aff_action = ndb.BooleanProperty(required = True)
-    env_reg = ndb.BooleanProperty(required = True)
-    deny_service = ndb.BooleanProperty(required = True)
-    net_neutrality = ndb.BooleanProperty(required = True)
-    corp_tax = ndb.BooleanProperty(required = True)
-    prog_tax = ndb.BooleanProperty(required = True)
-    health_care = ndb.BooleanProperty(required = True)
-    border_sec = ndb.BooleanProperty(required = True)
-    army_spend = ndb.BooleanProperty(required = True)
-    isis = ndb.BooleanProperty(required = True)
+    abortion = ndb.StringProperty(required = "True")
+    marriage = ndb.StringProperty(required = "True")
+    aff_action = ndb.StringProperty(required = "True")
+    env_reg = ndb.StringProperty(required = "True")
+    deny_service = ndb.StringProperty(required = "True")
+    net_neutrality = ndb.StringProperty(required = "True")
+    corp_tax = ndb.StringProperty(required = "True")
+    prog_tax = ndb.StringProperty(required = "True")
+    health_care = ndb.StringProperty(required = "True")
+    border_sec = ndb.StringProperty(required = "True")
+    army_spend = ndb.StringProperty(required = "True")
+    isis = ndb.StringProperty(required = "True")
 
-    answers = ndb.JsonProperty(required = False)
-
-    intID1 = ndb.StringProperty(required = True)
-    intID2 = ndb.StringProperty(required = True)
-    speID1 = ndb.StringProperty(required = True)
-    speID2 = ndb.StringProperty(required = True)
+    intID1 = ndb.StringProperty(required = "True")
+    intID2 = ndb.StringProperty(required = "True")
+    speID1 = ndb.StringProperty(required = "True")
+    speID2 = ndb.StringProperty(required = "True")
 
 
 
 class User(ndb.Model):
-    name = ndb.StringProperty(required = True)
-    abortion = ndb.BooleanProperty(required = True)
-    marriage = ndb.BooleanProperty(required = True)
-    aff_action = ndb.BooleanProperty(required = True)
-    env_reg = ndb.BooleanProperty(required = True)
-    deny_service = ndb.BooleanProperty(required = True)
-    net_neutrality = ndb.BooleanProperty(required = True)
-    corp_tax = ndb.BooleanProperty(required = True)
-    prog_tax = ndb.BooleanProperty(required = True)
-    health_care = ndb.BooleanProperty(required = True)
-    border_sec = ndb.BooleanProperty(required = True)
-    army_spend = ndb.BooleanProperty(required = True)
-    isis = ndb.BooleanProperty(required = True)
+    name = ndb.StringProperty(required = "True")
+    abortion = ndb.StringProperty(required = "True")
+    marriage = ndb.StringProperty(required = "True")
+    aff_action = ndb.StringProperty(required = "True")
+    env_reg = ndb.StringProperty(required = "True")
+    deny_service = ndb.StringProperty(required = "True")
+    net_neutrality = ndb.StringProperty(required = "True")
+    corp_tax = ndb.StringProperty(required = "True")
+    prog_tax = ndb.StringProperty(required = "True")
+    health_care = ndb.StringProperty(required = "True")
+    border_sec = ndb.StringProperty(required = "True")
+    army_spend = ndb.StringProperty(required = "True")
+    isis = ndb.StringProperty(required = "True")
 
-    answers = ndb.JsonProperty(required = False)
 
 
 class MainHandler(webapp2.RequestHandler):
@@ -88,7 +86,7 @@ class MainHandler(webapp2.RequestHandler):
             self.response.write(template.render())
             #candidate_id = self.request.get('id')
             for candidate in Candidate.query().fetch():
-                self.response.write(candidate.name + ", " + candidate.party + '<br>')
+                self.response.write(candidate.name  + ", " + candidate.party + '<br>')
 
         else:
             candidate_key = ndb.Key(Candidate, int(candidate_id))
@@ -106,72 +104,94 @@ class AddHandler(webapp2.RequestHandler):
         template = jinja_environment.get_template('templates/add.html')
         self.response.write(template.render())
 
+        bios = {
+            "HC": "Hillary Diane Rodham Clinton (born October 26, 1947) is an American politician. She was United States Secretary of State in the administration of President Barack Obama from 2009 to 2013, a United States Senator representing New York from 2001 to 2009, and, as the wife of President Bill Clinton, First Lady of the United States from 1993 to 2001. A leading candidate for the Democratic Party's nomination to the 2008 presidential election, she has announced her candidacy for the Democratic nomination in the 2016 presidential election.",
+            "LD": "Lincoln Davenport Chafee (born March 26, 1953) is an American politician from Rhode Island who has served as the Mayor of Warwick (1993-1999), a U.S. Senator (1999-2007) and as the 74th Governor of Rhode Island (2011-2015).",
+            "MM": "Martin Joseph O'Malley (born January 18, 1963) is an American politician who served as the 61st Governor of Maryland, from 2007 to 2015. Prior to being elected as Governor, he served as the Mayor of Baltimore from 1999 to 2007, having previously served as a Baltimore City Councilor from 1991 to 1999. A member of the Democratic Party, he served as the Chair of the Democratic Governors Association from 2011 to 2013. Following his departure from public office in early 2015, he was appointed to the Johns Hopkins University's Carey Business School as a visiting professor focusing on government, business, and urban issues.",
+            "BS": "Bernard 'Bernie' Sanders (born September 8, 1941) is an American politician and the junior United States Senator from Vermont. He has announced his candidacy for the Democratic nomination in the 2016 presidential election. Sanders is the longest-serving independent in U.S. congressional history. A self-described democratic socialist, he favors policies similar to those of social democratic parties in Europe, particularly those of Scandinavia.He caucuses with the Democratic Party and has been the ranking minority member on the Senate Budget Committee since January 2015.",
+            "JW": "James Henry 'Jim' Webb, Jr. (born February 9, 1946) is an American politician and author. He has served as a United States Senator from Virginia, Secretary of the Navy, Assistant Secretary of Defense, Counsel for the House Veterans Affairs Committee, and Marine Corps officer. In the private sector he has been an Emmy-award winning journalist, a filmmaker, and the author of ten books. In addition, he taught literature at the United States Naval Academy and was a Fellow at the Harvard Institute of Politics. As a member of the Democratic Party, Webb announced on November 19, 2014, that he was forming an exploratory committee to evaluate a run for President of the United States in 2016. On July 2, 2015, he announced that he would be joining the race for the Democratic nomination for President.",
+            "JB": "John Ellis 'Jeb' Bush (born February 11, 1953) is an American businessman and politician who served as the 43rd Governor of Florida from 1999 to 2007. He is the second son of former President George H. W. Bush and former First Lady Barbara Bush, and the younger brother of former President George W. Bush.",
+            "BC": "Benjamin Solomon 'Ben' Carson, Sr. (born September 18, 1951) is an American politician, author, and retired Johns Hopkins neurosurgeon. He was the first surgeon to successfully separate conjoined twins joined at the head. In 2008, he was awarded the Presidential Medal of Freedom by President George W. Bush. After delivering a widely publicized speech at the 2013 National Prayer Breakfast, he became a popular conservative figure in political media for his views on social and political issues. Carson is running for the Republican nomination for President of the United States in the 2016 election.",
+            "CC": "Christopher James 'Chris' Christie (born September 6, 1962) is an American politician and member of the Republican Party who has served as the 55th Governor of New Jersey since January 2010.",
+            "TC": "Rafael Edward 'Ted' Cruz (born December 22, 1970) is the junior United States Senator from Texas. Elected in 2012 as a Republican, he is the first Hispanic or Cuban American to serve as a U.S. Senator from Texas. He is the chairman of the subcommittee on the Oversight, Agency Action, Federal Rights and Federal Courts, U.S. Senate Judiciary Committee. He is also the chairman of the United States Senate Commerce Subcommittee on Space, Science and Competitiveness, U.S. Senate Commerce Committee.",
+            "CF": "Cara Carleton 'Carly' Fiorina (born September 6, 1954) is an American politician, former business executive, and current chair of the non-profit organization Good360. Starting in 1980, Fiorina rose through the ranks to become an executive at AT&T and its equipment and technology spinoff, Lucent. As chief executive officer of Hewlett-Packard (HP) from 1999 to 2005, she was the first woman to lead one of the top twenty U.S. companies.",
+            "LG": "Lindsey Olin Graham (born July 9, 1955) is an American politician and member of the Republican Party, who has served as a United States Senator from South Carolina since 2003, and has been the senior Senator from South Carolina since 2005. On June 1, 2015, he announced his candidacy for the Presidency of the United States in the 2016 election.",
+            "MH": "Michael Dale 'Mike' Huckabee (born August 24, 1955) is an American author and politician who served as the 44th Governor of Arkansas from 1996 to 2007. He was a candidate in the 2008 United States Republican presidential primaries. He won the 2008 Iowa Republican caucuses and finished second in delegate count and third in both popular vote and number of states won, behind nominee John McCain and Mitt Romney.",
+            "BJ": "Piyush 'Bobby' Jindal (born June 10, 1971) is an American politician who is the 55th and current governor of Louisiana and the former vice chairman of the Republican Governors Association. In 1996, Governor Murphy Foster appointed Jindal secretary of the Louisiana Department of Health and Hospitals, and in 1999 he was appointed president of the University of Louisiana System. In 2001, Jindal was appointed as the principal adviser to Tommy Thompson, the United States Secretary of Health and Human Services by the 43rd President, George W. Bush.",
+            "JK": "John Richard Kasich (born May 13, 1952) is an American politician who has served as the 69th Governor of Ohio since 2011. He is also a candidate for the Republican Party\'s nomination to the 2016 presidential election. Kasich served as a member of the United States House of Representatives, representing Ohio's 12th congressional district from 1983 to 2001. He was a commentator on Fox News Channel, hosting Heartland with John Kasich (2001-2007). He also worked as an investment banker, as managing director of Lehman Brothers' Columbus, Ohio office until the firm collapsed in 2008.",
+            "GP": "George Elmer Pataki (born June 24, 1945) is an American lawyer and politician who served as the 53rd Governor of New York (1995-2006). A member of the Republican Party, Pataki was a lawyer who was elected Mayor of his home town of Peekskill, later going on to be elected to State Assembly, then State Senate. In 1994, he ran for Governor against three-term incumbent Mario Cuomo, defeating him by over a three-point margin as part of the Republican Revolution of 1994. Pataki, succeeding a three-term Governor, would himself be elected to three consecutive terms, and was one of only three Republican governors of New York elected since 1923, the others being Thomas Dewey and Nelson Rockefeller.",
+            "RPa": "Dr. Randal Howard 'Rand' Paul (born January 7, 1963) is an American politician and physician. Since 2011, Paul has served in the United States Senate as a member of the Republican Party representing Kentucky. He is the son of former U.S. Representative Ron Paul of Texas.",
+            "RPe": "James Richard 'Rick' Perry (born March 4, 1950) is an American politician who served as the 47th Governor of Texas from 2000 to 2015. A Republican, he was elected Lieutenant Governor of Texas in 1998 and assumed the governorship in December 2000 when then-governor George W. Bush resigned to become President of the United States. Perry is the longest serving governor in Texas state history. As a result, he is the only governor in modern Texas history to have appointed at least one person to every eligible state office, board, or commission position (as well as to several elected offices to which the governor can appoint someone to fill an unexpired term, such as six of the nine current members of the Texas Supreme Court).",
+            "MR": "Marco Antonio Rubio (born May 28, 1971) is the junior United States Senator from Florida, serving since January 2011. A member of the Republican Party, he previously served as Speaker of the Florida House of Representatives.",
+            "RS": "Richard John 'Rick' Santorum (born May 10, 1958) is an American attorney and Republican Party politician. He served as a United States Senator representing Pennsylvania (1995-2007) and was the Senate\'s third-ranking Republican (2001-07). He ran as a candidate for the 2012 Republican Party presidential nomination, finishing second to the eventual Republican nominee Mitt Romney.",
+            "DT": "Donald John Trump (born June 14, 1946) is an American business magnate, investor, television personality, and author. He is the chairman and president of The Trump Organization and the founder of Trump Entertainment Resorts. Trump's lifestyle and outspoken manner, as well as his books and his media appearances, have made him an American celebrity. He hosted The Apprentice, a US TV show. On June 16, 2015 at Trump Tower in Manhattan, Trump formally announced his candidacy for President of the United States in the 2016 election, seeking the nomination of the Republican Party.",
+            "SW": "Scott Kevin Walker (born November 2, 1967) is an American politician and the 45th Governor of Wisconsin, serving since 2011. Walker is also a candidate for the Republican Party's nomination to the 2016 presidential election. Walker served in the Wisconsin State Assembly and as the Milwaukee County Executive before his election as governor in 2010. He survived a 2012 recall election and was reelected governor in 2014, defeating Democrat Mary Burke."
+        }
 
+        h_clinton = Candidate(name = "Hillary Clinton", party = "Democrat", website = "http://www.ontheissues.org/Hillary_Clinton.htm", bio = bios["HC"], intID1 = "7XOoOgsj_z8", intID2 = "cYKwU2MwI-8", speID1 = "6744Ym_5Ddg", speID2 = "Q4O8xo9EWb8",
+            abortion = "False", marriage = "False", aff_action = "False", env_reg = "False", deny_service = "False", net_neutrality = "False",
+            corp_tax = "False", prog_tax = "False", health_care = "False", border_sec = "False", army_spend = "False", isis = "False")
 
-        h_clinton = Candidate(name = "Hillary Clinton", party = "Democrat", website = "http://www.ontheissues.org/Hillary_Clinton.htm", intID1 = "7XOoOgsj_z8", intID2 = "cYKwU2MwI-8", speID1 = "6744Ym_5Ddg", speID2 = "Q4O8xo9EWb8",
-            abortion = False, marriage = False, aff_action = False, env_reg = False, deny_service = False, net_neutrality = False,
-            corp_tax = False, prog_tax = False, health_care = False, border_sec = False, army_spend = False, isis = False)
-
-        l_chafee = Candidate(name = "Lincoln Chafee", party = "Democrat", website = "http://www.ontheissues.org/Lincoln_Chafee.htm", intID1 = "IVpF6_qpfq4", intID2 = "9XobXVbqhZg", speID1 = "XEMwtaMSox4", speID2 = "",
-            abortion = False, marriage = False, aff_action = False, env_reg = False, deny_service = False, net_neutrality = False,
-            corp_tax = False, prog_tax = False, health_care = False, border_sec = False, army_spend = False, isis = False)
-        m_omalley = Candidate(name = "Martin O'Malley", party = "Democrat", website = "http://www.ontheissues.org/Martin_O%60Malley.htm", intID1 = "", intID2 = "", speID1 = "", speID2 = "",
-            abortion = False, marriage = False, aff_action = False, env_reg = False, deny_service = False, net_neutrality = False,
-            corp_tax = False, prog_tax = False, health_care = False, border_sec = False, army_spend = False, isis = False)
-        b_sanders = Candidate(name = "Bernie Sanders", party = "Democrat", website = "http://www.ontheissues.org/Bernie_Sanders.htm", intID1 = "", intID2 = "", speID1 = "0zHSW2k-vF0", speID2 = "",
-            abortion = False, marriage = False, aff_action = False, env_reg = False, deny_service = False, net_neutrality = False,
-            corp_tax = False, prog_tax = False, health_care = False, border_sec = False, army_spend = False, isis = False)
-        j_webb = Candidate(name = "Jim Webb", party = "Democrat", website = "http://www.ontheissues.org/Jim_Webb.htm", intID1 = "4606giVTfM0", intID2 = "", speID1 = "", speID2 = "",
-            abortion = False, marriage = False, aff_action = False, env_reg = False, deny_service = False, net_neutrality = False,
-            corp_tax = False, prog_tax = False, health_care = False, border_sec = False, army_spend = False, isis = False)
-        j_bush = Candidate(name = "Jeb Bush", party = "Republican", website = "http://www.ontheissues.org/Jeb_Bush.htm", intID1 = "", intID2 = "", speID1 = "jTWl3YoOXAc", speID2 = "",
-            abortion = False, marriage = False, aff_action = False, env_reg = False, deny_service = False, net_neutrality = False,
-            corp_tax = False, prog_tax = False, health_care = False, border_sec = False, army_spend = False, isis = False)
-        b_carson = Candidate(name = "Ben Carson", party = "Republican", website = "http://www.ontheissues.org/Ben_Carson.htm", intID1 = "", intID2 = "", speID1 = "HHvFh6lSJqk", speID2 = "",
-            abortion = False, marriage = False, aff_action = False, env_reg = False, deny_service = False, net_neutrality = False,
-            corp_tax = False, prog_tax = False, health_care = False, border_sec = False, army_spend = False, isis = False)
-        c_christie = Candidate(name = "Chris Christie", party = "Republican", website = "http://www.ontheissues.org/Chris_Christie.htm", intID1 = "", intID2 = "", speID1 = "uPxDnb2-aVI", speID2 = "",
-            abortion = False, marriage = False, aff_action = False, env_reg = False, deny_service = False, net_neutrality = False,
-            corp_tax = False, prog_tax = False, health_care = False, border_sec = False, army_spend = False, isis = False)
-        t_cruz = Candidate(name = "Ted Cruz", party = "Republican", website = "http://www.ontheissues.org/Ted_Cruz.htm", intID1 = "", intID2 = "", speID1 = "kkeC53P9rVI", speID2 = "",
-            abortion = False, marriage = False, aff_action = False, env_reg = False, deny_service = False, net_neutrality = False,
-            corp_tax = False, prog_tax = False, health_care = False, border_sec = False, army_spend = False, isis = False)
-        c_fiorina = Candidate(name = "Carly Fiorina", party = "Republican", website = "http://www.ontheissues.org/Carly_Fiorina.htm", intID1 = "", intID2 = "", speID1 = "", speID2 = "",
-            abortion = False, marriage = False, aff_action = False, env_reg = False, deny_service = False, net_neutrality = False,
-            corp_tax = False, prog_tax = False, health_care = False, border_sec = False, army_spend = False, isis = False)
-        l_graham = Candidate(name = "Lindsey Graham", party = "Republican", website = "http://www.ontheissues.org/Lindsey_Graham.htm", intID1 = "", intID2 = "", speID1 = "", speID2 = "",
-            abortion = False, marriage = False, aff_action = False, env_reg = False, deny_service = False, net_neutrality = False,
-            corp_tax = False, prog_tax = False, health_care = False, border_sec = False, army_spend = False, isis = False)
-        m_huckabee = Candidate(name = "Mike Huckabee", party = "Republican", website = "http://www.ontheissues.org/Mike_Huckabee.htm", intID1 = "", intID2 = "", speID1 = "", speID2 = "",
-            abortion = False, marriage = False, aff_action = False, env_reg = False, deny_service = False, net_neutrality = False,
-            corp_tax = False, prog_tax = False, health_care = False, border_sec = False, army_spend = False, isis = False)
-        b_jindal = Candidate(name = "Bobby Jindal", party = "Republican", website = "http://www.ontheissues.org/Bobby_Jindal.htm", intID1 = "", intID2 = "", speID1 = "nDCU-VlSgX0", speID2 = "",
-            abortion = False, marriage = False, aff_action = False, env_reg = False, deny_service = False, net_neutrality = False,
-            corp_tax = False, prog_tax = False, health_care = False, border_sec = False, army_spend = False, isis = False)
-        j_kasich = Candidate(name = "John Kasich", party = "Republican", website = "http://www.ontheissues.org/John_Kasich.htm", intID1 = "", intID2 = "", speID1 = "", speID2 = "",
-            abortion = False, marriage = False, aff_action = False, env_reg = False, deny_service = False, net_neutrality = False,
-            corp_tax = False, prog_tax = False, health_care = False, border_sec = False, army_spend = False, isis = False)
-        g_pataki = Candidate(name = "George Pataki", party = "Republican", website = "http://www.ontheissues.org/George_Pataki.htm", intID1 = "", intID2 = "", speID1 = "", speID2 = "",
-            abortion = False, marriage = False, aff_action = False, env_reg = False, deny_service = False, net_neutrality = False,
-            corp_tax = False, prog_tax = False, health_care = False, border_sec = False, army_spend = False, isis = False)
-        r_paul = Candidate(name = "Rand Paul", party = "Republican", website = "http://www.ontheissues.org/Rand_Paul.htm", intID1 = "", intID2 = "", speID1 = "", speID2 = "",
-            abortion = False, marriage = False, aff_action = False, env_reg = False, deny_service = False, net_neutrality = False,
-            corp_tax = False, prog_tax = False, health_care = False, border_sec = False, army_spend = False, isis = False)
-        r_perry = Candidate(name = "Rick Perry", party = "Republican", website = "http://www.ontheissues.org/Rick_Perry.htm", intID1 = "", intID2 = "", speID1 = "", speID2 = "",
-            abortion = False, marriage = False, aff_action = False, env_reg = False, deny_service = False, net_neutrality = False,
-            corp_tax = False, prog_tax = False, health_care = False, border_sec = False, army_spend = False, isis = False)
-        m_rubio = Candidate(name = "Marco Rubio", party = "Republican", website = "http://www.ontheissues.org/Marco_Rubio.htm", intID1 = "", intID2 = "", speID1 = "d9FVjcuz-pA", speID2 = "",
-            abortion = False, marriage = False, aff_action = False, env_reg = False, deny_service = False, net_neutrality = False,
-            corp_tax = False, prog_tax = False, health_care = False, border_sec = False, army_spend = False, isis = False)
-        r_santorum = Candidate(name = "Rick Santorum", party = "Republican", website = "http://www.ontheissues.org/Rick_Santorum.htm", intID1 = "", intID2 = "", speID1 = "", speID2 = "",
-            abortion = False, marriage = False, aff_action = False, env_reg = False, deny_service = False, net_neutrality = False,
-            corp_tax = False, prog_tax = False, health_care = False, border_sec = False, army_spend = False, isis = False)
-        d_trump = Candidate(name = "Donald Trump", party = "Republican", website = "http://www.ontheissues.org/Donald_Trump.htm", intID1 = "", intID2 = "", speID1 = "", speID2 = "",
-            abortion = False, marriage = False, aff_action = False, env_reg = False, deny_service = False, net_neutrality = False, corp_tax = False, prog_tax = False, health_care = False,
-            border_sec = False, army_spend = False, isis = False)
-        s_walker = Candidate(name = "Scott Walker", party = "Republican", website = "http://www.ontheissues.org/Scott_Walker.htm", intID1 = "", intID2 = "", speID1 = "", speID2 = "",
-            abortion = False, marriage = False, aff_action = False, env_reg = False, deny_service = False, net_neutrality = False,
-            corp_tax = False, prog_tax = False, health_care = False, border_sec = False, army_spend = False, isis = False)
+        l_chafee = Candidate(name = "Lincoln Chafee", party = "Democrat", website = "http://www.ontheissues.org/Lincoln_Chafee.htm", bio = bios["LD"], intID1 = "IVpF6_qpfq4", intID2 = "9XobXVbqhZg", speID1 = "XEMwtaMSox4", speID2 = "",
+            abortion = "False", marriage = "False", aff_action = "False", env_reg = "False", deny_service = "False", net_neutrality = "False",
+            corp_tax = "False", prog_tax = "False", health_care = "False", border_sec = "False", army_spend = "False", isis = "False")
+        m_omalley = Candidate(name = "Martin O'Malley", party = "Democrat", website = "http://www.ontheissues.org/Martin_O%60Malley.htm", bio = bios["MM"], intID1 = "", intID2 = "", speID1 = "", speID2 = "",
+            abortion = "False", marriage = "False", aff_action = "False", env_reg = "False", deny_service = "False", net_neutrality = "False",
+            corp_tax = "False", prog_tax = "False", health_care = "False", border_sec = "False", army_spend = "False", isis = "False")
+        b_sanders = Candidate(name = "Bernie Sanders", party = "Democrat", website = "http://www.ontheissues.org/Bernie_Sanders.htm", bio = bios["BS"], intID1 = "", intID2 = "", speID1 = "0zHSW2k-vF0", speID2 = "",
+            abortion = "False", marriage = "False", aff_action = "False", env_reg = "False", deny_service = "False", net_neutrality = "False",
+            corp_tax = "False", prog_tax = "False", health_care = "False", border_sec = "False", army_spend = "False", isis = "False")
+        j_webb = Candidate(name = "Jim Webb", party = "Democrat", website = "http://www.ontheissues.org/Jim_Webb.htm", bio = bios["JW"], intID1 = "4606giVTfM0", intID2 = "", speID1 = "", speID2 = "",
+            abortion = "False", marriage = "False", aff_action = "False", env_reg = "False", deny_service = "False", net_neutrality = "False",
+            corp_tax = "False", prog_tax = "False", health_care = "False", border_sec = "False", army_spend = "False", isis = "False")
+        j_bush = Candidate(name = "Jeb Bush", party = "Republican", website = "http://www.ontheissues.org/Jeb_Bush.htm", bio = bios["JB"], intID1 = "", intID2 = "", speID1 = "jTWl3YoOXAc", speID2 = "",
+            abortion = "False", marriage = "False", aff_action = "False", env_reg = "False", deny_service = "False", net_neutrality = "False",
+            corp_tax = "False", prog_tax = "False", health_care = "False", border_sec = "False", army_spend = "False", isis = "False")
+        b_carson = Candidate(name = "Ben Carson", party = "Republican", website = "http://www.ontheissues.org/Ben_Carson.htm", bio = bios["BC"], intID1 = "", intID2 = "", speID1 = "HHvFh6lSJqk", speID2 = "",
+            abortion = "False", marriage = "False", aff_action = "False", env_reg = "False", deny_service = "False", net_neutrality = "False",
+            corp_tax = "False", prog_tax = "False", health_care = "False", border_sec = "False", army_spend = "False", isis = "False")
+        c_christie = Candidate(name = "Chris Christie", party = "Republican", website = "http://www.ontheissues.org/Chris_Christie.htm", bio = bios["CC"], intID1 = "", intID2 = "", speID1 = "uPxDnb2-aVI", speID2 = "",
+            abortion = "False", marriage = "False", aff_action = "False", env_reg = "False", deny_service = "False", net_neutrality = "False",
+            corp_tax = "False", prog_tax = "False", health_care = "False", border_sec = "False", army_spend = "False", isis = "False")
+        t_cruz = Candidate(name = "Ted Cruz", party = "Republican", website = "http://www.ontheissues.org/Ted_Cruz.htm", bio = bios["TC"], intID1 = "", intID2 = "", speID1 = "kkeC53P9rVI", speID2 = "",
+            abortion = "False", marriage = "False", aff_action = "False", env_reg = "False", deny_service = "False", net_neutrality = "False",
+            corp_tax = "False", prog_tax = "False", health_care = "False", border_sec = "False", army_spend = "False", isis = "False")
+        c_fiorina = Candidate(name = "Carly Fiorina", party = "Republican", website = "http://www.ontheissues.org/Carly_Fiorina.htm", bio = bios["CF"], intID1 = "", intID2 = "", speID1 = "", speID2 = "",
+            abortion = "False", marriage = "False", aff_action = "False", env_reg = "False", deny_service = "False", net_neutrality = "False",
+            corp_tax = "False", prog_tax = "False", health_care = "False", border_sec = "False", army_spend = "False", isis = "False")
+        l_graham = Candidate(name = "Lindsey Graham", party = "Republican", website = "http://www.ontheissues.org/Lindsey_Graham.htm", bio = bios["LG"], intID1 = "", intID2 = "", speID1 = "", speID2 = "",
+            abortion = "False", marriage = "False", aff_action = "False", env_reg = "False", deny_service = "False", net_neutrality = "False",
+            corp_tax = "False", prog_tax = "False", health_care = "False", border_sec = "False", army_spend = "False", isis = "False")
+        m_huckabee = Candidate(name = "Mike Huckabee", party = "Republican", website = "http://www.ontheissues.org/Mike_Huckabee.htm", bio = bios["MH"], intID1 = "", intID2 = "", speID1 = "", speID2 = "",
+            abortion = "False", marriage = "False", aff_action = "False", env_reg = "False", deny_service = "False", net_neutrality = "False",
+            corp_tax = "False", prog_tax = "False", health_care = "False", border_sec = "False", army_spend = "False", isis = "False")
+        b_jindal = Candidate(name = "Bobby Jindal", party = "Republican", website = "http://www.ontheissues.org/Bobby_Jindal.htm", bio = bios["BJ"], intID1 = "", intID2 = "", speID1 = "nDCU-VlSgX0", speID2 = "",
+            abortion = "False", marriage = "False", aff_action = "False", env_reg = "False", deny_service = "False", net_neutrality = "False",
+            corp_tax = "False", prog_tax = "False", health_care = "False", border_sec = "False", army_spend = "False", isis = "False")
+        j_kasich = Candidate(name = "John Kasich", party = "Republican", website = "http://www.ontheissues.org/John_Kasich.htm", bio = bios["JK"], intID1 = "", intID2 = "", speID1 = "", speID2 = "",
+            abortion = "False", marriage = "False", aff_action = "False", env_reg = "False", deny_service = "False", net_neutrality = "False",
+            corp_tax = "False", prog_tax = "False", health_care = "False", border_sec = "False", army_spend = "False", isis = "False")
+        g_pataki = Candidate(name = "George Pataki", party = "Republican", website = "http://www.ontheissues.org/George_Pataki.htm", bio = bios["GP"], intID1 = "", intID2 = "", speID1 = "", speID2 = "",
+            abortion = "False", marriage = "False", aff_action = "False", env_reg = "False", deny_service = "False", net_neutrality = "False",
+            corp_tax = "False", prog_tax = "False", health_care = "False", border_sec = "False", army_spend = "False", isis = "False")
+        r_paul = Candidate(name = "Rand Paul", party = "Republican", website = "http://www.ontheissues.org/Rand_Paul.htm", bio = bios["RPa"], intID1 = "", intID2 = "", speID1 = "", speID2 = "",
+            abortion = "False", marriage = "False", aff_action = "False", env_reg = "False", deny_service = "False", net_neutrality = "False",
+            corp_tax = "False", prog_tax = "False", health_care = "False", border_sec = "False", army_spend = "False", isis = "False")
+        r_perry = Candidate(name = "Rick Perry", party = "Republican", website = "http://www.ontheissues.org/Rick_Perry.htm", bio = bios["RPe"], intID1 = "", intID2 = "", speID1 = "", speID2 = "",
+            abortion = "False", marriage = "False", aff_action = "False", env_reg = "False", deny_service = "False", net_neutrality = "False",
+            corp_tax = "False", prog_tax = "False", health_care = "False", border_sec = "False", army_spend = "False", isis = "False")
+        m_rubio = Candidate(name = "Marco Rubio", party = "Republican", website = "http://www.ontheissues.org/Marco_Rubio.htm", bio = bios["MR"], intID1 = "", intID2 = "", speID1 = "d9FVjcuz-pA", speID2 = "",
+            abortion = "False", marriage = "False", aff_action = "False", env_reg = "False", deny_service = "False", net_neutrality = "False",
+            corp_tax = "False", prog_tax = "False", health_care = "False", border_sec = "False", army_spend = "False", isis = "False")
+        r_santorum = Candidate(name = "Rick Santorum", party = "Republican", website = "http://www.ontheissues.org/Rick_Santorum.htm", bio = bios["RS"], intID1 = "", intID2 = "", speID1 = "", speID2 = "",
+            abortion = "False", marriage = "False", aff_action = "False", env_reg = "False", deny_service = "False", net_neutrality = "False",
+            corp_tax = "False", prog_tax = "False", health_care = "False", border_sec = "False", army_spend = "False", isis = "False")
+        d_trump = Candidate(name = "Donald Trump", party = "Republican", website = "http://www.ontheissues.org/Donald_Trump.htm", bio = bios["DT"], intID1 = "", intID2 = "", speID1 = "", speID2 = "",
+            abortion = "False", marriage = "False", aff_action = "False", env_reg = "False", deny_service = "False", net_neutrality = "False", corp_tax = "False", prog_tax = "False", health_care = "False",
+            border_sec = "False", army_spend = "False", isis = "False")
+        s_walker = Candidate(name = "Scott Walker", party = "Republican", website = "http://www.ontheissues.org/Scott_Walker.htm", bio = bios["SW"], intID1 = "", intID2 = "", speID1 = "", speID2 = "",
+            abortion = "False", marriage = "False", aff_action = "False", env_reg = "False", deny_service = "False", net_neutrality = "False",
+            corp_tax = "False", prog_tax = "False", health_care = "False", border_sec = "False", army_spend = "False", isis = "False")
         # intID1 is the ID for the first Interview video
         # speID1 is the ID for the first Speech video
 
@@ -204,14 +224,6 @@ class LinkHandler(webapp2.RequestHandler):
         url_file = urlfetch.fetch(result.website)
         url_html = url_file.content
 
-        abortion_response = re.search(r'pro-life', url_html, re.MULTILINE)
-        if abortion_response:
-            result.abortion = False
-            logging.info("This candidate does not support abortion")
-        else:
-            result.abortion = True
-            logging.info("This candidate does support abortion")
-
 
         self.response.write(template.render({
         'result': result,
@@ -224,30 +236,65 @@ class CandidateHandler(webapp2.RequestHandler):
     def get(self):
         template = jinja_environment.get_template('templates/candidates.html')
 
-        search = self.request.get("search")
-        candidate = Candidate.get_by_id(int(self.request.get('candidate')))
-
-        result = Candidate.query(Candidate.name == search).get()
-
-        print candidate.website
-
-        url = candidate.website
+        # search = self.request.get("search")
+        candidate1 = Candidate.get_by_id(int(self.request.get('candidate')))
+        logging.info(candidate1)
+        url = candidate1.website
+        # logging.info(url)
         url_file = urlfetch.fetch(url)
+        # logging.info(url_file)
         url_html = url_file.content
+        # logging.info(url_html)
 
         abortion_response = re.search(r'pro-life', url_html, re.MULTILINE)
         if abortion_response:
-            candidate.abortion = False
+            candidate1.abortion = "False"
             logging.info("This candidate does not support abortion")
         else:
-            candidate.abortion = True
+            candidate1.abortion = "True"
             logging.info("This candidate does support abortion")
 
+        if candidate1.party == 'Democrat':
+            candidate1.marriage = "True"
+            candidate1.aff_action = "True"
+            candidate1.env_reg = "True"
+            candidate1.deny_service = "False"
+            candidate1.net_neutrality = "False"
+            candidate1.corp_tax = "True"
+            candidate1.prog_tax = "True"
+            candidate1.health_care = "True"
+            candidate1.border_sec = "False"
+            candidate1.army_spend = "False"
+            candidate1.isis = "False"
+
+        if candidate1.party == 'Republican':
+            candidate1.marriage = "False"
+            candidate1.aff_action = "False"
+            candidate1.env_reg = "False"
+            candidate1.deny_service = "True"
+            candidate1.net_neutrality = "False"
+            candidate1.corp_tax = "False"
+            candidate1.prog_tax = "False"
+            candidate1.health_care = "False"
+            candidate1.border_sec = "True"
+            candidate1.army_spend = "True"
+            candidate.isis = "True"
 
         self.response.write(template.render({
-
-        'candidate' : candidate,
-        'abortion': candidate.abortion
+            'candidate1': candidate1,
+            # 'search': search,
+            'abortion': candidate1.abortion,
+            'marriage' : candidate1.marriage,
+            'aff_action' : candidate1.aff_action,
+            'env_reg' : candidate1.env_reg,
+            'deny_service' : candidate1.deny_service,
+            'net_neutrality' : candidate1.net_neutrality,
+            'corp_tax' : candidate1.corp_tax,
+            'prog_tax' : candidate1.prog_tax,
+            'health_care' : candidate1.health_care,
+            'border_sec' : candidate1.border_sec,
+            'army_spend' : candidate1.army_spend,
+            'isis' : candidate1.isis
 
         }))
 
@@ -343,77 +390,77 @@ class ProfileHandler(webapp2.RequestHandler):
         isis = self.request.get('isis')
 
 
-        user = User(name = name, abortion = eval(abortion), marriage = eval(marriage), aff_action = eval(aff_action), env_reg = eval(env_reg), deny_service = eval(deny_service), net_neutrality = eval(net_neutrality),
-        corp_tax = eval(corp_tax), prog_tax = eval(prog_tax), health_care = eval(health_care), border_sec = eval(border_sec), army_spend = eval(army_spend), isis = eval(isis))
+        user = User(name = name, abortion = abortion, marriage = marriage, aff_action = aff_action, env_reg = env_reg, deny_service = deny_service, net_neutrality = net_neutrality, corp_tax = corp_tax, prog_tax = prog_tax, health_care = health_care, border_sec = border_sec, army_spend = army_spend, isis = isis)
 
         user_key = user.put()
 
         id = user_key.id()
 
+
         h_clinton = Candidate(name = "Hillary Clinton", party = "Democrat", website = "http://www.ontheissues.org/Hillary_Clinton.htm", intID1 = "7XOoOgsj_z8", intID2 = "cYKwU2MwI-8", speID1 = "6744Ym_5Ddg", speID2 = "Q4O8xo9EWb8",
-            abortion = False, marriage = False, aff_action = False, env_reg = False, deny_service = False, net_neutrality = False,
-            corp_tax = False, prog_tax = False, health_care = False, border_sec = False, army_spend = False, isis = False)
+            abortion = "False", marriage = "False", aff_action = "False", env_reg = "False", deny_service = "False", net_neutrality = "False",
+            corp_tax = "False", prog_tax = "False", health_care = "False", border_sec = "False", army_spend = "False", isis = "False")
 
         l_chafee = Candidate(name = "Lincoln Chafee", party = "Democrat", website = "http://www.ontheissues.org/Lincoln_Chafee.htm", intID1 = "IVpF6_qpfq4", intID2 = "9XobXVbqhZg", speID1 = "XEMwtaMSox4", speID2 = "",
-            abortion = False, marriage = False, aff_action = False, env_reg = False, deny_service = False, net_neutrality = False,
-            corp_tax = False, prog_tax = False, health_care = False, border_sec = False, army_spend = False, isis = False)
+            abortion = "False", marriage = "False", aff_action = "False", env_reg = "False", deny_service = "False", net_neutrality = "False",
+            corp_tax = "False", prog_tax = "False", health_care = "False", border_sec = "False", army_spend = "False", isis = "False")
         m_omalley = Candidate(name = "Martin O'Malley", party = "Democrat", website = "http://www.ontheissues.org/Martin_O%60Malley.htm", intID1 = "", intID2 = "", speID1 = "", speID2 = "",
-            abortion = False, marriage = False, aff_action = False, env_reg = False, deny_service = False, net_neutrality = False,
-            corp_tax = False, prog_tax = False, health_care = False, border_sec = False, army_spend = False, isis = False)
+            abortion = "False", marriage = "False", aff_action = "False", env_reg = "False", deny_service = "False", net_neutrality = "False",
+            corp_tax = "False", prog_tax = "False", health_care = "False", border_sec = "False", army_spend = "False", isis = "False")
         b_sanders = Candidate(name = "Bernie Sanders", party = "Democrat", website = "http://www.ontheissues.org/Bernie_Sanders.htm", intID1 = "", intID2 = "", speID1 = "0zHSW2k-vF0", speID2 = "",
-            abortion = False, marriage = False, aff_action = False, env_reg = False, deny_service = False, net_neutrality = False,
-            corp_tax = False, prog_tax = False, health_care = False, border_sec = False, army_spend = False, isis = False)
+            abortion = "False", marriage = "False", aff_action = "False", env_reg = "False", deny_service = "False", net_neutrality = "False",
+            corp_tax = "False", prog_tax = "False", health_care = "False", border_sec = "False", army_spend = "False", isis = "False")
         j_webb = Candidate(name = "Jim Webb", party = "Democrat", website = "http://www.ontheissues.org/Jim_Webb.htm", intID1 = "4606giVTfM0", intID2 = "", speID1 = "", speID2 = "",
-            abortion = False, marriage = False, aff_action = False, env_reg = False, deny_service = False, net_neutrality = False,
-            corp_tax = False, prog_tax = False, health_care = False, border_sec = False, army_spend = False, isis = False)
+            abortion = "False", marriage = "False", aff_action = "False", env_reg = "False", deny_service = "False", net_neutrality = "False",
+            corp_tax = "False", prog_tax = "False", health_care = "False", border_sec = "False", army_spend = "False", isis = "False")
         j_bush = Candidate(name = "Jeb Bush", party = "Republican", website = "http://www.ontheissues.org/Jeb_Bush.htm", intID1 = "", intID2 = "", speID1 = "jTWl3YoOXAc", speID2 = "",
-            abortion = False, marriage = False, aff_action = False, env_reg = False, deny_service = False, net_neutrality = False,
-            corp_tax = False, prog_tax = False, health_care = False, border_sec = False, army_spend = False, isis = False)
+            abortion = "False", marriage = "False", aff_action = "False", env_reg = "False", deny_service = "False", net_neutrality = "False",
+            corp_tax = "False", prog_tax = "False", health_care = "False", border_sec = "False", army_spend = "False", isis = "False")
         b_carson = Candidate(name = "Ben Carson", party = "Republican", website = "http://www.ontheissues.org/Ben_Carson.htm", intID1 = "", intID2 = "", speID1 = "HHvFh6lSJqk", speID2 = "",
-            abortion = False, marriage = False, aff_action = False, env_reg = False, deny_service = False, net_neutrality = False,
-            corp_tax = False, prog_tax = False, health_care = False, border_sec = False, army_spend = False, isis = False)
+            abortion = "False", marriage = "False", aff_action = "False", env_reg = "False", deny_service = "False", net_neutrality = "False",
+            corp_tax = "False", prog_tax = "False", health_care = "False", border_sec = "False", army_spend = "False", isis = "False")
         c_christie = Candidate(name = "Chris Christie", party = "Republican", website = "http://www.ontheissues.org/Chris_Christie.htm", intID1 = "", intID2 = "", speID1 = "uPxDnb2-aVI", speID2 = "",
-            abortion = False, marriage = False, aff_action = False, env_reg = False, deny_service = False, net_neutrality = False,
-            corp_tax = False, prog_tax = False, health_care = False, border_sec = False, army_spend = False, isis = False)
+            abortion = "False", marriage = "False", aff_action = "False", env_reg = "False", deny_service = "False", net_neutrality = "False",
+            corp_tax = "False", prog_tax = "False", health_care = "False", border_sec = "False", army_spend = "False", isis = "False")
         t_cruz = Candidate(name = "Ted Cruz", party = "Republican", website = "http://www.ontheissues.org/Ted_Cruz.htm", intID1 = "", intID2 = "", speID1 = "kkeC53P9rVI", speID2 = "",
-            abortion = False, marriage = False, aff_action = False, env_reg = False, deny_service = False, net_neutrality = False,
-            corp_tax = False, prog_tax = False, health_care = False, border_sec = False, army_spend = False, isis = False)
+            abortion = "False", marriage = "False", aff_action = "False", env_reg = "False", deny_service = "False", net_neutrality = "False",
+            corp_tax = "False", prog_tax = "False", health_care = "False", border_sec = "False", army_spend = "False", isis = "False")
         c_fiorina = Candidate(name = "Carly Fiorina", party = "Republican", website = "http://www.ontheissues.org/Carly_Fiorina.htm", intID1 = "", intID2 = "", speID1 = "", speID2 = "",
-            abortion = False, marriage = False, aff_action = False, env_reg = False, deny_service = False, net_neutrality = False,
-            corp_tax = False, prog_tax = False, health_care = False, border_sec = False, army_spend = False, isis = False)
+            abortion = "False", marriage = "False", aff_action = "False", env_reg = "False", deny_service = "False", net_neutrality = "False",
+            corp_tax = "False", prog_tax = "False", health_care = "False", border_sec = "False", army_spend = "False", isis = "False")
         l_graham = Candidate(name = "Lindsey Graham", party = "Republican", website = "http://www.ontheissues.org/Lindsey_Graham.htm", intID1 = "", intID2 = "", speID1 = "", speID2 = "",
-            abortion = False, marriage = False, aff_action = False, env_reg = False, deny_service = False, net_neutrality = False,
-            corp_tax = False, prog_tax = False, health_care = False, border_sec = False, army_spend = False, isis = False)
+            abortion = "False", marriage = "False", aff_action = "False", env_reg = "False", deny_service = "False", net_neutrality = "False",
+            corp_tax = "False", prog_tax = "False", health_care = "False", border_sec = "False", army_spend = "False", isis = "False")
         m_huckabee = Candidate(name = "Mike Huckabee", party = "Republican", website = "http://www.ontheissues.org/Mike_Huckabee.htm", intID1 = "", intID2 = "", speID1 = "", speID2 = "",
-            abortion = False, marriage = False, aff_action = False, env_reg = False, deny_service = False, net_neutrality = False,
-            corp_tax = False, prog_tax = False, health_care = False, border_sec = False, army_spend = False, isis = False)
+            abortion = "False", marriage = "False", aff_action = "False", env_reg = "False", deny_service = "False", net_neutrality = "False",
+            corp_tax = "False", prog_tax = "False", health_care = "False", border_sec = "False", army_spend = "False", isis = "False")
         b_jindal = Candidate(name = "Bobby Jindal", party = "Republican", website = "http://www.ontheissues.org/Bobby_Jindal.htm", intID1 = "", intID2 = "", speID1 = "nDCU-VlSgX0", speID2 = "",
-            abortion = False, marriage = False, aff_action = False, env_reg = False, deny_service = False, net_neutrality = False,
-            corp_tax = False, prog_tax = False, health_care = False, border_sec = False, army_spend = False, isis = False)
+            abortion = "False", marriage = "False", aff_action = "False", env_reg = "False", deny_service = "False", net_neutrality = "False",
+            corp_tax = "False", prog_tax = "False", health_care = "False", border_sec = "False", army_spend = "False", isis = "False")
         j_kasich = Candidate(name = "John Kasich", party = "Republican", website = "http://www.ontheissues.org/John_Kasich.htm", intID1 = "", intID2 = "", speID1 = "", speID2 = "",
-            abortion = False, marriage = False, aff_action = False, env_reg = False, deny_service = False, net_neutrality = False,
-            corp_tax = False, prog_tax = False, health_care = False, border_sec = False, army_spend = False, isis = False)
+            abortion = "False", marriage = "False", aff_action = "False", env_reg = "False", deny_service = "False", net_neutrality = "False",
+            corp_tax = "False", prog_tax = "False", health_care = "False", border_sec = "False", army_spend = "False", isis = "False")
         g_pataki = Candidate(name = "George Pataki", party = "Republican", website = "http://www.ontheissues.org/George_Pataki.htm", intID1 = "", intID2 = "", speID1 = "", speID2 = "",
-            abortion = False, marriage = False, aff_action = False, env_reg = False, deny_service = False, net_neutrality = False,
-            corp_tax = False, prog_tax = False, health_care = False, border_sec = False, army_spend = False, isis = False)
+            abortion = "False", marriage = "False", aff_action = "False", env_reg = "False", deny_service = "False", net_neutrality = "False",
+            corp_tax = "False", prog_tax = "False", health_care = "False", border_sec = "False", army_spend = "False", isis = "False")
         r_paul = Candidate(name = "Rand Paul", party = "Republican", website = "http://www.ontheissues.org/Rand_Paul.htm", intID1 = "", intID2 = "", speID1 = "", speID2 = "",
-            abortion = False, marriage = False, aff_action = False, env_reg = False, deny_service = False, net_neutrality = False,
-            corp_tax = False, prog_tax = False, health_care = False, border_sec = False, army_spend = False, isis = False)
+            abortion = "False", marriage = "False", aff_action = "False", env_reg = "False", deny_service = "False", net_neutrality = "False",
+            corp_tax = "False", prog_tax = "False", health_care = "False", border_sec = "False", army_spend = "False", isis = "False")
         r_perry = Candidate(name = "Rick Perry", party = "Republican", website = "http://www.ontheissues.org/Rick_Perry.htm", intID1 = "", intID2 = "", speID1 = "", speID2 = "",
-            abortion = False, marriage = False, aff_action = False, env_reg = False, deny_service = False, net_neutrality = False,
-            corp_tax = False, prog_tax = False, health_care = False, border_sec = False, army_spend = False, isis = False)
+            abortion = "False", marriage = "False", aff_action = "False", env_reg = "False", deny_service = "False", net_neutrality = "False",
+            corp_tax = "False", prog_tax = "False", health_care = "False", border_sec = "False", army_spend = "False", isis = "False")
         m_rubio = Candidate(name = "Marco Rubio", party = "Republican", website = "http://www.ontheissues.org/Marco_Rubio.htm", intID1 = "", intID2 = "", speID1 = "d9FVjcuz-pA", speID2 = "",
-            abortion = False, marriage = False, aff_action = False, env_reg = False, deny_service = False, net_neutrality = False,
-            corp_tax = False, prog_tax = False, health_care = False, border_sec = False, army_spend = False, isis = False)
+            abortion = "False", marriage = "False", aff_action = "False", env_reg = "False", deny_service = "False", net_neutrality = "False",
+            corp_tax = "False", prog_tax = "False", health_care = "False", border_sec = "False", army_spend = "False", isis = "False")
         r_santorum = Candidate(name = "Rick Santorum", party = "Republican", website = "http://www.ontheissues.org/Rick_Santorum.htm", intID1 = "", intID2 = "", speID1 = "", speID2 = "",
-            abortion = False, marriage = False, aff_action = False, env_reg = False, deny_service = False, net_neutrality = False,
-            corp_tax = False, prog_tax = False, health_care = False, border_sec = False, army_spend = False, isis = False)
+            abortion = "False", marriage = "False", aff_action = "False", env_reg = "False", deny_service = "False", net_neutrality = "False",
+            corp_tax = "False", prog_tax = "False", health_care = "False", border_sec = "False", army_spend = "False", isis = "False")
         d_trump = Candidate(name = "Donald Trump", party = "Republican", website = "http://www.ontheissues.org/Donald_Trump.htm", intID1 = "", intID2 = "", speID1 = "", speID2 = "",
-            abortion = False, marriage = False, aff_action = False, env_reg = False, deny_service = False, net_neutrality = False, corp_tax = False, prog_tax = False, health_care = False,
-            border_sec = False, army_spend = False, isis = False)
+            abortion = "False", marriage = "False", aff_action = "False", env_reg = "False", deny_service = "False", net_neutrality = "False", corp_tax = "False", prog_tax = "False", health_care = "False",
+            border_sec = "False", army_spend = "False", isis = "False")
         s_walker = Candidate(name = "Scott Walker", party = "Republican", website = "http://www.ontheissues.org/Scott_Walker.htm", intID1 = "", intID2 = "", speID1 = "", speID2 = "",
-            abortion = False, marriage = False, aff_action = False, env_reg = False, deny_service = False, net_neutrality = False,
-            corp_tax = False, prog_tax = False, health_care = False, border_sec = False, army_spend = False, isis = False)
+            abortion = "False", marriage = "False", aff_action = "False", env_reg = "False", deny_service = "False", net_neutrality = "False",
+            corp_tax = "False", prog_tax = "False", health_care = "False", border_sec = "False", army_spend = "False", isis = "False")
 
         candidates = [h_clinton, l_chafee, m_omalley, b_sanders, j_webb, j_bush, b_carson, c_christie,
         t_cruz, c_fiorina, l_graham, m_huckabee, b_jindal, j_kasich, g_pataki, r_paul, r_perry,
@@ -438,6 +485,8 @@ class ProfileHandler(webapp2.RequestHandler):
             total = 0
 
         the_range = range(len(your_candidates))
+
+
         self.response.write(template.render(
         {
             'name' : name,
@@ -456,7 +505,9 @@ class ProfileHandler(webapp2.RequestHandler):
             'similarities' : similarities,
             'your_candidates': your_candidates,
             'candidates': candidates,
-            'the_range': the_range
+            'the_range': the_range,
+            'isis' : isis
+
             }
             ))
 
@@ -465,12 +516,10 @@ app = webapp2.WSGIApplication([
     ('/add', AddHandler),
     ('/search', SearchHandler),
     ('/links', LinkHandler),
-    # ('/show', Re),
     ('/candidates', CandidateHandler),
     ('/login', UserHandler),
     ('/questions', FormHandler),
     ('/answers', AnswerHandler),
-
     ('/profile', ProfileHandler)
 
-], debug=True)
+], debug="True")
