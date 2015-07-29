@@ -378,20 +378,19 @@ class CandidateHandler(webapp2.RequestHandler):
 
 class UserHandler(webapp2.RequestHandler):
     def get(self):
-        template = jinja_environment.get_template('templates/login.html')
         user = users.get_current_user()
-        greeting = ""
 
         if user:
-            greeting = ('Welcome, %s! Your email is %s (<a href="%s">sign out</a>)' %
-                        (user.nickname(), user.email(), user.create_logout_url('/')))
+            greeting = ('Welcome, %s!(<a href="%s">sign out</a>)' %
+                        (user.nickname(), user.create_logout_url('/')))
         else:
-            greeting = ('<a href=\"%s\">Sign in or register</a>.' %
-                        user.create_login_url('/profile')
+            greeting = ('<a href="%s">Sign in or register</a>.' %
+                        (user.create_login_url('/profile')))
         # user.put()
 
+        self.response.out.write('<html><body>%s</body></html>' % greeting)
+        template = jinja_environment.get_template('templates/login.html')
         self.response.write(template.render())
-        self.response.write('<html><body><p>%s</p></body></html>' % (greeting))
 
 class FormHandler(webapp2.RequestHandler):
     def get(self):
