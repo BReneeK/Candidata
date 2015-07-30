@@ -84,11 +84,9 @@ class User(ndb.Model):
 class MainHandler(webapp2.RequestHandler):
     def get(self):
 
-#        googleUser = users.get_current_user()
-#        userGoogleID = googleUser.user_id()
+        googleUser = users.get_current_user()
+        userGoogleID = googleUser.user_id()
 
-#        newUser = User(id = userGoogleID)
-#        newUser.put()
 
         template = jinja_environment.get_template('templates/index.html')
         self.response.write(template.render())
@@ -427,26 +425,13 @@ class AnswerHandler(webapp2.RequestHandler):
         army_spend = self.request.get('army_spend')
         isis = self.request.get('isis')
 
-        user = User(name = name, abortion = eval(abortion), marriage = eval(marriage), aff_action = eval(aff_action), env_reg = eval(env_reg), deny_service = eval(deny_service), net_neutrality = eval(net_neutrality),
+
+
+        currUser = users.get_current_user()
+        currID = currUser.user_id()
+
+        user = User(id = currID, name = name, abortion = eval(abortion), marriage = eval(marriage), aff_action = eval(aff_action), env_reg = eval(env_reg), deny_service = eval(deny_service), net_neutrality = eval(net_neutrality),
         corp_tax = eval(corp_tax), prog_tax = eval(prog_tax), health_care = eval(health_care), border_sec = eval(border_sec), army_spend = eval(army_spend), isis = eval(isis))
-
-        #currUser = users.get_current_user()
-#        currID = currUser.user_id()
-#        user = User.get_by_id(currID)
-
-#        user.abortion = abortion
-#        user.marriage = marriage
-#        user.aff_action = aff_action
-#        user.env_reg = env_reg
-#        user.deny_service = deny_service
-#        user.net_neutrality = net_neutrality
-#        user.corp_tax = corp_tax
-#        user.prog_tax = prog_tax
-#        user.health_care = health_care
-#        user.border_sec = border_sec
-#        user.army_spend = army_spend
-#        user.isis = isis
-#        user.put()
 
         user_key = user.put()
 
@@ -498,19 +483,18 @@ class ProfileHandler(webapp2.RequestHandler):
         currID = currUser.user_id()
         user = User.get_by_id(currID)
 
-        user.abortion = abortion
-        user.marriage = marriage
-        user.aff_action = aff_action
-        user.env_reg = env_reg
-        user.deny_service = deny_service
-        user.net_neutrality = net_neutrality
-        user.corp_tax = corp_tax
-        user.prog_tax = prog_tax
-        user.health_care = health_care
-        user.border_sec = border_sec
-        user.army_spend = army_spend
-        user.isis = isis
-        user.put()
+#        user.abortion = abortion
+#        user.marriage = marriage
+#        user.aff_action = aff_action
+#        user.env_reg = env_reg
+#        user.net_neutrality = net_neutrality
+#        user.corp_tax = corp_tax
+#        user.prog_tax = prog_tax
+#        user.health_care = health_care
+#        user.border_sec = border_sec
+#        user.army_spend = army_spend
+#        user.isis = isis
+#        user.put()
 
 
 
