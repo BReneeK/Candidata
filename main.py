@@ -84,11 +84,11 @@ class User(ndb.Model):
 class MainHandler(webapp2.RequestHandler):
     def get(self):
 
-        googleUser = user.get_current_user()
-        userGoogleID = googleUser.user_id()
-
-        newUser = User(id = userGoogleID)
-        newUser.put()
+        # googleUser = user.get_current_user()
+        # userGoogleID = googleUser.user_id()
+        #
+        # newUser = User(id = userGoogleID)
+        # newUser.put()
 
         template = jinja_environment.get_template('templates/index.html')
         self.response.write(template.render())
