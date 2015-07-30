@@ -3,20 +3,32 @@
     <link rel = "stylesheet" type = "text/css" href = "../CSS/main_style.css"></link>
     <title>Candidate List</title>
   </head>
-
   <body>
+    <h1 class='bigger than others'>
+      Home Page</h1>
+    <h3 id="intro">
+      Hello, we are CandiData. A website dedicated to help people make decisions about the upcoming 2016 election. Take a look around and please, vote!
+    </h3>
 
-    <h1>Candidates</h1>
 
+    <div id="candidatebox">
+      <h3>Candidates:</h3>
+    {%for candidate in candidatequery%}
+
+      <a href = "http://localhost:8100/candidates?candidate={{candidate.key.id()}}">{{candidate.name}}</a>,  {{candidate.party}}
+        {%endfor%}
+    </div>
+    <p id ="aboutus"> </p>
+  </br>
+  </br>
+  </br>
+  </br>
+    <table style="width:100%" table-layout: fixed>
+      <tr>
+        <td> <a href="http://localhost:8100/search" style="width:33%">To search candidates</a>  </td>
+        <td> <a href="http://localhost:8100/questions" style="width:33%">To take the survey <a> </td>
+        <td> <a href="http://localhost:8100/aboutus" style="width:34%">About us</td>
+      </tr>
+    </table>
   </body>
-
-
-<head>
-  <title></title>
-</head>
-<body>
-
-</body>
-
-
 </html>

@@ -30,7 +30,6 @@ from operator import eq
 
 # intID2# from html.entities import name2codepoint
 
-
 jinja_environment = jinja2.Environment(
     loader=jinja2.FileSystemLoader(os.path.dirname(__file__)),
     extensions=['jinja2.ext.autoescape'],
@@ -79,30 +78,16 @@ class User(ndb.Model):
     army_spend = ndb.StringProperty(required = True)
     isis = ndb.StringProperty(required = True)
 
-
-
 class MainHandler(webapp2.RequestHandler):
     def get(self):
-
-#        googleUser = users.get_current_user()
-#        userGoogleID = googleUser.user_id()
-
-#        newUser = User(id = userGoogleID)
-#        newUser.put()
-
         template = jinja_environment.get_template('templates/index.html')
-        self.response.write(template.render())
 
         candidate_id = self.request.get('id')
         if not candidate_id:
             template = jinja_environment.get_template('templates/index.html')
-            self.response.write(template.render())
-            #candidate_id = self.request.get('id')
-            for candidate in Candidate.query().fetch():
-
-                self.response.write(candidate.name + ", " + candidate.party + '<br>')
-
-
+            self.response.write(template.render({
+                'candidatequery': Candidate.query().fetch()
+                }))
         else:
             candidate_key = ndb.Key(Candidate, int(candidate_id))
             candidate = candidate_key.get()
@@ -120,7 +105,6 @@ class AddHandler(webapp2.RequestHandler):
         self.response.write(template.render())
 
         bios = {
-
             "HC": "Hillary Diane Rodham Clinton (born October 26, 1947) is an American politician. She was United States Secretary of State in the administration of President Barack Obama from 2009 to 2013, a United States Senator representing New York from 2001 to 2009, and, as the wife of President Bill Clinton, First Lady of the United States from 1993 to 2001. A leading candidate for the Democratic Party's nomination to the 2008 presidential election, she has announced her candidacy for the Democratic nomination in the 2016 presidential election.",
             "LD": "Lincoln Davenport Chafee (born March 26, 1953) is an American politician from Rhode Island who has served as the Mayor of Warwick (1993-1999), a U.S. Senator (1999-2007) and as the 74th Governor of Rhode Island (2011-2015).",
             "MM": "Martin Joseph O'Malley (born January 18, 1963) is an American politician who served as the 61st Governor of Maryland, from 2007 to 2015. Prior to being elected as Governor, he served as the Mayor of Baltimore from 1999 to 2007, having previously served as a Baltimore City Councilor from 1991 to 1999. A member of the Democratic Party, he served as the Chair of the Democratic Governors Association from 2011 to 2013. Following his departure from public office in early 2015, he was appointed to the Johns Hopkins University's Carey Business School as a visiting professor focusing on government, business, and urban issues.",
@@ -143,7 +127,6 @@ class AddHandler(webapp2.RequestHandler):
             "DT": "Donald John Trump (born June 14, 1946) is an American business magnate, investor, television personality, and author. He is the chairman and president of The Trump Organization and the founder of Trump Entertainment Resorts. Trump's lifestyle and outspoken manner, as well as his books and his media appearances, have made him an American celebrity. He hosted The Apprentice, a US TV show. On June 16, 2015 at Trump Tower in Manhattan, Trump formally announced his candidacy for President of the United States in the 2016 election, seeking the nomination of the Republican Party.",
             "SW": "Scott Kevin Walker (born November 2, 1967) is an American politician and the 45th Governor of Wisconsin, serving since 2011. Walker is also a candidate for the Republican Party's nomination to the 2016 presidential election. Walker served in the Wisconsin State Assembly and as the Milwaukee County Executive before his election as governor in 2010. He survived a 2012 recall election and was reelected governor in 2014, defeating Democrat Mary Burke."
         }
-
 
         h_clinton = Candidate(name = "Hillary Clinton", party = "Democrat", website = "http://www.ontheissues.org/Hillary_Clinton.htm", bio = bios["HC"], intID1 = "7XOoOgsj_z8", intID2 = "cYKwU2MwI-8", speID1 = "6744Ym_5Ddg", speID2 = "Q4O8xo9EWb8",
             abortion = "False", marriage = "False", aff_action = "False", env_reg = "False", deny_service = "False", net_neutrality = "False",
@@ -216,7 +199,6 @@ class AddHandler(webapp2.RequestHandler):
         t_cruz, c_fiorina, l_graham, m_huckabee, b_jindal, j_kasich, g_pataki, r_paul, r_perry,
         m_rubio, r_santorum, d_trump, s_walker]
 
-
         for person in candidates:
             url = person.website
             url_file = urlfetch.fetch(url)
@@ -224,22 +206,17 @@ class AddHandler(webapp2.RequestHandler):
 
             abortion_response2 = re.search(r'<b>\s+<a name=\'q1\'></a>\s+(.*)\n</b>', url_html, re.MULTILINE)
             if abortion_response2:
-                strippedverion = abortion_response2.group(1).replace(" ", "").strip()
-                logging.info(strippedverion)
+                strippedverion = abortion_response2.group(1).replace(" ", "").replace("\"", "").strip()
                 if strippedverion == "StronglyFavors" or strippedverion == "Favors":
                     person.abortion = "True"
-                    logging.info("has worked")
                 else:
                     person.abortion = "False"
-                    logging.info(person.abortion)
-                    logging.info("fail")
-
             else:
                 person.abortion = "False"
 
             marriage_response = re.search(r'<b>\s+<a name=\'q3\'></a>\s+(.*)\n</b>', url_html, re.MULTILINE)
             if marriage_response:
-                strippedverion1 = marriage_response.group(1).replace(" ", "").strip()
+                strippedverion1 = marriage_response.group(1).replace(" ", "").strip().replace("\"", "")
                 if strippedverion1 == "StronglyFavors" or strippedverion1 == "Favors":
                     person.marriage = "True"
                 else:
@@ -255,7 +232,7 @@ class AddHandler(webapp2.RequestHandler):
 
             aff_action_response = re.search(r'<b>\s+<a name=\'q2\'></a>\s+(.*)\n</b>', url_html, re.MULTILINE)
             if aff_action_response:
-                strippedversion2 = aff_action_response.group(1).replace(" ", "").strip()
+                strippedversion2 = aff_action_response.group(1).replace(" ", "").strip().replace("\"", "")
                 if strippedversion2 == "Favors" or strippedversion2 == "StronglyFavors":
                     person.aff_action = "True"
                 else:
@@ -265,7 +242,7 @@ class AddHandler(webapp2.RequestHandler):
 
             env_reg_response= re.search(r'<b>\s+<a name=\'q8\'></a>\s+(.*)\n</b>', url_html, re.MULTILINE)
             if env_reg_response:
-                strippedverion3 = env_reg_response.group(1).replace(" ", "").strip()
+                strippedverion3 = env_reg_response.group(1).replace(" ", "").strip().replace("\"", "")
                 if strippedverion3 == "Favors" or strippedversion2 == "StronglyFavors":
                     person.env_reg = "True"
                 else:
@@ -280,19 +257,25 @@ class AddHandler(webapp2.RequestHandler):
             if net_neutrality_response:
                 person.net_neutrality = "True"
 
-            prog_tax_response = re.search(r'<b>\s+<a name=\'q11\'></a>\s+(.*)\n</b>', url_html, re.MULTILINE)
+            prog_tax_response = re.search(r'<b>\s+<a name=\"q11\"></a>\s+(.*)\n</b>', url_html, re.MULTILINE)
             if prog_tax_response:
-                strippedverion4 = prog_tax_response.group(1).replace(" ", "").strip()
+
+                strippedverion4 = prog_tax_response.group(1).replace(" ", "").strip().replace("\"", "")
+                if person.name == "Jim Webb":
+                    logging.info(prog_tax_response.group(1))
+                    logging.info(strippedverion4)
                 if strippedverion4 == "StronglyFavors" or strippedverion4 == "Favors":
                     person.prog_tax = "True"
                 else:
                     person.prog_tax = "False"
             else:
                 person.prog_tax = "False"
+                if person.name == "Jim Webb":
+                    logging.info("Nope not there")
 
             health_care_response = re.search(r'<b>\s+<a name=\'q5\'></a>\s+(.*)\n</b>', url_html, re.MULTILINE)
             if health_care_response:
-                strippedversion5 = health_care_response.group(1).replace(" ", "").strip()
+                strippedversion5 = health_care_response.group(1).replace(" ", "").strip().replace("\"", "")
                 if strippedversion5 == "StronglyFavors" or strippedversion5 == "Favors":
                     person.health_care = "True"
                 else:
@@ -312,7 +295,7 @@ class AddHandler(webapp2.RequestHandler):
 
             army_spend_response = re.search(r'<b>\s+<a name=\'q15\'></a>\s+(.*)\n</b>', url_html, re.MULTILINE)
             if army_spend_response:
-                strippedversion6 = army_spend_response.group(1).replace(" ", "").strip()
+                strippedversion6 = army_spend_response.group(1).replace(" ", "").strip().replace("\"", "")
                 if strippedversion6 == "StronglyFavors" or strippedversion6 == "Favors":
                     person.army_spend = "True"
                 else:
@@ -331,9 +314,12 @@ class AddHandler(webapp2.RequestHandler):
                 person.corp_tax = "False"
             else:
                 person.corp_tax = "True"
+            logging.info("Changing stances is complete")
 
         for person in candidates:
             person.put()
+            logging.info("adding users is complete")
+        logging.info("adding users is truly complete now")
 
 class SearchHandler(webapp2.RequestHandler):
     def get(self):
@@ -352,7 +338,7 @@ class LinkHandler(webapp2.RequestHandler):
         search = self.request.get("search")
         result = Candidate.query(Candidate.name == search).get()
 
-        print result.website
+        # print result.website
 
         url_file = urlfetch.fetch(result.website)
         url_html = url_file.content
@@ -368,9 +354,6 @@ class CandidateHandler(webapp2.RequestHandler):
         template = jinja_environment.get_template('templates/candidates.html')
 
         candidate1 = Candidate.get_by_id(int(self.request.get('candidate')))
-        logging.info(candidate1)
-
-
 
         self.response.write(template.render({
             'candidate1': candidate1,
@@ -397,10 +380,9 @@ class UserHandler(webapp2.RequestHandler):
         if user:
             greeting = ('Welcome, %s!(<a href="%s">sign out</a>)' %
                         (user.nickname(), users.create_logout_url('/')))
-        else:
-            greeting = ('<a href="%s">Sign in or register</a>.' %
-                        (users.create_login_url('/profile')))
-        # user.put()
+#        else:
+#            greeting = ('<a href="%s">Sign in or register</a>.' %
+#                        (users.create_login_url('/profile')))
 
         self.response.out.write('<html><body>%s</body></html>' % greeting)
         self.response.write(template.render())
@@ -409,6 +391,11 @@ class FormHandler(webapp2.RequestHandler):
     def get(self):
 
         template = jinja_environment.get_template('templates/questions.html')
+        self.response.write(template.render())
+
+class AboutUsHandler(webapp2.RequestHandler):
+    def get(self):
+        template = jinja_environment.get_template('templates/aboutus.html')
         self.response.write(template.render())
 
 class AnswerHandler(webapp2.RequestHandler):
@@ -429,26 +416,13 @@ class AnswerHandler(webapp2.RequestHandler):
         army_spend = self.request.get('army_spend')
         isis = self.request.get('isis')
 
-        user = User(name = name, abortion = eval(abortion), marriage = eval(marriage), aff_action = eval(aff_action), env_reg = eval(env_reg), deny_service = eval(deny_service), net_neutrality = eval(net_neutrality),
+
+
+        currUser = users.get_current_user()
+        currID = currUser.user_id()
+
+        user = User(id = currID, name = name, abortion = eval(abortion), marriage = eval(marriage), aff_action = eval(aff_action), env_reg = eval(env_reg), deny_service = eval(deny_service), net_neutrality = eval(net_neutrality),
         corp_tax = eval(corp_tax), prog_tax = eval(prog_tax), health_care = eval(health_care), border_sec = eval(border_sec), army_spend = eval(army_spend), isis = eval(isis))
-
-        #currUser = users.get_current_user()
-#        currID = currUser.user_id()
-#        user = User.get_by_id(currID)
-
-#        user.abortion = abortion
-#        user.marriage = marriage
-#        user.aff_action = aff_action
-#        user.env_reg = env_reg
-#        user.deny_service = deny_service
-#        user.net_neutrality = net_neutrality
-#        user.corp_tax = corp_tax
-#        user.prog_tax = prog_tax
-#        user.health_care = health_care
-#        user.border_sec = border_sec
-#        user.army_spend = army_spend
-#        user.isis = isis
-#        user.put()
 
         user_key = user.put()
 
@@ -474,6 +448,12 @@ class AnswerHandler(webapp2.RequestHandler):
 
 class ProfileHandler(webapp2.RequestHandler):
     def get(self):
+        currUser = users.get_current_user()
+        currID = currUser.user_id()
+
+        LoggedIn = User.get_by_id(currID)
+
+
         template = jinja_environment.get_template('templates/profile.html')
         self.response.write(template.render())
 
@@ -494,6 +474,11 @@ class ProfileHandler(webapp2.RequestHandler):
         army_spend = self.request.get('army_spend')
         isis = self.request.get('isis')
 
+
+
+#        user = User(name = name, abortion = abortion, marriage = marriage, aff_action = aff_action, env_reg = env_reg, deny_service = deny_service, net_neutrality = net_neutrality, corp_tax = corp_tax, prog_tax = prog_tax, health_care = health_care, border_sec = border_sec, army_spend = army_spend, isis = isis)
+#        currUser = users.get_current_user()
+#        currID = currUser.user_id()
 
         # user = User(name = name, abortion = abortion, marriage = marriage, aff_action = aff_action, env_reg = env_reg, deny_service = deny_service, net_neutrality = net_neutrality, corp_tax = corp_tax, prog_tax = prog_tax, health_care = health_care, border_sec = border_sec, army_spend = army_spend, isis = isis)
         '''currUser = users.get_current_user()
@@ -518,7 +503,7 @@ class ProfileHandler(webapp2.RequestHandler):
 
         user_key = user.put()
 
-        id = user_key.id()
+        #id = user_key.id()
 
         candidates = []
 
@@ -566,11 +551,34 @@ class ProfileHandler(webapp2.RequestHandler):
             'similarities' : similarities,
             'your_candidates': your_candidates,
             'candidates': candidates,
-            'the_range': the_range,
-            'isis' : isis
+            'the_range': the_range
 
             }
             ))
+
+        self.response.write(template.render(
+        {
+            'LoggedIn.name' : name,
+            'LoggedIn.abortion' : abortion,
+            'LoggedIn.marriage' : marriage,
+            'LoggedIn.aff_action' : aff_action,
+            'LoggedIn.env_reg' : env_reg,
+            'LoggedIn.deny_service' : deny_service,
+            'LoggedIn.net_neutrality' : net_neutrality,
+            'LoggedIn.corp_tax' : corp_tax,
+            'LoggedIn.prog_tax' : prog_tax,
+            'LoggedIn.health_care' : health_care,
+            'LoggedIn.border_sec' : border_sec,
+            'LoggedIn..army_spend' : army_spend,
+            'LoggedIn.isis' : isis,
+            'LoggedIn.similarities' : similarities,
+            'LoggedIn.your_candidates': your_candidates,
+            'LoggedIn.candidates': candidates,
+            'LoggedIn.the_range': the_range
+
+            }
+            ))
+
 
 class LoginHandler(webapp2.RequestHandler):
     def get(self):
@@ -585,6 +593,7 @@ class LoginHandler(webapp2.RequestHandler):
         self.response.out.write('<html><body>%s</body></html>' % greeting)
 
 
+
 app = webapp2.WSGIApplication([
     ('/', MainHandler),
     ('/add', AddHandler),
@@ -594,6 +603,7 @@ app = webapp2.WSGIApplication([
     ('/login', LoginHandler),
     ('/questions', FormHandler),
     ('/answers', AnswerHandler),
-    ('/profile', ProfileHandler)
+    ('/profile', ProfileHandler),
+    ('/aboutus', AboutUsHandler)
 
 ], debug=True)
