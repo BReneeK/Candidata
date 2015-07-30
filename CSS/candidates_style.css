@@ -82,12 +82,13 @@
 }
 
 .Republican {
-  background-color: #DC2039;
+  background-color: #941324;
 }
 
 .Republican h1{
   font-family: sans-serif;
   color: #DC2039;
+
 }
 
 .Republican h2{
@@ -98,7 +99,7 @@
 .Republican .top{
   font-family: sans-serif;
   text-align: center;
-  border: 10px solid #941324;
+  border: 10px solid #DC2039;
   padding: 10px;
   background-color: #F5F6FA;
 }
@@ -110,7 +111,7 @@
 
 .Republican #bio{
   display: block;
-  border: 10px solid #941324;
+  border: 10px solid #DC2039;
   font-family: sans-serif;
   padding: 10px;
   margin-bottom: 15px;
@@ -120,7 +121,7 @@
 
 .Republican #social{
   display: inline-block;
-  border: 10px solid #941324;
+  border: 10px solid #DC2039;
   padding: 10px;
   margin-bottom: 15px;
   background-color: #F5F6FA;
@@ -129,7 +130,7 @@
 
 .Republican #econ{
   display: inline-block;
-  border: 10px solid #941324;
+  border: 10px solid #DC2039;
   padding: 10px;
   margin-bottom: 15px;
   background-color: #F5F6FA;
@@ -138,7 +139,7 @@
 
 .Republican #fp{
   display: inline-block;
-  border: 10px solid #941324;
+  border: 10px solid #DC2039;
   padding: 10px;
   margin-bottom: 15px;
   background-color: #F5F6FA;
@@ -147,7 +148,7 @@
 
 .Republican #interviews{
   display: inline-block;
-  border: 10px solid #941324;
+  border: 10px solid #DC2039;
   padding: 10px;
   margin-bottom: 15px;
   background-color: #F5F6FA;
@@ -156,7 +157,7 @@
 
 .Republican #speeches{
   display: inline-block;
-  border: 10px solid #941324;
+  border: 10px solid #DC2039;
   padding: 10px;
   margin-bottom: 15px;
   background-color: #F5F6FA;
