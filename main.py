@@ -1,3 +1,4 @@
+
 #!/usr/bin/env python
 # coding: utf-8
 #
@@ -25,7 +26,7 @@ from google.appengine.api import urlfetch
 import logging
 import json
 import re
-
+from operator import eq
 
 # intID2# from html.entities import name2codepoint
 
@@ -83,6 +84,14 @@ class User(ndb.Model):
 class MainHandler(webapp2.RequestHandler):
     def get(self):
 
+        googleUser = user.get_current_user()
+        userGoogleID = googleUser.user_id()
+
+        newUser = User(id = userGoogleID)
+        newUser.put()
+
+        template = jinja_environment.get_template('templates/index.html')
+        self.response.write(template.render())
 
         candidate_id = self.request.get('id')
         if not candidate_id:
@@ -210,89 +219,104 @@ class AddHandler(webapp2.RequestHandler):
 
         for person in candidates:
             url = person.website
-            # logging.info(url)
             url_file = urlfetch.fetch(url)
-            # logging.info(url_file)
             url_html = url_file.content
-            # logging.info(url_html)
 
+            abortion_response2 = re.search(r'<b>\s+<a name=\'q1\'></a>\s+(.*)\n</b>', url_html, re.MULTILINE)
+            if abortion_response2:
+                strippedverion = abortion_response2.group(1).replace(" ", "").strip()
+                logging.info(strippedverion)
+                if strippedverion == "StronglyFavors" or strippedverion == "Favors":
+                    person.abortion = "True"
+                    logging.info("has worked")
+                else:
+                    person.abortion = "False"
+                    logging.info(person.abortion)
+                    logging.info("fail")
 
-            abortion_response = re.search(r'pro-life', url_html, re.MULTILINE)
-            if abortion_response:
+            else:
                 person.abortion = "False"
-                logging.info("This candidate does not support abortion")
-            else:
-                person.abortion = "True"
-                logging.info("This candidate does support abortion")
 
-            marriage_response = re.search(r'views opposing same-sex marriage | No same-sex marriage', url_html, re.MULTILINE)
+            marriage_response = re.search(r'<b>\s+<a name=\'q3\'></a>\s+(.*)\n</b>', url_html, re.MULTILINE)
             if marriage_response:
-                person.marriage = "False"
-                logging.info("This candidate does not support same-sex marriage")
-
+                strippedverion1 = marriage_response.group(1).replace(" ", "").strip()
+                if strippedverion1 == "StronglyFavors" or strippedverion1 == "Favors":
+                    person.marriage = "True"
+                else:
+                    person.marriage = "False"
             else:
-                person.marriage = "True"
-                logging.info("This candidate does support same-sex")
+                person.marriage = "False"
 
             deny_service_response = re.search(r'Ok to deny services', url_html, re.MULTILINE)
             if deny_service_response:
                 person.deny_service = "True"
-                logging.info("This candidate does not support denying services based on religious beliefs")
             else:
                 person.deny_service = "False"
-                logging.info("This candidate does support denying services based on religious beliefs")
 
-            aff_action_response = re.search(r'indicating an anti-affirmative-action stance', url_html, re.MULTILINE)
+            aff_action_response = re.search(r'<b>\s+<a name=\'q2\'></a>\s+(.*)\n</b>', url_html, re.MULTILINE)
             if aff_action_response:
+                strippedversion2 = aff_action_response.group(1).replace(" ", "").strip()
+                if strippedversion2 == "Favors" or strippedversion2 == "StronglyFavors":
+                    person.aff_action = "True"
+                else:
+                    person.aff_action = "False"
+            else:
                 person.aff_action = "False"
-                logging.info("supports AA")
-            else:
-                person.aff_action = "True"
-                logging.info("not support AAs")
 
-            env_reg_response = re.search(r'<b><a name=\'q8\'></a>(.*)</b>', url_html, re.MULTILINE)
-            if env_reg_response == "Opposes" or env_reg_response == "Strongly Opposes":
-                person.env_reg = "False"
-                logging.info('supports increase env')
-                logging.info('supports increase' + env_reg_response)
+            env_reg_response= re.search(r'<b>\s+<a name=\'q8\'></a>\s+(.*)\n</b>', url_html, re.MULTILINE)
+            if env_reg_response:
+                strippedverion3 = env_reg_response.group(1).replace(" ", "").strip()
+                if strippedverion3 == "Favors" or strippedversion2 == "StronglyFavors":
+                    person.env_reg = "True"
+                else:
+                    person.env_reg = "False"
             else:
-                person.env_reg = "True"
-                logging.info('supports decrease env')
+                person.env_reg = "False"
 
             net_neutrality_response = re.search(r'Voted NO on establishing \"network neutrality\"', url_html, re.MULTILINE)
             if net_neutrality_response:
                 person.net_neutrality = "False"
-
-
             net_neutrality_response = re.search(r'Ensure net neutrality', url_html, re.MULTILINE)
             if net_neutrality_response:
                 person.net_neutrality = "True"
 
-            prog_tax_response = re.search(r'<b><a name=\'q11\'></a>(.*)</b>', url_html, re.MULTILINE)
-            if prog_tax_response == "Strongly Favors" or prog_tax_response == "Favors":
-                person.prog_tax = "True"
+            prog_tax_response = re.search(r'<b>\s+<a name=\'q11\'></a>\s+(.*)\n</b>', url_html, re.MULTILINE)
+            if prog_tax_response:
+                strippedverion4 = prog_tax_response.group(1).replace(" ", "").strip()
+                if strippedverion4 == "StronglyFavors" or strippedverion4 == "Favors":
+                    person.prog_tax = "True"
+                else:
+                    person.prog_tax = "False"
             else:
                 person.prog_tax = "False"
 
-            health_care_response = re.search(r'<b><a name=\'q5\'></a>(.*)</b>', url_html, re.MULTILINE)
-            if health_care_response == "Strongly Favors" or health_care_response == "Favors":
-                person.health_care = "True"
+            health_care_response = re.search(r'<b>\s+<a name=\'q5\'></a>\s+(.*)\n</b>', url_html, re.MULTILINE)
+            if health_care_response:
+                strippedversion5 = health_care_response.group(1).replace(" ", "").strip()
+                if strippedversion5 == "StronglyFavors" or strippedversion5 == "Favors":
+                    person.health_care = "True"
+                else:
+                    person.health_care = "False"
             else:
                 person.health_care = "False"
 
-
             border_sec_response = re.search(r'More border patrolling | Secure border', url_html, re.MULTILINE)
             if border_sec_response:
-                person.net_neutrality = "True"
+                person.border_sec = "True"
             else:
                 person.border_sec = "False"
+
             border_sec_response2 = re.search(r'NO on building a fence along the Mexican border', url_html, re.MULTILINE)
             if border_sec_response:
-                person.net_neutrality = "False"
+                person.border_sec = "False"
 
-            army_spend_response = re.search(r'<b><a name=\'q15\'></a>(.*)</b>', url_html, re.MULTILINE)
-            if health_care_response == "Strongly Favors" or health_care_response == "Favors":
-                person.army_spend = "True"
+            army_spend_response = re.search(r'<b>\s+<a name=\'q15\'></a>\s+(.*)\n</b>', url_html, re.MULTILINE)
+            if army_spend_response:
+                strippedversion6 = army_spend_response.group(1).replace(" ", "").strip()
+                if strippedversion6 == "StronglyFavors" or strippedversion6 == "Favors":
+                    person.army_spend = "True"
+                else:
+                    person.army_spend = "False"
             else:
                 person.army_spend = "False"
 
@@ -343,7 +367,6 @@ class CandidateHandler(webapp2.RequestHandler):
     def get(self):
         template = jinja_environment.get_template('templates/candidates.html')
 
-        # search = self.request.get("search")
         candidate1 = Candidate.get_by_id(int(self.request.get('candidate')))
         logging.info(candidate1)
 
@@ -366,32 +389,24 @@ class CandidateHandler(webapp2.RequestHandler):
 
         }))
 
-
-
-        #candidate_id = result.Key()
-        #candidate = Candidate.get_by_id(int(candidate_id))
-
 class UserHandler(webapp2.RequestHandler):
     def get(self):
-        template = jinja_environment.get_template('templates/login.html')
         user = users.get_current_user()
-        greeting = ""
 
         if user:
-            greeting = ('Welcome, %s!, Your email is %s, Your federated id is %s . (<a href="%s">sign out</a>)' %
-                        (user.nickname(), user.email(), user.federated_provider(), user.create_logout_url('/')))
+            greeting = ('Welcome, %s!(<a href="%s">sign out</a>)' %
+                        (user.nickname(), user.create_logout_url('/')))
         else:
-            greeting = ('<a href=\"%s\">Sign in or register</a>.' %
-                        user.create_login_url('/'))
-
+            greeting = ('<a href="%s">Sign in or register</a>.' %
+                        (user.create_login_url('/profile')))
         # user.put()
 
-        self.response.out.write(template.render())
-        self.response.write('<html><body><p>%s</p></body></html>' %greeting)
+        self.response.out.write('<html><body>%s</body></html>' % greeting)
+        template = jinja_environment.get_template('templates/login.html')
+        self.response.write(template.render())
 
 class FormHandler(webapp2.RequestHandler):
     def get(self):
-
 
         template = jinja_environment.get_template('templates/questions.html')
         self.response.write(template.render())
@@ -462,7 +477,24 @@ class ProfileHandler(webapp2.RequestHandler):
         isis = self.request.get('isis')
 
 
-        user = User(name = name, abortion = abortion, marriage = marriage, aff_action = aff_action, env_reg = env_reg, deny_service = deny_service, net_neutrality = net_neutrality, corp_tax = corp_tax, prog_tax = prog_tax, health_care = health_care, border_sec = border_sec, army_spend = army_spend, isis = isis)
+        # user = User(name = name, abortion = abortion, marriage = marriage, aff_action = aff_action, env_reg = env_reg, deny_service = deny_service, net_neutrality = net_neutrality, corp_tax = corp_tax, prog_tax = prog_tax, health_care = health_care, border_sec = border_sec, army_spend = army_spend, isis = isis)
+        currUser = users.get_current_user()
+        currID = currUser.user_id()
+        user = User.get_by_id(currID)
+
+        user.abortion = abortion
+        user.marriage = marriage
+        user.aff_action = aff_action
+        user.env_reg = env_reg
+        user.deny_service = deny_service
+        user.net_neutrality = net_neutrality
+        user.corp_tax = corp_tax
+        user.prog_tax = prog_tax
+        user.health_care = health_care
+        user.border_sec = border_sec
+        user.army_spend = army_spend
+        user.isis = isis
+        user.put()
 
         user_key = user.put()
 
