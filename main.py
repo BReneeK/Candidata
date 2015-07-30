@@ -380,9 +380,10 @@ class UserHandler(webapp2.RequestHandler):
         if user:
             greeting = ('Welcome, %s!(<a href="%s">sign out</a>)' %
                         (user.nickname(), users.create_logout_url('/')))
-#        else:
-#            greeting = ('<a href="%s">Sign in or register</a>.' %
-#                        (users.create_login_url('/profile')))
+        else:
+            greeting = ('<a href="%s">Sign in or register</a>.' %
+                        (users.create_login_url('/profile')))
+        # user.put()
 
         self.response.out.write('<html><body>%s</body></html>' % greeting)
         self.response.write(template.render())
@@ -416,13 +417,26 @@ class AnswerHandler(webapp2.RequestHandler):
         army_spend = self.request.get('army_spend')
         isis = self.request.get('isis')
 
-
-
-        currUser = users.get_current_user()
-        currID = currUser.user_id()
-
-        user = User(id = currID, name = name, abortion = eval(abortion), marriage = eval(marriage), aff_action = eval(aff_action), env_reg = eval(env_reg), deny_service = eval(deny_service), net_neutrality = eval(net_neutrality),
+        user = User(name = name, abortion = eval(abortion), marriage = eval(marriage), aff_action = eval(aff_action), env_reg = eval(env_reg), deny_service = eval(deny_service), net_neutrality = eval(net_neutrality),
         corp_tax = eval(corp_tax), prog_tax = eval(prog_tax), health_care = eval(health_care), border_sec = eval(border_sec), army_spend = eval(army_spend), isis = eval(isis))
+
+        #currUser = users.get_current_user()
+#        currID = currUser.user_id()
+#        user = User.get_by_id(currID)
+
+#        user.abortion = abortion
+#        user.marriage = marriage
+#        user.aff_action = aff_action
+#        user.env_reg = env_reg
+#        user.deny_service = deny_service
+#        user.net_neutrality = net_neutrality
+#        user.corp_tax = corp_tax
+#        user.prog_tax = prog_tax
+#        user.health_care = health_care
+#        user.border_sec = border_sec
+#        user.army_spend = army_spend
+#        user.isis = isis
+#        user.put()
 
         user_key = user.put()
 
@@ -448,12 +462,6 @@ class AnswerHandler(webapp2.RequestHandler):
 
 class ProfileHandler(webapp2.RequestHandler):
     def get(self):
-        currUser = users.get_current_user()
-        currID = currUser.user_id()
-
-        LoggedIn = User.get_by_id(currID)
-
-
         template = jinja_environment.get_template('templates/profile.html')
         self.response.write(template.render())
 
@@ -474,11 +482,6 @@ class ProfileHandler(webapp2.RequestHandler):
         army_spend = self.request.get('army_spend')
         isis = self.request.get('isis')
 
-
-
-#        user = User(name = name, abortion = abortion, marriage = marriage, aff_action = aff_action, env_reg = env_reg, deny_service = deny_service, net_neutrality = net_neutrality, corp_tax = corp_tax, prog_tax = prog_tax, health_care = health_care, border_sec = border_sec, army_spend = army_spend, isis = isis)
-#        currUser = users.get_current_user()
-#        currID = currUser.user_id()
 
         # user = User(name = name, abortion = abortion, marriage = marriage, aff_action = aff_action, env_reg = env_reg, deny_service = deny_service, net_neutrality = net_neutrality, corp_tax = corp_tax, prog_tax = prog_tax, health_care = health_care, border_sec = border_sec, army_spend = army_spend, isis = isis)
         '''currUser = users.get_current_user()
@@ -503,7 +506,7 @@ class ProfileHandler(webapp2.RequestHandler):
 
         user_key = user.put()
 
-        #id = user_key.id()
+        id = user_key.id()
 
         candidates = []
 
@@ -551,33 +554,12 @@ class ProfileHandler(webapp2.RequestHandler):
             'similarities' : similarities,
             'your_candidates': your_candidates,
             'candidates': candidates,
-            'the_range': the_range
+            'the_range': the_range,
+            'isis' : isis
 
             }
             ))
 
-        self.response.write(template.render(
-        {
-            'LoggedIn.name' : name,
-            'LoggedIn.abortion' : abortion,
-            'LoggedIn.marriage' : marriage,
-            'LoggedIn.aff_action' : aff_action,
-            'LoggedIn.env_reg' : env_reg,
-            'LoggedIn.deny_service' : deny_service,
-            'LoggedIn.net_neutrality' : net_neutrality,
-            'LoggedIn.corp_tax' : corp_tax,
-            'LoggedIn.prog_tax' : prog_tax,
-            'LoggedIn.health_care' : health_care,
-            'LoggedIn.border_sec' : border_sec,
-            'LoggedIn..army_spend' : army_spend,
-            'LoggedIn.isis' : isis,
-            'LoggedIn.similarities' : similarities,
-            'LoggedIn.your_candidates': your_candidates,
-            'LoggedIn.candidates': candidates,
-            'LoggedIn.the_range': the_range
-
-            }
-            ))
 app = webapp2.WSGIApplication([
     ('/', MainHandler),
     ('/add', AddHandler),
