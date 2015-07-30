@@ -28,11 +28,7 @@ import json
 import re
 from operator import eq
 
-
-
-
 # intID2# from html.entities import name2codepoint
-
 
 jinja_environment = jinja2.Environment(
     loader=jinja2.FileSystemLoader(os.path.dirname(__file__)),
@@ -82,12 +78,8 @@ class User(ndb.Model):
     army_spend = ndb.StringProperty(required = True)
     isis = ndb.StringProperty(required = True)
 
-
-
 class MainHandler(webapp2.RequestHandler):
     def get(self):
-
-
         template = jinja_environment.get_template('templates/index.html')
 
         candidate_id = self.request.get('id')
@@ -96,7 +88,6 @@ class MainHandler(webapp2.RequestHandler):
             self.response.write(template.render({
                 'candidatequery': Candidate.query().fetch()
                 }))
-
         else:
             candidate_key = ndb.Key(Candidate, int(candidate_id))
             candidate = candidate_key.get()
@@ -114,7 +105,6 @@ class AddHandler(webapp2.RequestHandler):
         self.response.write(template.render())
 
         bios = {
-
             "HC": "Hillary Diane Rodham Clinton (born October 26, 1947) is an American politician. She was United States Secretary of State in the administration of President Barack Obama from 2009 to 2013, a United States Senator representing New York from 2001 to 2009, and, as the wife of President Bill Clinton, First Lady of the United States from 1993 to 2001. A leading candidate for the Democratic Party's nomination to the 2008 presidential election, she has announced her candidacy for the Democratic nomination in the 2016 presidential election.",
             "LD": "Lincoln Davenport Chafee (born March 26, 1953) is an American politician from Rhode Island who has served as the Mayor of Warwick (1993-1999), a U.S. Senator (1999-2007) and as the 74th Governor of Rhode Island (2011-2015).",
             "MM": "Martin Joseph O'Malley (born January 18, 1963) is an American politician who served as the 61st Governor of Maryland, from 2007 to 2015. Prior to being elected as Governor, he served as the Mayor of Baltimore from 1999 to 2007, having previously served as a Baltimore City Councilor from 1991 to 1999. A member of the Democratic Party, he served as the Chair of the Democratic Governors Association from 2011 to 2013. Following his departure from public office in early 2015, he was appointed to the Johns Hopkins University's Carey Business School as a visiting professor focusing on government, business, and urban issues.",
@@ -216,7 +206,7 @@ class AddHandler(webapp2.RequestHandler):
 
             abortion_response2 = re.search(r'<b>\s+<a name=\'q1\'></a>\s+(.*)\n</b>', url_html, re.MULTILINE)
             if abortion_response2:
-                strippedverion = abortion_response2.group(1).replace(" ", "").strip()
+                strippedverion = abortion_response2.group(1).replace(" ", "").replace("\"", "").strip()
                 if strippedverion == "StronglyFavors" or strippedverion == "Favors":
                     person.abortion = "True"
                 else:
@@ -226,7 +216,7 @@ class AddHandler(webapp2.RequestHandler):
 
             marriage_response = re.search(r'<b>\s+<a name=\'q3\'></a>\s+(.*)\n</b>', url_html, re.MULTILINE)
             if marriage_response:
-                strippedverion1 = marriage_response.group(1).replace(" ", "").strip()
+                strippedverion1 = marriage_response.group(1).replace(" ", "").strip().replace("\"", "")
                 if strippedverion1 == "StronglyFavors" or strippedverion1 == "Favors":
                     person.marriage = "True"
                 else:
@@ -242,7 +232,7 @@ class AddHandler(webapp2.RequestHandler):
 
             aff_action_response = re.search(r'<b>\s+<a name=\'q2\'></a>\s+(.*)\n</b>', url_html, re.MULTILINE)
             if aff_action_response:
-                strippedversion2 = aff_action_response.group(1).replace(" ", "").strip()
+                strippedversion2 = aff_action_response.group(1).replace(" ", "").strip().replace("\"", "")
                 if strippedversion2 == "Favors" or strippedversion2 == "StronglyFavors":
                     person.aff_action = "True"
                 else:
@@ -252,7 +242,7 @@ class AddHandler(webapp2.RequestHandler):
 
             env_reg_response= re.search(r'<b>\s+<a name=\'q8\'></a>\s+(.*)\n</b>', url_html, re.MULTILINE)
             if env_reg_response:
-                strippedverion3 = env_reg_response.group(1).replace(" ", "").strip()
+                strippedverion3 = env_reg_response.group(1).replace(" ", "").strip().replace("\"", "")
                 if strippedverion3 == "Favors" or strippedversion2 == "StronglyFavors":
                     person.env_reg = "True"
                 else:
@@ -267,19 +257,25 @@ class AddHandler(webapp2.RequestHandler):
             if net_neutrality_response:
                 person.net_neutrality = "True"
 
-            prog_tax_response = re.search(r'<b>\s+<a name=\'q11\'></a>\s+(.*)\n</b>', url_html, re.MULTILINE)
+            prog_tax_response = re.search(r'<b>\s+<a name=\"q11\"></a>\s+(.*)\n</b>', url_html, re.MULTILINE)
             if prog_tax_response:
-                strippedverion4 = prog_tax_response.group(1).replace(" ", "").strip()
+
+                strippedverion4 = prog_tax_response.group(1).replace(" ", "").strip().replace("\"", "")
+                if person.name == "Jim Webb":
+                    logging.info(prog_tax_response.group(1))
+                    logging.info(strippedverion4)
                 if strippedverion4 == "StronglyFavors" or strippedverion4 == "Favors":
                     person.prog_tax = "True"
                 else:
                     person.prog_tax = "False"
             else:
                 person.prog_tax = "False"
+                if person.name == "Jim Webb":
+                    logging.info("Nope not there")
 
             health_care_response = re.search(r'<b>\s+<a name=\'q5\'></a>\s+(.*)\n</b>', url_html, re.MULTILINE)
             if health_care_response:
-                strippedversion5 = health_care_response.group(1).replace(" ", "").strip()
+                strippedversion5 = health_care_response.group(1).replace(" ", "").strip().replace("\"", "")
                 if strippedversion5 == "StronglyFavors" or strippedversion5 == "Favors":
                     person.health_care = "True"
                 else:
@@ -299,7 +295,7 @@ class AddHandler(webapp2.RequestHandler):
 
             army_spend_response = re.search(r'<b>\s+<a name=\'q15\'></a>\s+(.*)\n</b>', url_html, re.MULTILINE)
             if army_spend_response:
-                strippedversion6 = army_spend_response.group(1).replace(" ", "").strip()
+                strippedversion6 = army_spend_response.group(1).replace(" ", "").strip().replace("\"", "")
                 if strippedversion6 == "StronglyFavors" or strippedversion6 == "Favors":
                     person.army_spend = "True"
                 else:
@@ -342,7 +338,7 @@ class LinkHandler(webapp2.RequestHandler):
         search = self.request.get("search")
         result = Candidate.query(Candidate.name == search).get()
 
-        print result.website
+        # print result.website
 
         url_file = urlfetch.fetch(result.website)
         url_html = url_file.content
@@ -395,6 +391,11 @@ class FormHandler(webapp2.RequestHandler):
     def get(self):
 
         template = jinja_environment.get_template('templates/questions.html')
+        self.response.write(template.render())
+
+class AboutUsHandler(webapp2.RequestHandler):
+    def get(self):
+        template = jinja_environment.get_template('templates/aboutus.html')
         self.response.write(template.render())
 
 class AnswerHandler(webapp2.RequestHandler):
@@ -586,6 +587,7 @@ app = webapp2.WSGIApplication([
     ('/login', UserHandler),
     ('/questions', FormHandler),
     ('/answers', AnswerHandler),
-    ('/profile', ProfileHandler)
+    ('/profile', ProfileHandler),
+    ('/aboutus', AboutUsHandler)
 
 ], debug=True)
