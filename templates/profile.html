@@ -1,6 +1,7 @@
 <html>
 
   <head>
+    <link rel = "stylesheet" type = "text/css" href = "../CSS/profile_style.css"></link>
     <title>My Profile</title>
   </head>
   <body>
@@ -8,113 +9,120 @@
     <h1>{{name}}'s Profile</h1>
     <h2>Your stances: </h2>
 
-    <h3> Social issues:  </h3>
-    <p>
-      {% if abortion == "True"%}
-        You are pro-choice.
-      {% else %}
-        You are pro-life.
-      {% endif %}
-    </p>
+    <div id = "social">
+      <h3> Social issues:  </h3>
+      <p>
+        {% if abortion == "True"%}
+          You are pro-choice.
+        {% else %}
+          You are pro-life.
+        {% endif %}
+      </p>
 
-    <p>
-      {%if marriage == "True"%}
-        You support the legalization of same-sex marriage.
-      {%else%}
-        You do not support the legalization of same-sex marriage.
-      {%endif%}
-    </p>
+      <p>
+        {%if marriage == "True"%}
+          You support the legalization of same-sex marriage.
+        {%else%}
+          You do not support the legalization of same-sex marriage.
+        {%endif%}
+      </p>
 
-    <p>
-      {%if aff_action == "True"%}
-        You support affirmative action policies.
-      {%else%}
-        You do not support affirmative action policies.
-      {%endif%}
-    </p>
+      <p>
+        {%if aff_action == "True"%}
+          You support affirmative action policies.
+        {%else%}
+          You do not support affirmative action policies.
+        {%endif%}
+      </p>
 
-    <p>
-      {%if env_reg == "True"%}
-        You support increased environmental regulation.
-      {%else%}
-        You do not support environmental regulation.
-      {%endif%}
-    </p>
+      <p>
+        {%if env_reg == "True"%}
+          You support increased environmental regulation.
+        {%else%}
+          You do not support environmental regulation.
+        {%endif%}
+      </p>
 
-    <p>
-      {%if deny_service == "True"%}
-        You believe businesses should be allowed to deny service based on religious beliefs.
-      {%else%}
-        You do not believe businesses should be allowed to deny service based on religious beliefs.
-      {%endif%}
-    </p>
+      <p>
+        {%if deny_service == "True"%}
+          You believe businesses should be allowed to deny service based on religious beliefs.
+        {%else%}
+          You do not believe businesses should be allowed to deny service based on religious beliefs.
+        {%endif%}
+      </p>
+    </div>
 
-    <h3> Economic issues:  </h3>
-    <p>
-      {%if net_neutrality == "True" %}
-        You support net neutrality.
-      {%else%}
-        You do not support net neutrality.
-      {%endif%}
-    </p>
-    <p>
-      {%if corp_tax == "True" %}
-        You believe the US should reduce the corporate tax rate.
-      {%else%}
-        You do not believe the US should reduce the corporate tax rate.
-      {%endif%}
-    </p>
-    <p>
-      {%if prog_tax == "True" %}
-        You support the progressive tax.
-      {%else%}
-        You do not support the progressive tax.
-      {%endif%}
-    </p>
-    <p>
-      {%if health_care == "True" %}
-        You believe the government should mandate all employers to provide affordable health care to all workers.
-      {%else%}
-        You do not believe government should mandate all employers to provide affordable health care to all workers.
-      {%endif%}
-    </p>
+    <div id = "econ">
+      <h3> Economic issues:  </h3>
+      <p>
+        {%if net_neutrality == "True" %}
+          You support net neutrality.
+        {%else%}
+          You do not support net neutrality.
+        {%endif%}
+      </p>
+      <p>
+        {%if corp_tax == "True" %}
+          You believe the US should reduce the corporate tax rate.
+        {%else%}
+          You do not believe the US should reduce the corporate tax rate.
+        {%endif%}
+      </p>
+      <p>
+        {%if prog_tax == "True" %}
+          You support the progressive tax.
+        {%else%}
+          You do not support the progressive tax.
+        {%endif%}
+      </p>
+      <p>
+        {%if health_care == "True" %}
+          You believe the government should mandate all employers to provide affordable health care to all workers.
+        {%else%}
+          You do not believe government should mandate all employers to provide affordable health care to all workers.
+        {%endif%}
+      </p>
+    </div>
 
-  <h3> Foreign policy issues:  </h3>
-    <p>
-      {%if border_sec == "True" %}
-        You support increasing border security.
-      {%else%}
-        You do not support increasing border security.
-      {%endif%}
-    </p>
-    <p>
-      {%if army_spend == "True" %}
-        You support the lowering of military spending.
-      {%else%}
-        You do not support the lowering of military spending.
-      {%endif%}
-    </p>
-    <p>
-      {%if isis== "True" %}
-        You support the US entering an armed conflict against ISIS.
-      {%else%}
-        You do not support the US entering an armed conflict against ISIS.
-      {%endif%}
-    </p>
+    <div id = "fp">
+      <h3> Foreign policy issues:  </h3>
+      <p>
+        {%if border_sec == "True" %}
+          You support increasing border security.
+        {%else%}
+          You do not support increasing border security.
+        {%endif%}
+      </p>
+      <p>
+        {%if army_spend == "True" %}
+          You support the lowering of military spending.
+        {%else%}
+          You do not support the lowering of military spending.
+        {%endif%}
+      </p>
+      <p>
+        {%if isis== "True" %}
+          You support the US entering an armed conflict against ISIS.
+        {%else%}
+          You do not support the US entering an armed conflict against ISIS.
+        {%endif%}
+      </p>
+    </div>
 
     <br><br>
 
-  <h2>Your suggested candidates: </h2>
+    <h2>Your suggested candidates: </h2>
 
-  <p>
-    {%for num in the_range%}
-      {%if similarities > 0%}You and <a href = "http://localhost:18080/candidates?candidate={{your_candidates[num].key.id()}}">{{your_candidates[num].name}}</a> have {{similarities[num]}} views in common. <br>{%endif%}
-    {%endfor%}
-  </p>
+    <div id = "suggested">
+      <p>
+        {%for num in the_range%}
+          {%if similarities > 0%}You and <a href = "http://localhost:18080/candidates?candidate={{your_candidates[num].key.id()}}">{{your_candidates[num].name}}</a> have {{similarities[num]}} views in common. <br>{%endif%}
+        {%endfor%}
+      </p>
+    </div>
 
-  <br>
+    <br>
 
-
-    </body>
+  </body>
 
 </html>

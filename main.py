@@ -483,24 +483,24 @@ class ProfileHandler(webapp2.RequestHandler):
 
 
         # user = User(name = name, abortion = abortion, marriage = marriage, aff_action = aff_action, env_reg = env_reg, deny_service = deny_service, net_neutrality = net_neutrality, corp_tax = corp_tax, prog_tax = prog_tax, health_care = health_care, border_sec = border_sec, army_spend = army_spend, isis = isis)
-        currUser = users.get_current_user()
-        currID = currUser.user_id()
-        user = User.get_by_id(currID)
+        '''currUser = users.get_current_user()
+            currID = currUser.user_id()
+            user = User.get_by_id(currID)
 
-        user.abortion = abortion
-        user.marriage = marriage
-        user.aff_action = aff_action
-        user.env_reg = env_reg
-        user.deny_service = deny_service
-        user.net_neutrality = net_neutrality
-        user.corp_tax = corp_tax
-        user.prog_tax = prog_tax
-        user.health_care = health_care
-        user.border_sec = border_sec
-        user.army_spend = army_spend
-        user.isis = isis
-        user.put()
-
+            user.abortion = abortion
+            user.marriage = marriage
+            user.aff_action = aff_action
+            user.env_reg = env_reg
+            user.deny_service = deny_service
+            user.net_neutrality = net_neutrality
+            user.corp_tax = corp_tax
+            user.prog_tax = prog_tax
+            user.health_care = health_care
+            user.border_sec = border_sec
+            user.army_spend = army_spend
+            user.isis = isis
+            user.put()
+'''
 
 
         user_key = user.put()
