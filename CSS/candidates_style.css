@@ -1,0 +1,168 @@
+.Democrat {
+  background-color: #4582DD;
+}
+
+.Democrat h1{
+  font-family: sans-serif;
+}
+
+.Democrat h2{
+  font-family: sans-serif;
+}
+
+.Democrat .top{
+  font-family: sans-serif;
+  text-align: center;
+  border: 10px solid #2358BD;
+  padding: 10px;
+  background-color: white;
+}
+
+.Democrat .bottom{
+  font-family: sans-serif;
+  border: 10px solid #2358BD;
+  padding: 10px;
+  background-color: white;
+}
+
+.Democrat #bio{
+  display: block;
+  border: 10px solid #2358BD;
+  padding: 10px;
+  margin-bottom: 15px;
+  background-color: white;
+  font-family: sans-serif;
+}
+
+.Democrat #social{
+  display: inline-block;
+  border: 10px solid #2358BD;
+  padding: 10px;
+  margin-bottom: 15px;
+  background-color: white;
+  font-family: sans-serif;
+}
+
+.Democrat #econ{
+  display: inline-block;
+  border: 10px solid #2358BD;
+  padding: 10px;
+  margin-bottom: 15px;
+  background-color: white;
+  font-family: sans-serif;
+}
+
+.Democrat #fp{
+  display: inline-block;
+  border: 10px solid #2358BD;
+  padding: 10px;
+  margin-bottom: 15px;
+  background-color: white;
+  font-family: sans-serif;
+}
+
+.Democrat #interviews{
+  display: inline-block;
+  border: 10px solid #2358BD;
+  padding: 10px;
+  margin-bottom: 15px;
+  background-color: white;
+  font-family: sans-serif;
+}
+
+.Democrat #speeches{
+  display: inline-block;
+  border: 10px solid #2358BD;
+  padding: 10px;
+  margin-bottom: 15px;
+  background-color: white;
+  font-family: sans-serif;
+}
+
+.Republican {
+  background-color: #FF2232;
+}
+
+.Republican h1{
+  font-family: sans-serif;
+}
+
+.Republican h2{
+  font-family: sans-serif;
+}
+
+.Republican .top{
+  font-family: sans-serif;
+  text-align: center;
+  border: 10px solid #D50C1A;
+  padding: 10px;
+  background-color: white;
+}
+
+.Republican .bottom{
+  font-family: sans-serif;
+  background-color: white;
+}
+
+.Republican #bio{
+  display: block;
+  border: 10px solid #D50C1A;
+  font-family: sans-serif;
+  padding: 10px;
+  margin-bottom: 15px;
+  background-color: white;
+  font-family: sans-serif;
+}
+
+.Republican #social{
+  display: inline-block;
+  border: 10px solid #D50C1A;
+  padding: 10px;
+  margin-bottom: 15px;
+  background-color: white;
+  font-family: sans-serif;
+}
+
+.Republican #econ{
+  display: inline-block;
+  border: 10px solid #D50C1A;
+  padding: 10px;
+  margin-bottom: 15px;
+  background-color: white;
+  font-family: sans-serif;
+}
+
+.Republican #fp{
+  display: inline-block;
+  border: 10px solid #D50C1A;
+  padding: 10px;
+  margin-bottom: 15px;
+  background-color: white;
+  font-family: sans-serif;
+}
+
+.Republican #interviews{
+  display: inline-block;
+  border: 10px solid #D50C1A;
+  padding: 10px;
+  margin-bottom: 15px;
+  background-color: white;
+  font-family: sans-serif;
+}
+
+.Republican #speeches{
+  display: inline-block;
+  border: 10px solid #D50C1A;
+  padding: 10px;
+  margin-bottom: 15px;
+  background-color: white;
+  font-family: sans-serif;
+}
+
+h3{
+  text-align: center;
+}
+
+h4{
+  text-align: center;
+}

@@ -1,184 +1,126 @@
 <html>
   <head>
+    <link rel = "stylesheet" type = "text/css" href = "../CSS/candidates_style.css"></link>
     <title>Candidate Profile</title>
   </head>
 
-  <body>
+  <body class = "{{candidate1.party}}">
 
-  <h1>{{candidate1.name}}</h1>
+  <div id = "whole">
+    <div class = "top">
+      <h1>{{candidate1.name}}</h1>
 
-  <h2>{{candidate1.party}}</h2>
+      <h2>{{candidate1.party}}</h2>
+    </div>
 
-  <br><br><br>
+    <br><br><br>
 
-  <h3>Biography</h3>
+      <div id = "bio">
+        <h3>BIOGRAPHY</h3>
+        <p>{{candidate1.bio}}</p>
+      </div>
 
-  <p>{{candidate1.bio}}</p>
+      <div id = "stances">
+        <div id = "social">
+          <h3>SOCIAL ISSUES</h3>
 
-  <h3>Social Issues</h3>
+          {% if candidate1.abortion == "True" %}
+            <p> This candidate is pro-choice</p>
 
-  <h4>Abortion</h4>
-    {% if candidate1.abortion == "True" %}
-    <p> This candidate is pro-choice</p>
+          {% else %}
+            <p> This candidate is pro-life</p>
+          {% endif %}
 
-    {% else %}
-    <p> This candidate is pro-life</p>
-    {% endif %}
+          {% if candidate1.marriage == "True" %}
+            <p> This candidate does support same sex marriage</p>
+          {% else %}
+            <p> This candidate does not support same sex marriage</p>
+          {% endif %}
 
-    <!-- <ul>
-      <li></li>
-      <li></li>
-      <li></li>
-    </ul> -->
+          {% if candidate1.aff_action == "True" %}
+            <p> This candidate does support affirmative action</p>
+          {% else %}
+            <p> This candidate does not support affirmative action</p>
+          {% endif %}
 
-  <h4>Same-sex marriage</h4>
-  {% if candidate1.marriage == "True" %}
-  <p> This candidate does support same sex marriage</p>
-  {% else %}
-  <p> This candidate does not support same sex marriage</p>
-  {% endif %}
-  <!-- <ul>
-    <li></li>
-    <li></li>
-    <li></li>
-  </ul> -->
-  <h4>Affirmative action</h4>
-  {% if candidate1.aff_action == "True" %}
-  <p> This candidate does support affirmative action</p>
+          {% if candidate1.deny_service == "True" %}
+            <p> This candidate believes that businesses shoule be able to deny services to others based on religious beliefs</p>
+          {% else %}
+            <p> This candidate does not support the right for people to deny services to others based on religious beliefs</p>
+          {% endif %}
 
-  {% else %}
-  <p> This candidate does not support affirmative action</p>
-  {% endif %}
-  <!-- <ul>
-    <li></li>
-    <li></li>
-    <li></li>
-  </ul> -->
+          {% if candidate1.env_reg == "True" %}
+            <p> This candidate supports increases of environmental regulations</p>
+          {% else %}
+            <p> This candidate supports decreases of environmental regulations</p>
+          {% endif %}
+        </div>
 
-  <h4>Denying services for people based on religious views</h4>
-  {% if candidate1.deny_service == "True" %}
-  <p> This candidate believes that businesses shoule be able to deny services to others based on religious beliefs</p>
+        <div id = "econ">
+          <h3>ECONOMIC ISSUES</h3>
 
-  {% else %}
-  <p> This candidate does not support the right for people to deny services to others based on religious beliefs</p>
-  {% endif %}
+          {% if candidate1.net_neutrality == "True" %}
+            <p> This candidate does support net neutrality</p>
+          {% else %}
+            <p> This candidate does not support net neutrality</p>
+          {% endif %}
 
-  <h4>Stance on the EPA</h4>
-  {% if candidate1.env_reg == "True" %}
-  <p> This candidate supports increases of environmental regulations</p>
+          {% if candidate1.corp_tax == "True" %}
+            <p> This candidate does support increases on the corporate tax</p>
+          {% else %}
+            <p> This candidate does not support increases on the corporate tax</p>
+          {% endif %}
 
-  {% else %}
-  <p> This candidate supports decreases of environmental regulations</p>
-  {% endif %}
+          {% if candidate1.prog_tax == "True" %}
+            <p> This candidate does support increases on the progressive tax</p>
+          {% else %}
+            <p> This candidate does not support increases on the progressive tax</p>
+          {% endif %}
 
-  <h3>Economic Issues</h3>
+          {% if candidate1.health_care == "True" %}
+            <p> This candidate does support universal health care laws</p>
+          {% else %}
+            <p> This candidate does not support universal health care laws</p>
+          {% endif %}
+        </div>
 
-  <!-- <ul>
-    <li></li>
-    <li></li>
-    <li></li>
-  </ul> -->
-  <h4>Net neutrality</h4>
-  {% if candidate1.net_neutrality == "True" %}
-  <p> This candidate does support net neutrality</p>
+        <div id = fp>
+          <h3>FOREIGN POLICY ISSUES</h3>
+          {% if candidate1.border_sec == "True" %}
+            <p> This candidate does support stricter measures for border security </p>
+          {% else %}
+            <p> This candidate does not support stricter measures for border security</p>
+          {% endif %}
 
+          {% if candidate1.border_sec == "True" %}
+            <p> This candidate does support decreasing military spending</p>
+          {% else %}
+            <p> This candidate does not support decreasing military spending</p>
+          {% endif %}
 
-  {% else %}
-  <p> This candidate does not support net neutrality</p>
-  {% endif %}
-  <!-- <ul>
-    <li></li>
-    <li></li>
-    <li></li>
-  </ul> -->
-  <h4>Corporation Taxes</h4>
-  {% if candidate1.corp_tax == "True" %}
-  <p> This candidate does support increases on the corporate tax</p>
+          {% if candidate1.isis == "True" %}
+            <p> This candidate does believe that ISIS is a threat to U.S. interests</p>
+          {% else %}
+            <p> This candidate does not believe that ISIS is a threat to U.S. interests</p>
+          {% endif %}
+        </div>
+      </div>
 
+      <div id = "videos">
+        <div id = "interviews">
+          <h3>INTERVIEWS</h3>
 
-  {% else %}
-  <p> This candidate does not support increases on the corporate tax</p>
-  {% endif %}
-  <!-- <ul>
-    <li></li>
-    <li></li>
-    <li></li>
-  </ul> -->
-  <h4>Progressive Taxes</h4>
+          <iframe id=candInt1 width="300" height="200" src=https://www.youtube.com/embed/{{candidate1.intID1}} frameborder="0"></iframe>
+          <iframe id=candInt2 width="300" height="200" src=https://www.youtube.com/embed/{{candidate1.intID2}} frameborder="0"></iframe>
+        </div>
 
-  {% if candidate1.prog_tax == "True" %}
-  <p> This candidate does support increases on the progressive tax</p>
+        <div id = "speeches">
+          <h3>SPEECHES</h3>
 
-  {% else %}
-  <p> This candidate does not support increases on the progressive tax</p>
-  {% endif %}
-
-  <h4>Health Care</h4>
-  {% if candidate1.health_care == "True" %}
-  <p> This candidate does support universal health care laws</p>
-
-
-  {% else %}
-  <p> This candidate does not support universal health care laws</p>
-  {% endif %}
-  <!-- <ul>
-    <li></li>
-    <li></li>
-    <li></li>
-  </ul> -->
-
-  <h3>Foreign Policy Issues</h3>
-
-  <!-- <ul>
-    <li></li>
-    <li></li>
-    <li></li>
-  </ul> -->
-  <h4>Immigration</h4>
-  {% if candidate1.border_sec == "True" %}
-  <p> This candidate does support stricter measures for border security </p>
-
-  {% else %}
-  <p> This candidate does not support stricter measures for border security</p>
-  {% endif %}
-  <!-- <ul>
-    <li></li>
-    <li></li>
-    <li></li>
-  </ul> -->
-
-  <h4>The Military and War</h4>
-
-  {% if candidate1.border_sec == "True" %}
-  <p> This candidate does support decreasing military spending</p>
-
-
-  {% else %}
-  <p> This candidate does not support decreasing military spending</p>
-  {% endif %}
-  <!-- <ul>
-    <li></li>
-    <li></li>
-    <li></li>
-  </ul> -->
-  <h4>On ISIS</h4>
-  {% if candidate1.isis == "True" %}
-  <p> This candidate does believe that ISIS is a threat to U.S. interests</p>
-
-
-  {% else %}
-  <p> This candidate does not believe that ISIS is a threat to U.S. interests</p>
-  {% endif %}
-
-<h3>Interviews</h3>
-
-<iframe id=candInt1 width="300" height="200" src=https://www.youtube.com/embed/{{candidate1.intID1}} frameborder="0"></iframe>
-<iframe id=candInt2 width="300" height="200" src=https://www.youtube.com/embed/{{candidate1.intID2}} frameborder="0"></iframe>
-
-<h3>Speeches</h3>
-
-<iframe id=candSpe1 width="300" height="200" src=https://www.youtube.com/embed/{{candidate1.speID1}} frameborder="0"></iframe>
-<iframe id=candSpe2 width="300" height="200" src=https://www.youtube.com/embed/{{candidate1.speID2}} frameborder="0"></iframe>
+          <iframe id=candSpe1 width="300" height="200" src=https://www.youtube.com/embed/{{candidate1.speID1}} frameborder="0"></iframe>
+          <iframe id=candSpe2 width="300" height="200" src=https://www.youtube.com/embed/{{candidate1.speID2}} frameborder="0"></iframe>
+        </div>
+      </div>
 
   </body>
 </html>

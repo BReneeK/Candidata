@@ -215,7 +215,6 @@ class AddHandler(webapp2.RequestHandler):
         m_rubio, r_santorum, d_trump, s_walker]
 
 
-
         for person in candidates:
             url = person.website
             url_file = urlfetch.fetch(url)
@@ -232,6 +231,7 @@ class AddHandler(webapp2.RequestHandler):
                     person.abortion = "False"
                     logging.info(person.abortion)
                     logging.info("fail")
+
             else:
                 person.abortion = "False"
 
@@ -368,6 +368,8 @@ class CandidateHandler(webapp2.RequestHandler):
         candidate1 = Candidate.get_by_id(int(self.request.get('candidate')))
         logging.info(candidate1)
 
+
+
         self.response.write(template.render({
             'candidate1': candidate1,
             'abortion': candidate1.abortion,
@@ -393,10 +395,9 @@ class UserHandler(webapp2.RequestHandler):
         if user:
             greeting = ('Welcome, %s!(<a href="%s">sign out</a>)' %
                         (user.nickname(), users.create_logout_url('/')))
-        else:
-            greeting = ('<a href="%s">Sign in or register</a>.' %
-                        (users.create_login_url('/profile')))
-        # user.put()
+#        else:
+#            greeting = ('<a href="%s">Sign in or register</a>.' %
+#                        (users.create_login_url('/profile')))
 
         self.response.out.write('<html><body>%s</body></html>' % greeting)
         self.response.write(template.render())
@@ -457,6 +458,12 @@ class AnswerHandler(webapp2.RequestHandler):
 
 class ProfileHandler(webapp2.RequestHandler):
     def get(self):
+        currUser = users.get_current_user()
+        currID = currUser.user_id()
+
+        LoggedIn = User.get_by_id(currID)
+
+
         template = jinja_environment.get_template('templates/profile.html')
         self.response.write(template.render())
 
@@ -478,34 +485,19 @@ class ProfileHandler(webapp2.RequestHandler):
         isis = self.request.get('isis')
 
 
-        # user = User(name = name, abortion = abortion, marriage = marriage, aff_action = aff_action, env_reg = env_reg, deny_service = deny_service, net_neutrality = net_neutrality, corp_tax = corp_tax, prog_tax = prog_tax, health_care = health_care, border_sec = border_sec, army_spend = army_spend, isis = isis)
+        user = User(name = name, abortion = abortion, marriage = marriage, aff_action = aff_action, env_reg = env_reg, deny_service = deny_service, net_neutrality = net_neutrality, corp_tax = corp_tax, prog_tax = prog_tax, health_care = health_care, border_sec = border_sec, army_spend = army_spend, isis = isis)
         currUser = users.get_current_user()
         currID = currUser.user_id()
-        user = User.get_by_id(currID)
-
-#        user.abortion = abortion
-#        user.marriage = marriage
-#        user.aff_action = aff_action
-#        user.env_reg = env_reg
-#        user.net_neutrality = net_neutrality
-#        user.corp_tax = corp_tax
-#        user.prog_tax = prog_tax
-#        user.health_care = health_care
-#        user.border_sec = border_sec
-#        user.army_spend = army_spend
-#        user.isis = isis
-#        user.put()
-
 
 
         user_key = user.put()
 
-        id = user_key.id()
+        #id = user_key.id()
 
         candidates = []
 
-        for num in range(0,21):
-            candidates.append(Candidate.query().get())
+        for person in Candidate.query():
+            candidates.append(person)
 
         similarities = []
         total = 0
@@ -524,6 +516,8 @@ class ProfileHandler(webapp2.RequestHandler):
 
             similarities.append(total)
             total = 0
+
+        similarities.sort(reverse = True)
 
         the_range = range(len(your_candidates))
 
@@ -546,12 +540,33 @@ class ProfileHandler(webapp2.RequestHandler):
             'similarities' : similarities,
             'your_candidates': your_candidates,
             'candidates': candidates,
-            'the_range': the_range,
-            'isis' : isis
+            'the_range': the_range
 
             }
             ))
 
+        self.response.write(template.render(
+        {
+            'LoggedIn.name' : name,
+            'LoggedIn.abortion' : abortion,
+            'LoggedIn.marriage' : marriage,
+            'LoggedIn.aff_action' : aff_action,
+            'LoggedIn.env_reg' : env_reg,
+            'LoggedIn.deny_service' : deny_service,
+            'LoggedIn.net_neutrality' : net_neutrality,
+            'LoggedIn.corp_tax' : corp_tax,
+            'LoggedIn.prog_tax' : prog_tax,
+            'LoggedIn.health_care' : health_care,
+            'LoggedIn.border_sec' : border_sec,
+            'LoggedIn..army_spend' : army_spend,
+            'LoggedIn.isis' : isis,
+            'LoggedIn.similarities' : similarities,
+            'LoggedIn.your_candidates': your_candidates,
+            'LoggedIn.candidates': candidates,
+            'LoggedIn.the_range': the_range
+
+            }
+            ))
 app = webapp2.WSGIApplication([
     ('/', MainHandler),
     ('/add', AddHandler),

@@ -95,7 +95,7 @@
       {%endif%}
     </p>
     <p>
-      {%if isis == "True" %}
+      {%if isis== "True" %}
         You support the US entering an armed conflict against ISIS.
       {%else%}
         You do not support the US entering an armed conflict against ISIS.
@@ -108,7 +108,7 @@
 
   <p>
     {%for num in the_range%}
-      {%if similarities > 0%}You and {{your_candidates[num].name}} have {{similarities[num]}} views in common. <br>{%endif%}
+      {%if similarities > 0%}You and <a href = "http://localhost:22080/candidates?candidate={{your_candidates[num].key.id()}}">{{your_candidates[num].name}}</a> have {{similarities[num]}} views in common. <br>{%endif%}
     {%endfor%}
   </p>
 
