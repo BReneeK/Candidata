@@ -460,6 +460,10 @@ class ProfileHandler(webapp2.RequestHandler):
     def post(self):
         template = jinja_environment.get_template('templates/profile.html')
 
+        currUser = users.get_current_user()
+        user_email = currUser.email()
+        str(user_email)
+
         name = self.request.get('name')
         abortion = self.request.get('abortion')
         marriage = self.request.get('marriage')
@@ -476,7 +480,7 @@ class ProfileHandler(webapp2.RequestHandler):
 
 
 
-        user = User(name = name, abortion = abortion, marriage = marriage, aff_action = aff_action, env_reg = env_reg, deny_service = deny_service, net_neutrality = net_neutrality, corp_tax = corp_tax, prog_tax = prog_tax, health_care = health_care, border_sec = border_sec, army_spend = army_spend, isis = isis)
+        user = User(id=user_email , name = name, abortion = abortion, marriage = marriage, aff_action = aff_action, env_reg = env_reg, deny_service = deny_service, net_neutrality = net_neutrality, corp_tax = corp_tax, prog_tax = prog_tax, health_care = health_care, border_sec = border_sec, army_spend = army_spend, isis = isis)
         currUser = users.get_current_user()
         currID = currUser.user_id()
 
@@ -586,9 +590,9 @@ class LoginHandler(webapp2.RequestHandler):
         if user:
             greeting = ('Welcome, %s! (<a href="%s">sign out</a>)' %
                         (user.nickname(), users.create_logout_url('/')))
-        else:
-            greeting = ('<a href="%s">Sign in or register</a>.' %
-                        users.create_login_url('/'))
+#        else:
+#            greeting = ('<a href="%s">Sign in or register</a>.' %
+#                        users.create_login_url('/'))
 
         self.response.out.write('<html><body>%s</body></html>' % greeting)
 
