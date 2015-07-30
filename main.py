@@ -84,6 +84,14 @@ class User(ndb.Model):
 class MainHandler(webapp2.RequestHandler):
     def get(self):
 
+        googleUser = user.get_current_user()
+        userGoogleID = googleUser.user_id()
+
+        newUser = User(id = userGoogleID)
+        newUser.put()
+
+        template = jinja_environment.get_template('templates/index.html')
+        self.response.write(template.render())
 
         candidate_id = self.request.get('id')
         if not candidate_id:
@@ -92,7 +100,7 @@ class MainHandler(webapp2.RequestHandler):
             #candidate_id = self.request.get('id')
             for candidate in Candidate.query().fetch():
 
-                self.response.write(candidate.name  + ", " + candidate.party + '<br>')
+                self.response.write(candidate.name + ", " + candidate.party + '<br>')
 
 
         else:
@@ -381,25 +389,22 @@ class CandidateHandler(webapp2.RequestHandler):
 
 class UserHandler(webapp2.RequestHandler):
     def get(self):
-        template = jinja_environment.get_template('templates/login.html')
         user = users.get_current_user()
-        greeting = ""
 
         if user:
-            greeting = ('Welcome, %s!, Your email is %s, Your federated id is %s . (<a href="%s">sign out</a>)' %
-                        (user.nickname(), user.email(), user.federated_provider(), user.create_logout_url('/')))
+            greeting = ('Welcome, %s!(<a href="%s">sign out</a>)' %
+                        (user.nickname(), user.create_logout_url('/')))
         else:
-            greeting = ('<a href=\"%s\">Sign in or register</a>.' %
-                        user.create_login_url('/'))
-
+            greeting = ('<a href="%s">Sign in or register</a>.' %
+                        (user.create_login_url('/profile')))
         # user.put()
 
-        self.response.out.write(template.render())
-        self.response.write('<html><body><p>%s</p></body></html>' %greeting)
+        self.response.out.write('<html><body>%s</body></html>' % greeting)
+        template = jinja_environment.get_template('templates/login.html')
+        self.response.write(template.render())
 
 class FormHandler(webapp2.RequestHandler):
     def get(self):
-
 
         template = jinja_environment.get_template('templates/questions.html')
         self.response.write(template.render())
@@ -470,10 +475,27 @@ class ProfileHandler(webapp2.RequestHandler):
         isis = self.request.get('isis')
 
 
-        user = User(name = name, abortion = abortion, marriage = marriage, aff_action = aff_action, env_reg = env_reg, deny_service = deny_service, net_neutrality = net_neutrality, corp_tax = corp_tax, prog_tax = prog_tax, health_care = health_care, border_sec = border_sec, army_spend = army_spend, isis = isis)
+        # user = User(name = name, abortion = abortion, marriage = marriage, aff_action = aff_action, env_reg = env_reg, deny_service = deny_service, net_neutrality = net_neutrality, corp_tax = corp_tax, prog_tax = prog_tax, health_care = health_care, border_sec = border_sec, army_spend = army_spend, isis = isis)
+        currUser = users.get_current_user()
+        currID = currUser.user_id()
+        user = User.get_by_id(currID)
+
+        user.abortion = abortion
+        user.marriage = marriage
+        user.aff_action = aff_action
+        user.env_reg = env_reg
+        user.deny_service = deny_service
+        user.net_neutrality = net_neutrality
+        user.corp_tax = corp_tax
+        user.prog_tax = prog_tax
+        user.health_care = health_care
+        user.border_sec = border_sec
+        user.army_spend = army_spend
+        user.isis = isis
+        user.put()
 
         user_key = user.put()
-
+#
         id = user_key.id()
 
         candidates = []
