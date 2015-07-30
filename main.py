@@ -30,26 +30,28 @@ import re
 # intID2# from html.entities import name2codepoint
 
 
-
 jinja_environment = jinja2.Environment(
-    loader= jinja2.FileSystemLoader(os.path.dirname(__file__)))
+    loader=jinja2.FileSystemLoader(os.path.dirname(__file__)),
+    extensions=['jinja2.ext.autoescape'],
+    autoescape=True)
 
 class Candidate(ndb.Model):
-    name = ndb.StringProperty(required = True)
-    website = ndb.StringProperty(required = True)
 
-    party = ndb.StringProperty(required = True)
-    bio = ndb.StringProperty(required = True)
+    name = ndb.StringProperty(required =True)
+    website = ndb.StringProperty(required =True)
 
-    abortion = ndb.StringProperty(required = True)
-    marriage = ndb.StringProperty(required = True)
-    aff_action = ndb.StringProperty(required = True)
-    env_reg = ndb.StringProperty(required = True)
-    deny_service = ndb.StringProperty(required = True)
+    party = ndb.StringProperty(required =True)
+    bio = ndb.StringProperty(required =True)
+
+    abortion = ndb.StringProperty(required =True)
+    marriage = ndb.StringProperty(required =True)
+    aff_action = ndb.StringProperty(required =True)
+    env_reg = ndb.StringProperty(required =True)
+    deny_service = ndb.StringProperty(required =True)
     net_neutrality = ndb.StringProperty(required = True)
     corp_tax = ndb.StringProperty(required = True)
     prog_tax = ndb.StringProperty(required = True)
-    health_care = ndb.StringProperty(required = True)
+    health_care = ndb.StringProperty(required =True)
     border_sec = ndb.StringProperty(required = True)
     army_spend = ndb.StringProperty(required = True)
     isis = ndb.StringProperty(required = True)
@@ -89,7 +91,7 @@ class MainHandler(webapp2.RequestHandler):
             #candidate_id = self.request.get('id')
             for candidate in Candidate.query().fetch():
 
-                self.response.write(candidate.name  + ", " + candidate.party + '<br>')
+                self.response.write(candidate.name + ", " + candidate.party + '<br>')
 
 
         else:
@@ -205,6 +207,107 @@ class AddHandler(webapp2.RequestHandler):
         t_cruz, c_fiorina, l_graham, m_huckabee, b_jindal, j_kasich, g_pataki, r_paul, r_perry,
         m_rubio, r_santorum, d_trump, s_walker]
 
+
+        for person in candidates:
+            url = person.website
+            # logging.info(url)
+            url_file = urlfetch.fetch(url)
+            # logging.info(url_file)
+            url_html = url_file.content
+            # logging.info(url_html)
+
+
+            abortion_response = re.search(r'pro-life', url_html, re.MULTILINE)
+            if abortion_response:
+                person.abortion = "False"
+                logging.info("This candidate does not support abortion")
+            else:
+                person.abortion = "True"
+                logging.info("This candidate does support abortion")
+
+            marriage_response = re.search(r'views opposing same-sex marriage | No same-sex marriage', url_html, re.MULTILINE)
+            if marriage_response:
+                person.marriage = "False"
+                logging.info("This candidate does not support same-sex marriage")
+
+            else:
+                person.marriage = "True"
+                logging.info("This candidate does support same-sex")
+
+            deny_service_response = re.search(r'Ok to deny services', url_html, re.MULTILINE)
+            if deny_service_response:
+                person.deny_service = "True"
+                logging.info("This candidate does not support denying services based on religious beliefs")
+            else:
+                person.deny_service = "False"
+                logging.info("This candidate does support denying services based on religious beliefs")
+
+            aff_action_response = re.search(r'indicating an anti-affirmative-action stance', url_html, re.MULTILINE)
+            if aff_action_response:
+                person.aff_action = "False"
+                logging.info("supports AA")
+            else:
+                person.aff_action = "True"
+                logging.info("not support AAs")
+
+            env_reg_response = re.search(r'<b><a name=\'q8\'></a>(.*)</b>', url_html, re.MULTILINE)
+            if env_reg_response == "Opposes" or env_reg_response == "Strongly Opposes":
+                person.env_reg = "False"
+                logging.info('supports increase env')
+                logging.info('supports increase' + env_reg_response)
+            else:
+                person.env_reg = "True"
+                logging.info('supports decrease env')
+
+            net_neutrality_response = re.search(r'Voted NO on establishing \"network neutrality\"', url_html, re.MULTILINE)
+            if net_neutrality_response:
+                person.net_neutrality = "False"
+
+
+            net_neutrality_response = re.search(r'Ensure net neutrality', url_html, re.MULTILINE)
+            if net_neutrality_response:
+                person.net_neutrality = "True"
+
+            prog_tax_response = re.search(r'<b><a name=\'q11\'></a>(.*)</b>', url_html, re.MULTILINE)
+            if prog_tax_response == "Strongly Favors" or prog_tax_response == "Favors":
+                person.prog_tax = "True"
+            else:
+                person.prog_tax = "False"
+
+            health_care_response = re.search(r'<b><a name=\'q5\'></a>(.*)</b>', url_html, re.MULTILINE)
+            if health_care_response == "Strongly Favors" or health_care_response == "Favors":
+                person.health_care = "True"
+            else:
+                person.health_care = "False"
+
+
+            border_sec_response = re.search(r'More border patrolling | Secure border', url_html, re.MULTILINE)
+            if border_sec_response:
+                person.net_neutrality = "True"
+            else:
+                person.border_sec = "False"
+            border_sec_response2 = re.search(r'NO on building a fence along the Mexican border', url_html, re.MULTILINE)
+            if border_sec_response:
+                person.net_neutrality = "False"
+
+            army_spend_response = re.search(r'<b><a name=\'q15\'></a>(.*)</b>', url_html, re.MULTILINE)
+            if health_care_response == "Strongly Favors" or health_care_response == "Favors":
+                person.army_spend = "True"
+            else:
+                person.army_spend = "False"
+
+            isis_response = re.search(r'need strategy against ISIS', url_html, re.MULTILINE)
+            if isis_response:
+                person.isis = "True"
+            else:
+                person.isis = "False"
+
+            corp_tax_response = re.search(r'Cutting taxes on job creators | cut taxes on businesses', url_html, re.MULTILINE)
+            if corp_tax_response:
+                person.corp_tax = "False"
+            else:
+                person.corp_tax = "True"
+
         for person in candidates:
             person.put()
 
@@ -234,8 +337,6 @@ class LinkHandler(webapp2.RequestHandler):
         self.response.write(template.render({
         'result': result,
         'search': search,
-        'abortion': result.abortion
-
         }))
 
 class CandidateHandler(webapp2.RequestHandler):
@@ -245,50 +346,11 @@ class CandidateHandler(webapp2.RequestHandler):
         # search = self.request.get("search")
         candidate1 = Candidate.get_by_id(int(self.request.get('candidate')))
         logging.info(candidate1)
-        url = candidate1.website
-        # logging.info(url)
-        url_file = urlfetch.fetch(url)
-        # logging.info(url_file)
-        url_html = url_file.content
-        # logging.info(url_html)
 
-        abortion_response = re.search(r'pro-life', url_html, re.MULTILINE)
-        if abortion_response:
-            candidate1.abortion = "False"
-            logging.info("This candidate does not support abortion")
-        else:
-            candidate1.abortion = "True"
-            logging.info("This candidate does support abortion")
 
-        if candidate1.party == 'Democrat':
-            candidate1.marriage = "True"
-            candidate1.aff_action = "True"
-            candidate1.env_reg = "True"
-            candidate1.deny_service = "False"
-            candidate1.net_neutrality = "False"
-            candidate1.corp_tax = "True"
-            candidate1.prog_tax = "True"
-            candidate1.health_care = "True"
-            candidate1.border_sec = "False"
-            candidate1.army_spend = "False"
-            candidate1.isis = "False"
-
-        if candidate1.party == 'Republican':
-            candidate1.marriage = "False"
-            candidate1.aff_action = "False"
-            candidate1.env_reg = "False"
-            candidate1.deny_service = "True"
-            candidate1.net_neutrality = "False"
-            candidate1.corp_tax = "False"
-            candidate1.prog_tax = "False"
-            candidate1.health_care = "False"
-            candidate1.border_sec = "True"
-            candidate1.army_spend = "True"
-            candidate1.isis = "True"
 
         self.response.write(template.render({
             'candidate1': candidate1,
-            # 'search': search,
             'abortion': candidate1.abortion,
             'marriage' : candidate1.marriage,
             'aff_action' : candidate1.aff_action,
@@ -305,23 +367,27 @@ class CandidateHandler(webapp2.RequestHandler):
         }))
 
 
+
         #candidate_id = result.Key()
         #candidate = Candidate.get_by_id(int(candidate_id))
 
 class UserHandler(webapp2.RequestHandler):
     def get(self):
-        user_var = users.get_current_user()
-        if user_var:
-            greeting = ('Welcome, %s! (<a href = "%s"> sign out </a>)' %
-                       (user_var.nickname(), users.create_logout_url('/')))
-        else:
-            greeting = ('<a href = "%s"> sign in or register </a>.' %
-                        users.create_login_url('/'))
-
         template = jinja_environment.get_template('templates/login.html')
-        self.response.out.write(template.render({'user': user_var, 'users': users}))
+        user = users.get_current_user()
+        greeting = ""
 
-        self.response.write('<html><body>%s</body></html>' %greeting)
+        if user:
+            greeting = ('Welcome, %s!, Your email is %s, Your federated id is %s . (<a href="%s">sign out</a>)' %
+                        (user.nickname(), user.email(), user.federated_provider(), user.create_logout_url('/')))
+        else:
+            greeting = ('<a href=\"%s\">Sign in or register</a>.' %
+                        user.create_login_url('/'))
+
+        # user.put()
+
+        self.response.out.write(template.render())
+        self.response.write('<html><body><p>%s</p></body></html>' %greeting)
 
 class FormHandler(webapp2.RequestHandler):
     def get(self):
@@ -424,6 +490,8 @@ class ProfileHandler(webapp2.RequestHandler):
 
             similarities.append(total)
             total = 0
+
+        similarities.sort(reverse = True)
 
         the_range = range(len(your_candidates))
 
