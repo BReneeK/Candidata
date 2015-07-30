@@ -28,6 +28,9 @@ import json
 import re
 from operator import eq
 
+
+
+
 # intID2# from html.entities import name2codepoint
 
 
@@ -84,30 +87,15 @@ class User(ndb.Model):
 class MainHandler(webapp2.RequestHandler):
     def get(self):
 
-        # googleUser = user.get_current_user()
-        # userGoogleID = googleUser.user_id()
-        #
-        # newUser = User(id = userGoogleID)
-        # newUser.put()
-
-#        googleUser = users.get_current_user()
-#        userGoogleID = googleUser.user_id()
-
-#        newUser = User(id = userGoogleID)
-#        newUser.put()
 
         template = jinja_environment.get_template('templates/index.html')
-        self.response.write(template.render())
 
         candidate_id = self.request.get('id')
         if not candidate_id:
             template = jinja_environment.get_template('templates/index.html')
-            self.response.write(template.render())
-            #candidate_id = self.request.get('id')
-            for candidate in Candidate.query().fetch():
-
-                self.response.write(candidate.name + ", " + candidate.party + '<br>')
-
+            self.response.write(template.render({
+                'candidatequery': Candidate.query().fetch()
+                }))
 
         else:
             candidate_key = ndb.Key(Candidate, int(candidate_id))
@@ -149,7 +137,6 @@ class AddHandler(webapp2.RequestHandler):
             "DT": "Donald John Trump (born June 14, 1946) is an American business magnate, investor, television personality, and author. He is the chairman and president of The Trump Organization and the founder of Trump Entertainment Resorts. Trump's lifestyle and outspoken manner, as well as his books and his media appearances, have made him an American celebrity. He hosted The Apprentice, a US TV show. On June 16, 2015 at Trump Tower in Manhattan, Trump formally announced his candidacy for President of the United States in the 2016 election, seeking the nomination of the Republican Party.",
             "SW": "Scott Kevin Walker (born November 2, 1967) is an American politician and the 45th Governor of Wisconsin, serving since 2011. Walker is also a candidate for the Republican Party's nomination to the 2016 presidential election. Walker served in the Wisconsin State Assembly and as the Milwaukee County Executive before his election as governor in 2010. He survived a 2012 recall election and was reelected governor in 2014, defeating Democrat Mary Burke."
         }
-
 
         h_clinton = Candidate(name = "Hillary Clinton", party = "Democrat", website = "http://www.ontheissues.org/Hillary_Clinton.htm", bio = bios["HC"], intID1 = "7XOoOgsj_z8", intID2 = "cYKwU2MwI-8", speID1 = "6744Ym_5Ddg", speID2 = "Q4O8xo9EWb8",
             abortion = "False", marriage = "False", aff_action = "False", env_reg = "False", deny_service = "False", net_neutrality = "False",
@@ -222,7 +209,6 @@ class AddHandler(webapp2.RequestHandler):
         t_cruz, c_fiorina, l_graham, m_huckabee, b_jindal, j_kasich, g_pataki, r_paul, r_perry,
         m_rubio, r_santorum, d_trump, s_walker]
 
-
         for person in candidates:
             url = person.website
             url_file = urlfetch.fetch(url)
@@ -231,15 +217,10 @@ class AddHandler(webapp2.RequestHandler):
             abortion_response2 = re.search(r'<b>\s+<a name=\'q1\'></a>\s+(.*)\n</b>', url_html, re.MULTILINE)
             if abortion_response2:
                 strippedverion = abortion_response2.group(1).replace(" ", "").strip()
-                logging.info(strippedverion)
                 if strippedverion == "StronglyFavors" or strippedverion == "Favors":
                     person.abortion = "True"
-                    logging.info("has worked")
                 else:
                     person.abortion = "False"
-                    logging.info(person.abortion)
-                    logging.info("fail")
-
             else:
                 person.abortion = "False"
 
@@ -337,9 +318,12 @@ class AddHandler(webapp2.RequestHandler):
                 person.corp_tax = "False"
             else:
                 person.corp_tax = "True"
+            logging.info("Changing stances is complete")
 
         for person in candidates:
             person.put()
+            logging.info("adding users is complete")
+        logging.info("adding users is truly complete now")
 
 class SearchHandler(webapp2.RequestHandler):
     def get(self):
@@ -374,9 +358,6 @@ class CandidateHandler(webapp2.RequestHandler):
         template = jinja_environment.get_template('templates/candidates.html')
 
         candidate1 = Candidate.get_by_id(int(self.request.get('candidate')))
-        logging.info(candidate1)
-
-
 
         self.response.write(template.render({
             'candidate1': candidate1,
