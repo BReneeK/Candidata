@@ -1,5 +1,5 @@
 .Democrat {
-  background-color: #2A53C1;
+  background-color: #202A5D;
 }
 
 .Democrat h1{
@@ -15,21 +15,21 @@
 .Democrat .top{
   font-family: sans-serif;
   text-align: center;
-  border: 10px solid #202A5D;
+  border: 10px solid #2A53C1;
   padding: 10px;
   background-color: #F5F6FA;
 }
 
 .Democrat .bottom{
   font-family: sans-serif;
-  border: 10px solid #202A5D;
+  border: 10px solid #2A53C1;
   padding: 10px;
   background-color: #F5F6FA;
 }
 
 .Democrat #bio{
   display: block;
-  border: 10px solid #202A5D;
+  border: 10px solid #2A53C1;
   padding: 10px;
   margin-bottom: 15px;
   background-color: #F5F6FA;
@@ -38,7 +38,7 @@
 
 .Democrat #social{
   display: inline-block;
-  border: 10px solid #202A5D;
+  border: 10px solid #2A53C1;
   padding: 10px;
   margin-bottom: 15px;
   background-color: #F5F6FA;
@@ -47,7 +47,7 @@
 
 .Democrat #econ{
   display: inline-block;
-  border: 10px solid #202A5D;
+  border: 10px solid #2A53C1;
   padding: 10px;
   margin-bottom: 15px;
   background-color: #F5F6FA;
@@ -56,7 +56,7 @@
 
 .Democrat #fp{
   display: inline-block;
-  border: 10px solid #202A5D;
+  border: 10px solid #2A53C1;
   padding: 10px;
   margin-bottom: 15px;
   background-color: #F5F6FA;
@@ -65,7 +65,7 @@
 
 .Democrat #interviews{
   display: inline-block;
-  border: 10px solid #202A5D;
+  border: 10px solid #2A53C1;
   padding: 10px;
   margin-bottom: 15px;
   background-color: #F5F6FA;
@@ -74,7 +74,7 @@
 
 .Democrat #speeches{
   display: inline-block;
-  border: 10px solid #202A5D;
+  border: 10px solid #2A53C1;
   padding: 10px;
   margin-bottom: 15px;
   background-color: #F5F6FA;
