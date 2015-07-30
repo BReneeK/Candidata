@@ -83,7 +83,7 @@ class User(ndb.Model):
 class MainHandler(webapp2.RequestHandler):
     def get(self):
 
-        googleUser = user.get_current_user()
+        googleUser = users.get_current_user()
         userGoogleID = googleUser.user_id()
 
         newUser = User(id = userGoogleID)
@@ -378,18 +378,18 @@ class CandidateHandler(webapp2.RequestHandler):
 
 class UserHandler(webapp2.RequestHandler):
     def get(self):
+        template = jinja_environment.get_template('templates/login.html')
         user = users.get_current_user()
 
         if user:
             greeting = ('Welcome, %s!(<a href="%s">sign out</a>)' %
-                        (user.nickname(), user.create_logout_url('/')))
+                        (user.nickname(), users.create_logout_url('/')))
         else:
             greeting = ('<a href="%s">Sign in or register</a>.' %
-                        (user.create_login_url('/profile')))
+                        (users.create_login_url('/profile')))
         # user.put()
 
         self.response.out.write('<html><body>%s</body></html>' % greeting)
-        template = jinja_environment.get_template('templates/login.html')
         self.response.write(template.render())
 
 class FormHandler(webapp2.RequestHandler):
@@ -483,8 +483,10 @@ class ProfileHandler(webapp2.RequestHandler):
         user.isis = isis
         user.put()
 
+
+
         user_key = user.put()
-#
+
         id = user_key.id()
 
         candidates = []
