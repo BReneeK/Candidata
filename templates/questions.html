@@ -1,105 +1,118 @@
 <html>
   <head>
+    <link rel = "stylesheet" type = "text/css" href = "../CSS/questions_style.css"></link>
     <title>Questions</title>
   </head>
 
   <body>
     <h1> Questions </h1>
+
     <form method = "post" action = "/profile">
-      What is your name?
-      <input type = "text" name = "name">
+
+      <div id = "name">
+        What is your name?
+        <input type = "text" name = "name">
+      </div>
       <br>
 
-      Answer the following with "yes" or "no":
+      <div id = "instructions">
+        Answer the following with "yes" or "no":
+      </div>
 
-      <p>Are you pro-choice or pro-life?</p>
-        <select name = "abortion">
-          <option value=True>Pro-choice</option>
-          <option value=False>Pro-life</option>
-          <!-- <option value="mercedes">Mercedes</option> -->
-        </select>
-
-      <p>Do you support the legalization of same-sex marriage?</p>
-        <select name = "marriage">
-          <option value=True>Yes</option>
-          <option value=False>No</option>
-          <!-- <option value="mercedes">Mercedes</option> -->
-        </select>
-
-      <p>Do you support affirmative action policies?</p>
-        <select name = "aff_action">
-          <option value=True>Yes</option>
-          <option value=False>No</option>
-          <!-- <option value="mercedes">Mercedes</option> -->
-        </select>
-
-      <p>Should the government increase environmental regulations to prevent global warming?</p>
-        <select name = "env_reg">
-          <option value=True>Yes</option>
-          <option value=False>No</option>
-          <!-- <option value="mercedes">Mercedes</option> -->
-        </select>
-
-      <p>Do you believe that business should be able to deny service to a customer based on religious beliefs?</p>
-        <select name = "deny_service">
-          <option value=True>Yes</option>
-          <option value=False>No</option>
-          <!-- <option value="mercedes">Mercedes</option> -->
-        </select>
-
-
-    <h2>Economic Issues</h2>
-      <p>Should internet service providers be allowed to prioritize traffic for websites that pay higher rates than their competitors?</p>
-        <select name = "net_neutrality">
-          <option value=True>Yes</option>
-          <option value=False>No</option>
-          <!-- <option value="mercedes">Mercedes</option> -->
-        </select>
-
-      <p>Do you believe the U.S. should reduce the corporate tax rate?</p>
-        <select name = "corp_tax">
-          <option value=True>Yes</option>
-          <option value=False>No</option>
-          <!-- <option value="mercedes">Mercedes</option> -->
-        </select>
-
-      <p>Do you support the progressive tax?</p>
-        <select name = "prog_tax">
-          <option value=True>Yes</option>
-          <option value=False>No</option>
-          <!-- <option value="mercedes">Mercedes</option> -->
-        </select>
-
-      <p>Do you believe that the government should mandate all employers to provide affordable health care to all workers?</p>
-        <select name = "health_care">
-          <option value=True>Yes</option>
-          <option value=False>No</option>
-          <!-- <option value="mercedes">Mercedes</option> -->
-        </select>
-
-    <h2>Foreign Policy</h2>
-      <p>Do you support stronger measures to increase our border security?</p>
-          <select name = "border_sec">
-            <option value=True>Yes</option>
-            <option value=False>No</option>
-                <!-- <option value="mercedes">Mercedes</option> -->
+      <div id = "social">
+        <h2>Social Issues</h2>
+        <p>Are you pro-choice or pro-life?</p>
+          <select name = "abortion">
+            <option value=True>Pro-choice</option>
+            <option value=False>Pro-life</option>
+            <!-- <option value="mercedes">Mercedes</option> -->
           </select>
 
-      <p>Do you believe the U.S. should decrease its military spending?</p>
-          <select name = "army_spend">
+        <p>Do you support the legalization of same-sex marriage?</p>
+          <select name = "marriage">
             <option value=True>Yes</option>
             <option value=False>No</option>
-                <!-- <option value="mercedes">Mercedes</option> -->
+            <!-- <option value="mercedes">Mercedes</option> -->
+          </select>
+
+        <p>Do you support affirmative action policies?</p>
+          <select name = "aff_action">
+            <option value=True>Yes</option>
+            <option value=False>No</option>
+            <!-- <option value="mercedes">Mercedes</option> -->
+          </select>
+
+        <p>Should the government increase environmental regulations to prevent global warming?</p>
+          <select name = "env_reg">
+            <option value=True>Yes</option>
+            <option value=False>No</option>
+            <!-- <option value="mercedes">Mercedes</option> -->
+          </select>
+
+        <p>Do you believe that business should be able to deny service to a customer based on religious beliefs?</p>
+          <select name = "deny_service">
+            <option value=True>Yes</option>
+            <option value=False>No</option>
+            <!-- <option value="mercedes">Mercedes</option> -->
+          </select>
+      </div>
+
+      <div id = "econ">
+        <h2>Economic Issues</h2>
+        <p>Should internet service providers be allowed to prioritize traffic for websites that pay higher rates than their competitors?</p>
+          <select name = "net_neutrality">
+            <option value=True>Yes</option>
+            <option value=False>No</option>
+            <!-- <option value="mercedes">Mercedes</option> -->
+          </select>
+
+        <p>Do you believe the U.S. should reduce the corporate tax rate?</p>
+          <select name = "corp_tax">
+            <option value=True>Yes</option>
+            <option value=False>No</option>
+            <!-- <option value="mercedes">Mercedes</option> -->
+          </select>
+
+        <p>Do you support the progressive tax?</p>
+          <select name = "prog_tax">
+            <option value=True>Yes</option>
+            <option value=False>No</option>
+            <!-- <option value="mercedes">Mercedes</option> -->
+          </select>
+
+        <p>Do you believe that the government should mandate all employers to provide affordable health care to all workers?</p>
+          <select name = "health_care">
+            <option value=True>Yes</option>
+            <option value=False>No</option>
+            <!-- <option value="mercedes">Mercedes</option> -->
+          </select>
+      </div>
+
+      <div id = "fp">
+        <h2>Foreign Policy</h2>
+        <p>Do you support stronger measures to increase our border security?</p>
+            <select name = "border_sec">
+              <option value=True>Yes</option>
+              <option value=False>No</option>
+                  <!-- <option value="mercedes">Mercedes</option> -->
             </select>
 
-      <p>Do you believe that the US should take action against ISIS?</p>
-          <select name = "isis">
-          <option value=True>Yes</option>
-          <option value=False>No</option>
-                <!-- <option value="mercedes">Mercedes</option> -->
-          </select>
+        <p>Do you believe the U.S. should decrease its military spending?</p>
+            <select name = "army_spend">
+              <option value=True>Yes</option>
+              <option value=False>No</option>
+                  <!-- <option value="mercedes">Mercedes</option> -->
+              </select>
 
-      <p><input type="submit"></p>
+        <p>Do you believe that the US should take action against ISIS?</p>
+            <select name = "isis">
+            <option value=True>Yes</option>
+            <option value=False>No</option>
+                  <!-- <option value="mercedes">Mercedes</option> -->
+            </select>
+      </div>
+
+          <p><input type="submit"></p>
     </form>
 
   </body>

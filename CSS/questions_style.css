@@ -1,0 +1,57 @@
+body{
+    background-color: #202A5D;
+  }
+
+h1{
+  font-family: sans-serif;
+  text-align: center;
+  border: 10px solid #DC2039;
+  padding: 10px;
+  background-color: #F5F6FA;
+  display: block;
+}
+
+#instructions{
+  display: inline-block;
+  border: 10px solid #DC2039;
+  padding: 10px;
+  margin-bottom: 15px;
+  background-color: #F5F6FA;
+  font-family: sans-serif;
+}
+
+#name{
+  display: inline-block;
+  border: 10px solid #DC2039;
+  padding: 10px;
+  margin-bottom: 15px;
+  background-color: #F5F6FA;
+  font-family: sans-serif;
+}
+
+#social{
+  display: inline-block;
+  border: 10px solid #DC2039;
+  padding: 10px;
+  margin-bottom: 15px;
+  background-color: #F5F6FA;
+  font-family: sans-serif;
+}
+
+#econ{
+  display: inline-block;
+  border: 10px solid #DC2039;
+  padding: 10px;
+  margin-bottom: 15px;
+  background-color: #F5F6FA;
+  font-family: sans-serif;
+}
+
+#fp{
+  display: inline-block;
+  border: 10px solid #DC2039;
+  padding: 10px;
+  margin-bottom: 15px;
+  background-color: #F5F6FA;
+  font-family: sans-serif;
+}
