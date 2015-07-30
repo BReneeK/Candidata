@@ -223,7 +223,6 @@ class AddHandler(webapp2.RequestHandler):
         m_rubio, r_santorum, d_trump, s_walker]
 
 
-
         for person in candidates:
             url = person.website
             url_file = urlfetch.fetch(url)
@@ -240,6 +239,7 @@ class AddHandler(webapp2.RequestHandler):
                     person.abortion = "False"
                     logging.info(person.abortion)
                     logging.info("fail")
+
             else:
                 person.abortion = "False"
 
@@ -375,6 +375,8 @@ class CandidateHandler(webapp2.RequestHandler):
 
         candidate1 = Candidate.get_by_id(int(self.request.get('candidate')))
         logging.info(candidate1)
+
+
 
         self.response.write(template.render({
             'candidate1': candidate1,
@@ -526,8 +528,8 @@ class ProfileHandler(webapp2.RequestHandler):
 
         candidates = []
 
-        for num in range(0,21):
-            candidates.append(Candidate.query().get())
+        for person in Candidate.query():
+            candidates.append(person)
 
         similarities = []
         total = 0
@@ -546,6 +548,8 @@ class ProfileHandler(webapp2.RequestHandler):
 
             similarities.append(total)
             total = 0
+
+        similarities.sort(reverse = True)
 
         the_range = range(len(your_candidates))
 
