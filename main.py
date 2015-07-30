@@ -475,11 +475,11 @@ class ProfileHandler(webapp2.RequestHandler):
 
 
 
-#        user = User(name = name, abortion = abortion, marriage = marriage, aff_action = aff_action, env_reg = env_reg, deny_service = deny_service, net_neutrality = net_neutrality, corp_tax = corp_tax, prog_tax = prog_tax, health_care = health_care, border_sec = border_sec, army_spend = army_spend, isis = isis)
-#        currUser = users.get_current_user()
-#        currID = currUser.user_id()
+        user = User(name = name, abortion = abortion, marriage = marriage, aff_action = aff_action, env_reg = env_reg, deny_service = deny_service, net_neutrality = net_neutrality, corp_tax = corp_tax, prog_tax = prog_tax, health_care = health_care, border_sec = border_sec, army_spend = army_spend, isis = isis)
+        currUser = users.get_current_user()
+        currID = currUser.user_id()
 
-        # user = User(name = name, abortion = abortion, marriage = marriage, aff_action = aff_action, env_reg = env_reg, deny_service = deny_service, net_neutrality = net_neutrality, corp_tax = corp_tax, prog_tax = prog_tax, health_care = health_care, border_sec = border_sec, army_spend = army_spend, isis = isis)
+         #user = User(name = name, abortion = abortion, marriage = marriage, aff_action = aff_action, env_reg = env_reg, deny_service = deny_service, net_neutrality = net_neutrality, corp_tax = corp_tax, prog_tax = prog_tax, health_care = health_care, border_sec = border_sec, army_spend = army_spend, isis = isis)
         '''currUser = users.get_current_user()
             currID = currUser.user_id()
             user = User.get_by_id(currID)
@@ -502,7 +502,7 @@ class ProfileHandler(webapp2.RequestHandler):
 
         user_key = user.put()
 
-        #id = user_key.id()
+        id = user_key.id()
 
         candidates = []
 
@@ -568,7 +568,7 @@ class ProfileHandler(webapp2.RequestHandler):
             'LoggedIn.prog_tax' : prog_tax,
             'LoggedIn.health_care' : health_care,
             'LoggedIn.border_sec' : border_sec,
-            'LoggedIn..army_spend' : army_spend,
+            'LoggedIn.army_spend' : army_spend,
             'LoggedIn.isis' : isis,
             'LoggedIn.similarities' : similarities,
             'LoggedIn.your_candidates': your_candidates,
