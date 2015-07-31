@@ -112,8 +112,13 @@ class MainHandler(webapp2.RequestHandler):
 class AddHandler(webapp2.RequestHandler):
     def get(self):
         template = jinja_environment.get_template('templates/add.html')
+
+        #self.response.write(template.render())
+
+
         self.response.write(template.render())
         logging.info("Stay chill")
+
         bios = {
             "HC": "Hillary Diane Rodham Clinton (born October 26, 1947) is an American politician. She was United States Secretary of State in the administration of President Barack Obama from 2009 to 2013, a United States Senator representing New York from 2001 to 2009, and, as the wife of President Bill Clinton, First Lady of the United States from 1993 to 2001. A leading candidate for the Democratic Party's nomination to the 2008 presidential election, she has announced her candidacy for the Democratic nomination in the 2016 presidential election.",
             "LD": "Lincoln Davenport Chafee (born March 26, 1953) is an American politician from Rhode Island who has served as the Mayor of Warwick (1993-1999), a U.S. Senator (1999-2007) and as the 74th Governor of Rhode Island (2011-2015).",
@@ -329,6 +334,7 @@ class SearchHandler(webapp2.RequestHandler):
         'currUser': users.get_current_user()
         }))
 
+
 class LinkHandler(webapp2.RequestHandler):
     def get(self):
         template = jinja_environment.get_template('templates/links.html')
@@ -411,6 +417,7 @@ class AboutUsHandler(webapp2.RequestHandler):
         template = jinja_environment.get_template('templates/aboutus.html')
 
         currUser = users.get_current_user()
+
         self.response.write(template.render({
             'users' : users,
             'currUser' : users.get_current_user()
@@ -491,6 +498,7 @@ class ProfileHandler(webapp2.RequestHandler):
         'currUser' : users.get_current_user()
         }))
 
+
     def post(self):
         template = jinja_environment.get_template('templates/profile.html')
 
@@ -527,7 +535,7 @@ class ProfileHandler(webapp2.RequestHandler):
 
         currUser = users.get_current_user()
         currID = currUser.user_id()
-        logging.info(currUser + "from the get rendering")
+        logging.info(str(currUser) + "from the get rendering")
          #user = User(name = name, abortion = abortion, marriage = marriage, aff_action = aff_action, env_reg = env_reg, deny_service = deny_service, net_neutrality = net_neutrality, corp_tax = corp_tax, prog_tax = prog_tax, health_care = health_care, border_sec = border_sec, army_spend = army_spend, isis = isis)
 
         '''currUser = users.get_current_user()
@@ -600,13 +608,42 @@ class ProfileHandler(webapp2.RequestHandler):
             'similarities' : similarities,
             'your_candidates': your_candidates,
             'candidates': candidates,
+
+            'the_range': the_range
+
+            }
+            ))
+
+        '''self.response.write(template.render(
+        {
+            'LoggedIn.name' : name,
+            'LoggedIn.abortion' : abortion,
+            'LoggedIn.marriage' : marriage,
+            'LoggedIn.aff_action' : aff_action,
+            'LoggedIn.env_reg' : env_reg,
+            'LoggedIn.deny_service' : deny_service,
+            'LoggedIn.net_neutrality' : net_neutrality,
+            'LoggedIn.corp_tax' : corp_tax,
+            'LoggedIn.prog_tax' : prog_tax,
+            'LoggedIn.health_care' : health_care,
+            'LoggedIn.border_sec' : border_sec,
+            'LoggedIn.army_spend' : army_spend,
+            'LoggedIn.isis' : isis,
+            'LoggedIn.similarities' : similarities,
+            'LoggedIn.your_candidates': your_candidates,
+            'LoggedIn.candidates': candidates,
+            'LoggedIn.the_range': the_range
+
+            }
+            ))
+
             'the_range': the_range,
             'isis' : isis,
             'users' : users,
             "currUser" : users.get_current_user()
 
             }
-            ))
+            ))'''
 #
 #         # self.response.write(template.render(
 #         # {
