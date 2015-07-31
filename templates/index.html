@@ -15,7 +15,7 @@
       <h3>Candidates:</h3>
     {%for candidate in candidatequery%}
 
-      <a href = "http://blxcandidata.appspot.com/candidates?candidate={{candidate.key.id()}}">{{candidate.name}}</a>,  {{candidate.party}}
+      <a href = "http://localhost:18080/candidates?candidate={{candidate.key.id()}}">{{candidate.name}}</a>,  {{candidate.party}}
         {%endfor%}
     </div>
     <p id ="aboutus"> </p>
@@ -25,9 +25,9 @@
   </br>
     <table style="width:100%" table-layout: fixed>
       <tr>
-        <td> <a href="http://blxcandidata.appspot.com/search" style="width:33%">To search candidates</a>  </td>
-        <td> <a href="http://blxcandidata.appspot.com/questions" style="width:33%">To take the survey <a> </td>
-        <td> <a href="http://blxcandidata.appspot.com/aboutus" style="width:34%">About us</td>
+        <td> <a href="http://localhost:18080/search" style="width:33%">To search candidates</a>  </td>
+        <td> <a href="http://localhost:18080/questions" style="width:33%">To take the survey <a> </td>
+        <td> <a href="http://localhost:18080/aboutus" style="width:34%">About us</td>
       </tr>
     </table>
   </body>

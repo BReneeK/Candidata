@@ -116,7 +116,7 @@
     <div id = "suggested">
       <p>
         {%for num in the_range%}
-          {%if similarities > 0%}You and <a href = "http://blxcandidata.appspot.com/candidates?candidate={{your_candidates[num].key.id()}}">{{your_candidates[num].name}}</a> have {{similarities[num]}} views in common. <br>{%endif%}
+          {%if similarities > 0%}You and <a href = "http://localhost:18080/candidates?candidate={{your_candidates[num].key.id()}}">{{your_candidates[num].name}}</a> have {{similarities[num]}} views in common. <br>{%endif%}
         {%endfor%}
       </p>
     </div>

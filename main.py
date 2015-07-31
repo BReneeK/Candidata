@@ -102,7 +102,7 @@ class MainHandler(webapp2.RequestHandler):
 class AddHandler(webapp2.RequestHandler):
     def get(self):
         template = jinja_environment.get_template('templates/add.html')
-        self.response.write(template.render())
+        #self.response.write(template.render())
 
         bios = {
             "HC": "Hillary Diane Rodham Clinton (born October 26, 1947) is an American politician. She was United States Secretary of State in the administration of President Barack Obama from 2009 to 2013, a United States Senator representing New York from 2001 to 2009, and, as the wife of President Bill Clinton, First Lady of the United States from 1993 to 2001. A leading candidate for the Democratic Party's nomination to the 2008 presidential election, she has announced her candidacy for the Democratic nomination in the 2016 presidential election.",
@@ -455,7 +455,7 @@ class ProfileHandler(webapp2.RequestHandler):
 
 
         template = jinja_environment.get_template('templates/profile.html')
-        self.response.write(template.render())
+        '''self.response.write(template.render())'''
 
     def post(self):
         template = jinja_environment.get_template('templates/profile.html')
@@ -556,7 +556,7 @@ class ProfileHandler(webapp2.RequestHandler):
             }
             ))
 
-        self.response.write(template.render(
+        '''self.response.write(template.render(
         {
             'LoggedIn.name' : name,
             'LoggedIn.abortion' : abortion,
@@ -577,7 +577,7 @@ class ProfileHandler(webapp2.RequestHandler):
             'LoggedIn.the_range': the_range
 
             }
-            ))
+            ))'''
 
 
 class LoginHandler(webapp2.RequestHandler):
