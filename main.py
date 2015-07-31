@@ -225,7 +225,7 @@ class AddHandler(webapp2.RequestHandler):
 
             marriage_response = re.search(r'<b>\s+<a name=\'q3\'></a>\s+(.*)\n</b>', url_html, re.MULTILINE)
             if marriage_response:
-                strippedverion1 = marriage_response.group(1).replace(" ", "").strip().replace("\"", "")
+                strippedverion1 = marriage_response.group(1).replace(" ", "").replace("\"", "").strip()
                 if strippedverion1 == "StronglyFavors" or strippedverion1 == "Favors":
                     person.marriage = "True"
                 else:
@@ -241,7 +241,7 @@ class AddHandler(webapp2.RequestHandler):
 
             aff_action_response = re.search(r'<b>\s+<a name=\'q2\'></a>\s+(.*)\n</b>', url_html, re.MULTILINE)
             if aff_action_response:
-                strippedversion2 = aff_action_response.group(1).replace(" ", "").strip().replace("\"", "")
+                strippedversion2 = aff_action_response.group(1).replace(" ", "").replace("\"", "").strip()
                 if strippedversion2 == "Favors" or strippedversion2 == "StronglyFavors":
                     person.aff_action = "True"
                 else:
@@ -251,7 +251,7 @@ class AddHandler(webapp2.RequestHandler):
 
             env_reg_response= re.search(r'<b>\s+<a name=\'q8\'></a>\s+(.*)\n</b>', url_html, re.MULTILINE)
             if env_reg_response:
-                strippedverion3 = env_reg_response.group(1).replace(" ", "").strip().replace("\"", "")
+                strippedverion3 = env_reg_response.group(1).replace(" ", "").replace("\"", "").strip()
                 if strippedverion3 == "Favors" or strippedversion2 == "StronglyFavors":
                     person.env_reg = "True"
                 else:
@@ -268,8 +268,8 @@ class AddHandler(webapp2.RequestHandler):
 
             prog_tax_response = re.search(r'<b>\s+<a name=\"q11\"></a>\s+(.*)\n</b>', url_html, re.MULTILINE)
             if prog_tax_response:
-
-                strippedverion4 = prog_tax_response.group(1).replace(" ", "").strip().replace("\"", "")
+                strippedverion4 = prog_tax_response.group(1).replace(" ", "").replace("\"", "").strip()
+                logging.info(strippedverion4)
                 if person.name == "Jim Webb":
                     logging.info(prog_tax_response.group(1))
                     logging.info(strippedverion4)
@@ -281,6 +281,7 @@ class AddHandler(webapp2.RequestHandler):
                 person.prog_tax = "False"
                 if person.name == "Jim Webb":
                     logging.info("Nope not there")
+                    logging.info(strippedverion4)
 
             health_care_response = re.search(r'<b>\s+<a name=\'q5\'></a>\s+(.*)\n</b>', url_html, re.MULTILINE)
             if health_care_response:
