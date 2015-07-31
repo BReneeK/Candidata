@@ -92,6 +92,7 @@ class MainHandler(webapp2.RequestHandler):
             template = jinja_environment.get_template('templates/index.html')
             self.response.write(template.render({
                 'candidatequery': Candidate.query().fetch(),
+                'users' : users,
                 'currUser' : users.get_current_user()
                 }))
         else:
@@ -103,6 +104,7 @@ class MainHandler(webapp2.RequestHandler):
             self.response.write(template.render({
             'name': candidate.name,
             'party': candidate.party,
+            'users' : users,
             'currUser' : users.get_current_user()
             }))
 
@@ -339,6 +341,7 @@ class SearchHandler(webapp2.RequestHandler):
 
         self.response.write(template.render({
         'search': search,
+        'users' : users,
         'currUser': users.get_current_user()
         }))
 
@@ -358,6 +361,7 @@ class LinkHandler(webapp2.RequestHandler):
         self.response.write(template.render({
         'result': result,
         'search': search,
+        'users' : users,
         'currUser' : users.get_current_user()
 
 
@@ -412,7 +416,9 @@ class FormHandler(webapp2.RequestHandler):
         template = jinja_environment.get_template('templates/questions.html')
         currUser = users.get_current_user()
         self.response.write(template.render({
+            'users' : users,
             'currUser' : users.get_current_user()
+
         }))
 
 class AboutUsHandler(webapp2.RequestHandler):
@@ -422,6 +428,7 @@ class AboutUsHandler(webapp2.RequestHandler):
         currUser = users.get_current_user()
 
         self.response.write(template.render({
+            'users' : users,
             'currUser' : users.get_current_user()
         }))
 
@@ -610,8 +617,41 @@ class ProfileHandler(webapp2.RequestHandler):
             'your_candidates': your_candidates,
             'candidates': candidates,
             'the_range': the_range,
+            'isis' : isis,
+            'users' : users,
+            "currUser" : users.get_current_user()
+
+            }
+            ))
+#
+#         # self.response.write(template.render(
+#         # {
+#         #     'LoggedIn.name' : name,
+#         #     'LoggedIn.abortion' : abortion,
+#         #     'LoggedIn.marriage' : marriage,
+#         #     'LoggedIn.aff_action' : aff_action,
+#         #     'LoggedIn.env_reg' : env_reg,
+#         #     'LoggedIn.deny_service' : deny_service,
+#         #     'LoggedIn.net_neutrality' : net_neutrality,
+#         #     'LoggedIn.corp_tax' : corp_tax,
+#         #     'LoggedIn.prog_tax' : prog_tax,
+#         #     'LoggedIn.health_care' : health_care,
+#         #     'LoggedIn.border_sec' : border_sec,
+#         #     'LoggedIn.army_spend' : army_spend,
+#         #     'LoggedIn.isis' : isis,
+#         #     'LoggedIn.similarities' : similarities,
+#         #     'LoggedIn.your_candidates': your_candidates,
+#         #     'LoggedIn.candidates': candidates,
+#         #     'LoggedIn.the_range': the_range,
+#         #     'currUser' : users.get_current_user()
+#         #
+#         #     }
+#         #     ))
+#
+=======
             'currUser' : users.get_current_user()
             }))
+>>>>>>> dc894975d8a7cdb68faa4494c89956ed4db688b9
 
 class LoginHandler(webapp2.RequestHandler):
     def get(self):
