@@ -111,24 +111,19 @@
 
     <br><br>
 
-  <h2>Your suggested candidates: </h2>
-
-  <p>
-    {%for num in the_range%}
-      {%if similarities > 0%}You and <a href = "http://localhost:22080/candidates?candidate={{your_candidates[num].key.id()}}">{{your_candidates[num].name}}</a> have {{similarities[num]}} views in common. <br>{%endif%}
-    {%endfor%}
-
     <h2>Your suggested candidates: </h2>
 
     <div id = "suggested">
       <p>
         {%for num in the_range%}
-          {%if similarities > 0%}You and <a href = "http://localhost:18080/candidates?candidate={{your_candidates[num].key.id()}}">{{your_candidates[num].name}}</a> have {{similarities[num]}} views in common. <br>{%endif%}
+          {%if similarities > 0%}You and <a href = "http://blxcandidata.appspot.com/candidates?candidate={{your_candidates[num].key.id()}}">{{your_candidates[num].name}}</a> have {{similarities[num]}} views in common. <br>{%endif%}
         {%endfor%}
       </p>
     </div>
 
     <br>
+    <button><a href="{{users.create_logout_url('/')}}">Logout</a></button>
+
 
   </body>
 
