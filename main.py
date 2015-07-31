@@ -390,6 +390,7 @@ class CandidateHandler(webapp2.RequestHandler):
             'border_sec' : candidate1.border_sec,
             'army_spend' : candidate1.army_spend,
             'isis' : candidate1.isis,
+            'users' : users,
             'currUser' : users.get_current_user()
 
 
@@ -544,7 +545,7 @@ class ProfileHandler(webapp2.RequestHandler):
 
         currUser = users.get_current_user()
         currID = currUser.user_id()
-        logging.info(currUser + "from the get rendering")
+        logging.info(str(currUser) + "from the get rendering")
          #user = User(name = name, abortion = abortion, marriage = marriage, aff_action = aff_action, env_reg = env_reg, deny_service = deny_service, net_neutrality = net_neutrality, corp_tax = corp_tax, prog_tax = prog_tax, health_care = health_care, border_sec = border_sec, army_spend = army_spend, isis = isis)
 
         '''currUser = users.get_current_user()
