@@ -35,6 +35,7 @@ jinja_environment = jinja2.Environment(
     extensions=['jinja2.ext.autoescape'],
     autoescape=True)
 
+
 class Candidate(ndb.Model):
 
     name = ndb.StringProperty(required =True)
@@ -78,15 +79,21 @@ class User(ndb.Model):
     army_spend = ndb.StringProperty(required = True)
     isis = ndb.StringProperty(required = True)
 
+
+
 class MainHandler(webapp2.RequestHandler):
     def get(self):
         template = jinja_environment.get_template('templates/index.html')
 
         candidate_id = self.request.get('id')
+        currUser = users.get_current_user()
+
         if not candidate_id:
             template = jinja_environment.get_template('templates/index.html')
             self.response.write(template.render({
-                'candidatequery': Candidate.query().fetch()
+                'candidatequery': Candidate.query().fetch(),
+                'users' : users,
+                'currUser' : users.get_current_user()
                 }))
         else:
             candidate_key = ndb.Key(Candidate, int(candidate_id))
@@ -97,12 +104,19 @@ class MainHandler(webapp2.RequestHandler):
             self.response.write(template.render({
             'name': candidate.name,
             'party': candidate.party,
+            'users' : users,
+            'currUser' : users.get_current_user()
             }))
 
 class AddHandler(webapp2.RequestHandler):
     def get(self):
         template = jinja_environment.get_template('templates/add.html')
+
         #self.response.write(template.render())
+
+
+        self.response.write(template.render())
+        logging.info("Stay chill")
 
         bios = {
             "HC": "Hillary Diane Rodham Clinton (born October 26, 1947) is an American politician. She was United States Secretary of State in the administration of President Barack Obama from 2009 to 2013, a United States Senator representing New York from 2001 to 2009, and, as the wife of President Bill Clinton, First Lady of the United States from 1993 to 2001. A leading candidate for the Democratic Party's nomination to the 2008 presidential election, she has announced her candidacy for the Democratic nomination in the 2016 presidential election.",
@@ -326,10 +340,16 @@ class SearchHandler(webapp2.RequestHandler):
         template = jinja_environment.get_template('templates/search.html')
 
         search = self.request.get("search")
+        currUser = users.get_current_user()
+
+
 
         self.response.write(template.render({
-        'search': search
+        'search': search,
+        'users' : users,
+        'currUser': users.get_current_user()
         }))
+
 
 class LinkHandler(webapp2.RequestHandler):
     def get(self):
@@ -343,10 +363,14 @@ class LinkHandler(webapp2.RequestHandler):
         url_file = urlfetch.fetch(result.website)
         url_html = url_file.content
 
-
+        currUser = users.get_current_user()
         self.response.write(template.render({
         'result': result,
         'search': search,
+        'users' : users,
+        'currUser' : users.get_current_user()
+
+
         }))
 
 class CandidateHandler(webapp2.RequestHandler):
@@ -354,6 +378,8 @@ class CandidateHandler(webapp2.RequestHandler):
         template = jinja_environment.get_template('templates/candidates.html')
 
         candidate1 = Candidate.get_by_id(int(self.request.get('candidate')))
+
+        currUser = users.get_current_user()
 
         self.response.write(template.render({
             'candidate1': candidate1,
@@ -368,7 +394,10 @@ class CandidateHandler(webapp2.RequestHandler):
             'health_care' : candidate1.health_care,
             'border_sec' : candidate1.border_sec,
             'army_spend' : candidate1.army_spend,
-            'isis' : candidate1.isis
+            'isis' : candidate1.isis,
+            'users' : users,
+            'currUser' : users.get_current_user()
+
 
         }))
 
@@ -380,9 +409,10 @@ class UserHandler(webapp2.RequestHandler):
         if user:
             greeting = ('Welcome, %s!(<a href="%s">sign out</a>)' %
                         (user.nickname(), users.create_logout_url('/')))
-#        else:
-#            greeting = ('<a href="%s">Sign in or register</a>.' %
-#                        (users.create_login_url('/profile')))
+        else:
+            greeting = ('<a href="%s">Sign in or register</a>.' %
+                        (users.create_login_url('/profile')))
+        # user.put()
 
         self.response.out.write('<html><body>%s</body></html>' % greeting)
         self.response.write(template.render())
@@ -391,12 +421,23 @@ class FormHandler(webapp2.RequestHandler):
     def get(self):
 
         template = jinja_environment.get_template('templates/questions.html')
-        self.response.write(template.render())
+        currUser = users.get_current_user()
+        self.response.write(template.render({
+            'users' : users,
+            'currUser' : users.get_current_user()
+
+        }))
 
 class AboutUsHandler(webapp2.RequestHandler):
     def get(self):
         template = jinja_environment.get_template('templates/aboutus.html')
-        self.response.write(template.render())
+
+        currUser = users.get_current_user()
+
+        self.response.write(template.render({
+            'users' : users,
+            'currUser' : users.get_current_user()
+        }))
 
 class AnswerHandler(webapp2.RequestHandler):
     def post(self):
@@ -416,17 +457,31 @@ class AnswerHandler(webapp2.RequestHandler):
         army_spend = self.request.get('army_spend')
         isis = self.request.get('isis')
 
-
-
-        currUser = users.get_current_user()
-        currID = currUser.user_id()
-
-        user = User(id = currID, name = name, abortion = eval(abortion), marriage = eval(marriage), aff_action = eval(aff_action), env_reg = eval(env_reg), deny_service = eval(deny_service), net_neutrality = eval(net_neutrality),
+        user = User(name = name, abortion = eval(abortion), marriage = eval(marriage), aff_action = eval(aff_action), env_reg = eval(env_reg), deny_service = eval(deny_service), net_neutrality = eval(net_neutrality),
         corp_tax = eval(corp_tax), prog_tax = eval(prog_tax), health_care = eval(health_care), border_sec = eval(border_sec), army_spend = eval(army_spend), isis = eval(isis))
+
+        #currUser = users.get_current_user()
+#        currID = currUser.user_id()
+#        user = User.get_by_id(currID)
+
+#        user.abortion = abortion
+#        user.marriage = marriage
+#        user.aff_action = aff_action
+#        user.env_reg = env_reg
+#        user.deny_service = deny_service
+#        user.net_neutrality = net_neutrality
+#        user.corp_tax = corp_tax
+#        user.prog_tax = prog_tax
+#        user.health_care = health_care
+#        user.border_sec = border_sec
+#        user.army_spend = army_spend
+#        user.isis = isis
+#        user.put()
 
         user_key = user.put()
 
         id = user_key.id()
+        currUser = users.get_current_user
 
         self.response.write(template.render(
         {
@@ -441,24 +496,31 @@ class AnswerHandler(webapp2.RequestHandler):
             'health_care' : health_care,
             'border_sec' : border_sec,
             'army_spend' : army_spend,
-            'isis' : isis
-
+            'isis' : isis,
+            'currUser' : users.get_current_user()
         }
         ))
 
 class ProfileHandler(webapp2.RequestHandler):
     def get(self):
-        currUser = users.get_current_user()
-        currID = currUser.user_id()
-
-        LoggedIn = User.get_by_id(currID)
-
-
         template = jinja_environment.get_template('templates/profile.html')
-        '''self.response.write(template.render())'''
+
+
+        currUser = users.get_current_user
+
+        self.response.write(template.render({
+        'users' : users,
+        'user' : User.query().fetch(),
+        'currUser' : users.get_current_user()
+        }))
+
 
     def post(self):
         template = jinja_environment.get_template('templates/profile.html')
+
+        currUser = users.get_current_user()
+        user_email = currUser.email()
+        str(user_email)
 
         name = self.request.get('name')
         abortion = self.request.get('abortion')
@@ -475,12 +537,23 @@ class ProfileHandler(webapp2.RequestHandler):
         isis = self.request.get('isis')
 
 
+#
+#
+#         # user = User(name = name, abortion = abortion, marriage = marriage, aff_action = aff_action, env_reg = env_reg, deny_service = deny_service, net_neutrality = net_neutrality, corp_tax = corp_tax, prog_tax = prog_tax, health_care = health_care, border_sec = border_sec, army_spend = army_spend, isis = isis)
+#
+#
+        user = User(name = name, abortion = abortion, marriage = marriage, aff_action = aff_action, env_reg = env_reg, deny_service = deny_service,
+         net_neutrality = net_neutrality, corp_tax = corp_tax, prog_tax = prog_tax, health_care = health_care, border_sec = border_sec,
+         army_spend = army_spend, isis = isis)
 
-        user = User(name = name, abortion = abortion, marriage = marriage, aff_action = aff_action, env_reg = env_reg, deny_service = deny_service, net_neutrality = net_neutrality, corp_tax = corp_tax, prog_tax = prog_tax, health_care = health_care, border_sec = border_sec, army_spend = army_spend, isis = isis)
+
+        user = User(id=user_email , name = name, abortion = abortion, marriage = marriage, aff_action = aff_action, env_reg = env_reg, deny_service = deny_service, net_neutrality = net_neutrality, corp_tax = corp_tax, prog_tax = prog_tax, health_care = health_care, border_sec = border_sec, army_spend = army_spend, isis = isis)
+
         currUser = users.get_current_user()
         currID = currUser.user_id()
-
+        logging.info(str(currUser) + "from the get rendering")
          #user = User(name = name, abortion = abortion, marriage = marriage, aff_action = aff_action, env_reg = env_reg, deny_service = deny_service, net_neutrality = net_neutrality, corp_tax = corp_tax, prog_tax = prog_tax, health_care = health_care, border_sec = border_sec, army_spend = army_spend, isis = isis)
+
         '''currUser = users.get_current_user()
             currID = currUser.user_id()
             user = User.get_by_id(currID)
@@ -498,7 +571,7 @@ class ProfileHandler(webapp2.RequestHandler):
             user.army_spend = army_spend
             user.isis = isis
             user.put()
-'''
+            '''
 
 
         user_key = user.put()
@@ -531,7 +604,7 @@ class ProfileHandler(webapp2.RequestHandler):
         similarities.sort(reverse = True)
 
         the_range = range(len(your_candidates))
-
+#
 
         self.response.write(template.render(
         {
@@ -551,6 +624,7 @@ class ProfileHandler(webapp2.RequestHandler):
             'similarities' : similarities,
             'your_candidates': your_candidates,
             'candidates': candidates,
+
             'the_range': the_range
 
             }
@@ -577,7 +651,40 @@ class ProfileHandler(webapp2.RequestHandler):
             'LoggedIn.the_range': the_range
 
             }
+            ))
+
+            'the_range': the_range,
+            'isis' : isis,
+            'users' : users,
+            "currUser" : users.get_current_user()
+
+            }
             ))'''
+#
+#         # self.response.write(template.render(
+#         # {
+#         #     'LoggedIn.name' : name,
+#         #     'LoggedIn.abortion' : abortion,
+#         #     'LoggedIn.marriage' : marriage,
+#         #     'LoggedIn.aff_action' : aff_action,
+#         #     'LoggedIn.env_reg' : env_reg,
+#         #     'LoggedIn.deny_service' : deny_service,
+#         #     'LoggedIn.net_neutrality' : net_neutrality,
+#         #     'LoggedIn.corp_tax' : corp_tax,
+#         #     'LoggedIn.prog_tax' : prog_tax,
+#         #     'LoggedIn.health_care' : health_care,
+#         #     'LoggedIn.border_sec' : border_sec,
+#         #     'LoggedIn.army_spend' : army_spend,
+#         #     'LoggedIn.isis' : isis,
+#         #     'LoggedIn.similarities' : similarities,
+#         #     'LoggedIn.your_candidates': your_candidates,
+#         #     'LoggedIn.candidates': candidates,
+#         #     'LoggedIn.the_range': the_range,
+#         #     'currUser' : users.get_current_user()
+#         #
+#         #     }
+#         #     ))
+#
 
 
 class LoginHandler(webapp2.RequestHandler):
@@ -586,12 +693,11 @@ class LoginHandler(webapp2.RequestHandler):
         if user:
             greeting = ('Welcome, %s! (<a href="%s">sign out</a>)' %
                         (user.nickname(), users.create_logout_url('/')))
-        else:
-            greeting = ('<a href="%s">Sign in or register</a>.' %
-                        users.create_login_url('/'))
+#        else:
+#            greeting = ('<a href="%s">Sign in or register</a>.' %
+#                        users.create_login_url('/'))
 
         self.response.out.write('<html><body>%s</body></html>' % greeting)
-
 
 
 app = webapp2.WSGIApplication([

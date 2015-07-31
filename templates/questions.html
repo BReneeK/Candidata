@@ -17,8 +17,8 @@
         <br>
 
 
-        <div id = "social">
-          <h2>Social Issues</h2>
+        <ul><div id = "social">
+          <h2>SOCIAL ISSUES</h2>
           <p>Are you pro-choice or pro-life?</p>
             <select name = "abortion">
               <option value=True>Pro-choice</option>
@@ -53,16 +53,17 @@
               <option value=False>No</option>
               <!-- <option value="mercedes">Mercedes</option> -->
             </select>
-        </div>
+        </ul></div>
 
-        <div id = "econ">
-          <h2>Economic Issues</h2>
+        <ul><div id = "econ">
+          <h2>ECONOMIC ISSUES</h2>
           <p>Should internet service providers be allowed to prioritize traffic for websites that pay higher rates than their competitors?</p>
             <select name = "net_neutrality">
               <option value=True>Yes</option>
               <option value=False>No</option>
               <!-- <option value="mercedes">Mercedes</option> -->
             </select>
+
 
           <p>Do you believe the U.S. should reduce the corporate tax rate?</p>
             <select name = "corp_tax">
@@ -84,10 +85,10 @@
               <option value=False>No</option>
               <!-- <option value="mercedes">Mercedes</option> -->
             </select>
-        </div>
+        </ul></div>
 
-        <div id = "fp">
-          <h2>Foreign Policy</h2>
+        <ul><div id = "fp">
+          <h2>FOREIGN POLICY</h2>
           <p>Do you support stronger measures to increase our border security?</p>
               <select name = "border_sec">
                 <option value=True>Yes</option>
@@ -108,10 +109,15 @@
               <option value=False>No</option>
                     <!-- <option value="mercedes">Mercedes</option> -->
               </select>
-        </div>
+        </ul></div>
 
             <p><input type="submit"></p>
       </form>
     </div>
+
+          <p><input type="submit"></p>
+    </form>
+      <button><a href="{{users.create_logout_url('/')}}">Logout</a></button>
+
   </body>
 </html>
