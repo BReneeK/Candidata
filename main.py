@@ -90,6 +90,7 @@ class MainHandler(webapp2.RequestHandler):
             template = jinja_environment.get_template('templates/index.html')
             self.response.write(template.render({
                 'candidatequery': Candidate.query().fetch(),
+                'users' : users,
                 'currUser' : users.get_current_user()
                 }))
         else:
@@ -101,6 +102,7 @@ class MainHandler(webapp2.RequestHandler):
             self.response.write(template.render({
             'name': candidate.name,
             'party': candidate.party,
+            'users' : users,
             'currUser' : users.get_current_user()
             }))
 
@@ -337,6 +339,7 @@ class SearchHandler(webapp2.RequestHandler):
 
         self.response.write(template.render({
         'search': search,
+        'users' : users,
         'currUser': users.get_current_user()
         }))
 
@@ -356,6 +359,7 @@ class LinkHandler(webapp2.RequestHandler):
         self.response.write(template.render({
         'result': result,
         'search': search,
+        'users' : users,
         'currUser' : users.get_current_user()
 
 
@@ -410,7 +414,9 @@ class FormHandler(webapp2.RequestHandler):
         template = jinja_environment.get_template('templates/questions.html')
         currUser = users.get_current_user()
         self.response.write(template.render({
+            'users' : users,
             'currUser' : users.get_current_user()
+
         }))
 
 class AboutUsHandler(webapp2.RequestHandler):
@@ -419,6 +425,7 @@ class AboutUsHandler(webapp2.RequestHandler):
 
         currUser = users.get_current_user()
         self.response.write(template.render({
+            'users' : users,
             'currUser' : users.get_current_user()
         }))
 
@@ -608,6 +615,7 @@ class ProfileHandler(webapp2.RequestHandler):
             'candidates': candidates,
             'the_range': the_range,
             'isis' : isis,
+            'users' : users,
             "currUser" : users.get_current_user()
 
             }
