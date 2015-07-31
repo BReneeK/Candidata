@@ -27,6 +27,7 @@ import logging
 import json
 import re
 from operator import eq
+from collections import OrderedDict
 
 # intID2# from html.entities import name2codepoint
 
@@ -203,35 +204,30 @@ class AddHandler(webapp2.RequestHandler):
 
         # intID1 is the ID for the first Interview video
         # speID1 is the ID for the first Speech video
+        candidates = OrderedDict()
 
         candidates = [h_clinton, l_chafee, m_omalley, b_sanders, j_webb, j_bush, b_carson, c_christie,
         t_cruz, c_fiorina, l_graham, m_huckabee, b_jindal, j_kasich, g_pataki, r_paul, r_perry,
         m_rubio, r_santorum, d_trump, s_walker]
 
+
+
         for person in candidates:
+
+            logging.info(person.name)
             url = person.website
             url_file = urlfetch.fetch(url)
-            url_html = url_file.content
+            bua = url_file.content
+            url_html = bua.replace("\r", "\t")
 
-            abortion_response2 = re.search(r'<b>\s+<a name=\'q1\'></a>\s+(.*)\n</b>', url_html, re.MULTILINE)
-            if abortion_response2:
-                strippedverion = abortion_response2.group(1).replace(" ", "").replace("\"", "").strip()
-                if strippedverion == "StronglyFavors" or strippedverion == "Favors":
-                    person.abortion = "True"
-                else:
-                    person.abortion = "False"
-            else:
-                person.abortion = "False"
-
-            marriage_response = re.search(r'<b>\s+<a name=\'q3\'></a>\s+(.*)\n</b>', url_html, re.MULTILINE)
-            if marriage_response:
-                strippedverion1 = marriage_response.group(1).replace(" ", "").replace("\"", "").strip()
-                if strippedverion1 == "StronglyFavors" or strippedverion1 == "Favors":
-                    person.marriage = "True"
-                else:
-                    person.marriage = "False"
-            else:
-                person.marriage = "False"
+            person.abortion = self.GetStances(
+                r'<b>\s+<a name=\'q1\'></a>\s+(.*)\n</b>|<b>\s+<a name=\"q1\"></a>\s+(.*)\n</b>',
+                url_html
+            )
+            person.marriage = self.GetStances(
+                r'<b>\s+<a name=\'q3\'></a>\s+(.*)\n</b>|<b>\s+<a name=\"q3\"></a>\s+(.*)\n</b>',
+                url_html
+            )
 
             deny_service_response = re.search(r'Ok to deny services', url_html, re.MULTILINE)
             if deny_service_response:
@@ -239,61 +235,35 @@ class AddHandler(webapp2.RequestHandler):
             else:
                 person.deny_service = "False"
 
-            aff_action_response = re.search(r'<b>\s+<a name=\'q2\'></a>\s+(.*)\n</b>', url_html, re.MULTILINE)
-            if aff_action_response:
-                strippedversion2 = aff_action_response.group(1).replace(" ", "").replace("\"", "").strip()
-                if strippedversion2 == "Favors" or strippedversion2 == "StronglyFavors":
-                    person.aff_action = "True"
-                else:
-                    person.aff_action = "False"
-            else:
-                person.aff_action = "False"
+            person.aff_action = self.GetStances(
+                r'<b>\s+<a name=\'q2\'></a>\s+(.*)\n</b>|<b>\s+<a name=\"q2\"></a>\s+(.*)\n</b>',
+                url_html
+            )
+            person.env_reg = self.GetStances(
+                r'<b>\s+<a name=\'q8\'></a>\s+(.*)\n</b>|<b>\s+<a name=\"q8\"></a>\s+(.*)\n</b>',
+                url_html
+            )
 
-            env_reg_response= re.search(r'<b>\s+<a name=\'q8\'></a>\s+(.*)\n</b>', url_html, re.MULTILINE)
-            if env_reg_response:
-                strippedverion3 = env_reg_response.group(1).replace(" ", "").replace("\"", "").strip()
-                if strippedverion3 == "Favors" or strippedversion2 == "StronglyFavors":
-                    person.env_reg = "True"
-                else:
-                    person.env_reg = "False"
-            else:
-                person.env_reg = "False"
 
             net_neutrality_response = re.search(r'Voted NO on establishing \"network neutrality\"', url_html, re.MULTILINE)
             if net_neutrality_response:
                 person.net_neutrality = "False"
-            net_neutrality_response = re.search(r'Ensure net neutrality', url_html, re.MULTILINE)
+            net_neutrality_response = re.search(r'net neutrality', url_html, re.MULTILINE)
             if net_neutrality_response:
                 person.net_neutrality = "True"
 
-            prog_tax_response = re.search(r'<b>\s+<a name=\"q11\"></a>\s+(.*)\n</b>', url_html, re.MULTILINE)
-            if prog_tax_response:
-                strippedverion4 = prog_tax_response.group(1).replace(" ", "").replace("\"", "").strip()
-                logging.info(strippedverion4)
-                if person.name == "Jim Webb":
-                    logging.info(prog_tax_response.group(1))
-                    logging.info(strippedverion4)
-                if strippedverion4 == "StronglyFavors" or strippedverion4 == "Favors":
-                    person.prog_tax = "True"
-                else:
-                    person.prog_tax = "False"
-            else:
-                person.prog_tax = "False"
-                if person.name == "Jim Webb":
-                    logging.info("Nope not there")
-                    logging.info(strippedverion4)
+            person.prog_tax = self.GetStances(
+                r'<b>\s+<a name=\"q11\"></a>\s+(.*)\n</b>|<b>\s+<a name=\'q11\'></a>\s+(.*)\n</b>',
+                url_html)
+            if person.name == "Bernie Sanders":
+                logging.info(str(person.prog_tax) + "look here he does support prog te")
 
-            health_care_response = re.search(r'<b>\s+<a name=\'q5\'></a>\s+(.*)\n</b>', url_html, re.MULTILINE)
-            if health_care_response:
-                strippedversion5 = health_care_response.group(1).replace(" ", "").strip().replace("\"", "")
-                if strippedversion5 == "StronglyFavors" or strippedversion5 == "Favors":
-                    person.health_care = "True"
-                else:
-                    person.health_care = "False"
-            else:
-                person.health_care = "False"
+            person.health_care = self.GetStances(
+                r'<b>\s+<a name=\'q5\'></a>\s+(.*)\n</b> |<b>\s+<a name=\"q5\"></a>\s+(.*)\n</b>',
+                url_html
+            )
 
-            border_sec_response = re.search(r'More border patrolling | Secure border', url_html, re.MULTILINE)
+            border_sec_response = re.search(r'More border patrolling|Secure border', url_html, re.MULTILINE)
             if border_sec_response:
                 person.border_sec = "True"
             else:
@@ -303,15 +273,12 @@ class AddHandler(webapp2.RequestHandler):
             if border_sec_response:
                 person.border_sec = "False"
 
-            army_spend_response = re.search(r'<b>\s+<a name=\'q15\'></a>\s+(.*)\n</b>', url_html, re.MULTILINE)
-            if army_spend_response:
-                strippedversion6 = army_spend_response.group(1).replace(" ", "").strip().replace("\"", "")
-                if strippedversion6 == "StronglyFavors" or strippedversion6 == "Favors":
-                    person.army_spend = "True"
-                else:
-                    person.army_spend = "False"
-            else:
-                person.army_spend = "False"
+            person.army_spend = self.GetStances(
+                r'<b>\s+<a name=\'q15\'></a>\s+(.*)\n</b>|<b>\s+<a name=\"q15\"></a>\s+(.*)\n</b>',
+                url_html
+            )
+
+
 
             isis_response = re.search(r'need strategy against ISIS', url_html, re.MULTILINE)
             if isis_response:
@@ -319,17 +286,36 @@ class AddHandler(webapp2.RequestHandler):
             else:
                 person.isis = "False"
 
-            corp_tax_response = re.search(r'Cutting taxes on job creators | cut taxes on businesses', url_html, re.MULTILINE)
+            corp_tax_response = re.search(r'Cutting taxes on job creators|cut taxes on businesses', url_html, re.MULTILINE)
             if corp_tax_response:
                 person.corp_tax = "False"
             else:
                 person.corp_tax = "True"
-            logging.info("Changing stances is complete")
 
-        for person in candidates:
+
             person.put()
-            logging.info("adding users is complete")
+            logging.info(person)
+        # for person in candidates:
+        #     person.put()
+        #     logging.info("adding users is complete")
         logging.info("adding users is truly complete now")
+
+    def GetStances(self, regex, html):
+        response = re.search(regex, html, re.MULTILINE)
+        if response:
+            for group in response.groups():
+                if group:
+                    logging.info('What did I get back?')
+                    logging.info(group)
+                    stripped = group.strip().replace("\"", "")
+            if stripped == "Strongly Favors" or stripped == "Favors":
+                stance = "True"
+            else:
+                stance = "False"
+        else:
+            stance = "False"
+            logging.info("Nope not there")
+        return stance
 
 class SearchHandler(webapp2.RequestHandler):
     def get(self):
@@ -337,14 +323,12 @@ class SearchHandler(webapp2.RequestHandler):
 
         search = self.request.get("search")
         currUser = users.get_current_user()
-
-
-
         self.response.write(template.render({
         'search': search,
         'users' : users,
         'currUser': users.get_current_user()
         }))
+
 class LinkHandler(webapp2.RequestHandler):
     def get(self):
         template = jinja_environment.get_template('templates/links.html')
@@ -389,6 +373,7 @@ class CandidateHandler(webapp2.RequestHandler):
             'border_sec' : candidate1.border_sec,
             'army_spend' : candidate1.army_spend,
             'isis' : candidate1.isis,
+            'users' : users,
             'currUser' : users.get_current_user()
 
 
