@@ -5,7 +5,7 @@
     <title>My Profile</title>
   </head>
   <body>
-
+    <button><a href="/">Home</a></button>
     <h1>{{name}}'s Profile</h1>
     <h2>Your stances: </h2>
 
@@ -116,14 +116,13 @@
     <div id = "suggested">
       <p>
         {%for num in the_range%}
-          {%if similarities > 0%}You and <a href = "http://blxcandidata.appspot.com/candidates?candidate={{your_candidates[num].key.id()}}">{{your_candidates[num].name}}</a> have {{similarities[num]}} views in common. <br>{%endif%}
+          {%if similarities > 0%}You and <a href = "/candidates?candidate={{your_candidates[num].key.id()}}">{{your_candidates[num].name}}</a> have {{similarities[num]}} views in common. <br>{%endif%}
         {%endfor%}
       </p>
     </div>
 
     <br>
     <button><a href="{{users.create_logout_url('/')}}">Logout</a></button>
-
 
   </body>
 

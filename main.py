@@ -78,6 +78,8 @@ class User(ndb.Model):
     border_sec = ndb.StringProperty(required = True)
     army_spend = ndb.StringProperty(required = True)
     isis = ndb.StringProperty(required = True)
+    similarities = ndb.IntegerProperty(repeated = True)
+    your_candidates = ndb.StructuredProperty(Candidate, repeated = True)
 
 
 
@@ -416,12 +418,11 @@ class FormHandler(webapp2.RequestHandler):
     def get(self):
 
         template = jinja_environment.get_template('templates/questions.html')
-        currUser = users.get_current_user()
-        self.response.write(template.render({
-            'users' : users,
-            'currUser' : users.get_current_user()
-
-        }))
+        self.response.write(template.render(
+        {
+            'users' : users
+        }
+        ))
 
 class AboutUsHandler(webapp2.RequestHandler):
     def get(self):
@@ -501,13 +502,41 @@ class ProfileHandler(webapp2.RequestHandler):
         template = jinja_environment.get_template('templates/profile.html')
 
 
-        currUser = users.get_current_user
+        currUser = users.get_current_user()
 
-        self.response.write(template.render({
-        'users' : users,
-        'user' : User.query().fetch(),
-        'currUser' : users.get_current_user()
-        }))
+        user_email = currUser.email()
+
+        user = User.get_by_id(user_email)
+
+        the_range = range(len(user.your_candidates))
+
+
+
+        self.response.write(template.render(
+        {
+
+            'name' : user.name,
+            'abortion' : user.abortion,
+            'marriage' : user.marriage,
+            'aff_action' : user.aff_action,
+            'env_reg' : user.env_reg,
+            'deny_service' : user.deny_service,
+            'net_neutrality' : user.net_neutrality,
+            'corp_tax' : user.corp_tax,
+            'prog_tax' : user.prog_tax,
+            'health_care' : user.health_care,
+            'border_sec' : user.border_sec,
+            'army_spend' : user.army_spend,
+            'isis' : user.isis,
+            'similarities' : user.similarities,
+            'your_candidates': user.your_candidates,
+            'the_range': the_range,
+            'isis' : user.isis,
+            'users' : users,
+            'currUser' : users.get_current_user(),
+            'user' : user
+
+            }))
 
     def post(self):
         template = jinja_environment.get_template('templates/profile.html')
@@ -589,37 +618,36 @@ class ProfileHandler(webapp2.RequestHandler):
             for num in range(0,len(candidate_issues)):
                 if candidate_issues[num] == user_issues[num]:
                     total+=1
-            if total>0:
-                your_candidates.append(candidate)
+
+            your_candidates.append(candidate)
 
             similarities.append(total)
             total = 0
 
-        similarities.sort(reverse = True)
-
         the_range = range(len(your_candidates))
 #
+        user.similarities = similarities
+        user.your_candidates = your_candidates
 
         self.response.write(template.render(
         {
-            'name' : name,
-            'abortion' : abortion,
-            'marriage' : marriage,
-            'aff_action' : aff_action,
-            'env_reg' : env_reg,
-            'deny_service' : deny_service,
-            'net_neutrality' : net_neutrality,
-            'corp_tax' : corp_tax,
-            'prog_tax' : prog_tax,
-            'health_care' : health_care,
-            'border_sec' : border_sec,
-            'army_spend' : army_spend,
-            'isis' : isis,
-            'similarities' : similarities,
-            'your_candidates': your_candidates,
-            'candidates': candidates,
+            'name' : user.name,
+            'abortion' : user.abortion,
+            'marriage' : user.marriage,
+            'aff_action' : user.aff_action,
+            'env_reg' : user.env_reg,
+            'deny_service' : user.deny_service,
+            'net_neutrality' : user.net_neutrality,
+            'corp_tax' : user.corp_tax,
+            'prog_tax' : user.prog_tax,
+            'health_care' : user.health_care,
+            'border_sec' : user.border_sec,
+            'army_spend' : user.army_spend,
+            'isis' : user.isis,
+            'similarities' : user.similarities,
+            'your_candidates': user.your_candidates,
             'the_range': the_range,
-            'isis' : isis,
+            'isis' : user.isis,
             'users' : users,
             "currUser" : users.get_current_user()
 
