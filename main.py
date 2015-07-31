@@ -79,6 +79,8 @@ class User(ndb.Model):
     army_spend = ndb.StringProperty(required = True)
     isis = ndb.StringProperty(required = True)
 
+
+
 class MainHandler(webapp2.RequestHandler):
     def get(self):
         template = jinja_environment.get_template('templates/index.html')
@@ -343,7 +345,6 @@ class SearchHandler(webapp2.RequestHandler):
         'currUser': users.get_current_user()
         }))
 
-class LinkHandler(webapp2.RequestHandler):
     def get(self):
         template = jinja_environment.get_template('templates/links.html')
 
@@ -645,6 +646,10 @@ class ProfileHandler(webapp2.RequestHandler):
 #         #     }
 #         #     ))
 #
+=======
+            'currUser' : users.get_current_user()
+            }))
+>>>>>>> dc894975d8a7cdb68faa4494c89956ed4db688b9
 
 class LoginHandler(webapp2.RequestHandler):
     def get(self):
