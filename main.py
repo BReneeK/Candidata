@@ -342,6 +342,7 @@ class SearchHandler(webapp2.RequestHandler):
         'currUser': users.get_current_user()
         }))
 
+class LinkHandler(webapp2.RequestHandler):
     def get(self):
         template = jinja_environment.get_template('templates/links.html')
 
@@ -419,6 +420,7 @@ class AboutUsHandler(webapp2.RequestHandler):
         template = jinja_environment.get_template('templates/aboutus.html')
 
         currUser = users.get_current_user()
+
         self.response.write(template.render({
             'currUser' : users.get_current_user()
         }))
