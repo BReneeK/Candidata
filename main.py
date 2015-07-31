@@ -78,6 +78,8 @@ class User(ndb.Model):
     army_spend = ndb.StringProperty(required = True)
     isis = ndb.StringProperty(required = True)
 
+
+
 class MainHandler(webapp2.RequestHandler):
     def get(self):
         template = jinja_environment.get_template('templates/index.html')
@@ -455,7 +457,7 @@ class ProfileHandler(webapp2.RequestHandler):
 
 
         template = jinja_environment.get_template('templates/profile.html')
-        self.response.write(template.render())
+        '''self.response.write(template.render())'''
 
     def post(self):
         template = jinja_environment.get_template('templates/profile.html')
@@ -560,7 +562,7 @@ class ProfileHandler(webapp2.RequestHandler):
             }
             ))
 
-        self.response.write(template.render(
+        '''self.response.write(template.render(
         {
             'LoggedIn.name' : name,
             'LoggedIn.abortion' : abortion,
@@ -581,7 +583,7 @@ class ProfileHandler(webapp2.RequestHandler):
             'LoggedIn.the_range': the_range
 
             }
-            ))
+            ))'''
 
 
 class LoginHandler(webapp2.RequestHandler):
