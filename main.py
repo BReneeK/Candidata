@@ -648,10 +648,8 @@ class ProfileHandler(webapp2.RequestHandler):
 #         #     }
 #         #     ))
 #
-=======
-            'currUser' : users.get_current_user()
+        'currUser' : users.get_current_user()
             }))
->>>>>>> dc894975d8a7cdb68faa4494c89956ed4db688b9
 
 class LoginHandler(webapp2.RequestHandler):
     def get(self):
